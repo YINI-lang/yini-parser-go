@@ -48,19 +48,27 @@ Default parsing is lenient.
 
 - Lenient mode: `/END` is optional, duplicate keys/sections generally warn/recover according to options, and some loose syntax is accepted.
 - Strict mode: `/END` is required by default, stricter structure rules apply, and strict-only syntax errors should be precise.
-- `requireDocTerminator`, `onDuplicateKey`, and `treatEmptyValueAsNull` can override parts of the selected mode; this may make the effective mode `custom`.
-- `failLevel` controls when parsing bails.
-- `throwOnError` controls whether a bail-threshold issue throws.
-- Library code should not write diagnostics unless `logDiagnostics` is enabled.
-- `parseForTooling` should return structured diagnostics and avoid throwing for normal parse errors.
+- Use `Go` error values for expected failures, including malformed input. Do not panic for ordinary parse or validation errors.
+- Return structured diagnostics for recoverable parse issues. Library calls must not write diagnostics to stdout or stderr unless an explicit option enables logging.
+- Keep default lenient behavior and strict behavior explicit in the public options. Document any rule-specific overrides and their precedence.
+- A tooling-oriented parse operation, if exposed, should retain diagnostics and recover from normal syntax errors without panicking.
 
 When fixing parser behavior, test both the intended valid path and the nearest invalid path. Prefer line/column assertions for diagnostic-location bugs.
 
+## Public Parse Results
+
+- `ParseString` and `ParseFile` should return a result with a structured YINI document and structured diagnostics, together with a Go `error` for failures.
+- Preserve source locations in the document where they are useful for diagnostics and tooling.
+- Provide a simple `map[string]any` view of parsed values for application code. Do not silently lose numeric precision when producing that view.
+- Treat numeric conversion rules as part of the public contract. Follow the targeted specification version, and ask the maintainer when it leaves a conversion rule unspecified.
+
 ## Grammar and Generated Files
 
-Current grammar source is under `grammar/v1.0.0-rc.6/`.
+The files under `spec/` and `grammar/` are reference copies maintained outside this repository. Do not edit or regenerate them here. Updates to those files must be made at their authoritative source and manually copied into this repository only at the maintainer's explicit direction.
 
-ANTLR-generated files live in `src/grammar/generated/`. Do not hand-edit generated files unless the user explicitly asks for an emergency generated-output patch. Prefer editing grammar source and regenerating.
+The checked-in grammar source is under `grammar/v1.0.0-rc.6/`. If it appears to conflict with the specification or blocks a parser fix, report the issue to the maintainer instead of changing the grammar source.
+
+ANTLR-generated Go files live in `internal/grammar/generated/`. Generate them from the checked-in grammar without modifying `grammar/`. Do not hand-edit generated files unless the user explicitly asks for an emergency generated-output patch.
 
 Do not edit files under `libs/` unless the task is specifically about vendored tooling.
 
