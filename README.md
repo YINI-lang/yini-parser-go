@@ -1,5 +1,10 @@
 # yini-parser-go
 
+[![Go 1.22+](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](go.mod)
+[![Alpha planned](https://img.shields.io/badge/release-alpha%20planned-orange)](CHANGELOG.md)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
+
 Go library for parsing YINI files and inline YINI text. This first usable version targets the YINI 1.0.0 RC.6 syntax and is planned as `v1.0.0-alpha.1`.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
@@ -54,6 +59,24 @@ Strict mode requires one explicit top-level section and `/END`, and rejects orph
 For editors and other tools, `ParseForTooling` returns diagnostics and recoverable document content without returning an error for normal YINI syntax failures.
 
 See [usage](docs/usage.md) for mode and diagnostic details and [development](docs/development.md) for the Taskfile commands and repository layout. The checked-in RC.6 specification is in `spec/`.
+
+---
+
+## Shared conformance tests
+
+The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this parser against the external `yini-test-suite`. It accepts a YINI file and an explicit lenient or strict mode, then writes parsed JSON to stdout and diagnostics to stderr. See the [development guide](docs/development.md#shared-conformance-suite) for build and run commands. CI runs the smoke suite separately from the full suite.
+
+---
+
+## Help and bug reports
+
+For questions, bug reports, or feature requests, [open an issue](https://github.com/YINI-lang/yini-parser-go/issues). For parser problems, include a small YINI example, the selected mode, the expected result, and the actual result or diagnostics.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 

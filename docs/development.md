@@ -26,6 +26,7 @@ yini-test-suite all --all-modes --adapter ./yini-test-adapter.exe --input '{inpu
 ```
 
 The adapter writes parsed JSON to stdout and diagnostics to stderr. The suite reports pass and fail totals even when some cases fail.
+Replace `all` with `smoke` to run only the smoke cases.
 
 ---
 

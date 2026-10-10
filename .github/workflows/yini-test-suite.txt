@@ -1,0 +1,5 @@
+External YINI test suite (conformance) workflow:
+
+- Builds the Go parser's test adapter.
+- Installs yini-test-suite 0.3.0rc1 from PyPI.
+- Runs all bundled lenient and strict cases through the Go adapter.
