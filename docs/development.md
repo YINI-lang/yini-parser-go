@@ -16,6 +16,17 @@ Use [Task](https://taskfile.dev/) from the repository root:
 
 Integration tests and original YINI fixtures live in `tests/integration/`. Add focused valid and invalid cases when changing semantic validation; assert line and column for source-location fixes. New fixtures must use original YINI content rather than copying content from sibling parser repositories.
 
+## Shared conformance suite
+
+The Go adapter for `yini-test-suite` lives in `cmd/yini-test-adapter/`. Build it and run both modes against the installed test suite:
+
+```powershell
+go build -o yini-test-adapter.exe ./cmd/yini-test-adapter
+yini-test-suite all --all-modes --adapter ./yini-test-adapter.exe --input '{input}' --mode '{mode}'
+```
+
+The adapter writes parsed JSON to stdout and diagnostics to stderr. The suite reports pass and fail totals even when some cases fail.
+
 ---
 
 ^YINI ≡
