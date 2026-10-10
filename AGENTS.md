@@ -11,25 +11,47 @@ See also: [Shared AI agent instructions for the YINI project family](../AGENTS.m
 ## Project Overview
 
 - **Name:** `yini-parser` (`yini-parser-go` repository).
-- **Purpose:** Official GO-lang parser for YINI, a human-readable configuration format with explicit structure and predictable parsing.
+- **Purpose:** Official Go parser for YINI, a human-readable configuration format with explicit structure and predictable parsing.
 
 ## Repository Structure
 
 ```text
---TODO--
+AGENTS.md                    Repository instructions
+README.md                    Public overview and quick start
+Taskfile.yml                 Development commands
+go.mod, go.sum               Go module and pinned dependencies
+*.go                         Public yini package and parser implementation
+grammar/v1.0.0-rc.6/         Read-only grammar reference copies
+spec/                        Read-only specification reference copies
+internal/grammar/generated/  ANTLR-generated Go package
+libs/antlr4/                 Included ANTLR generator JAR and license
+tests/integration/           Public API and behavior tests
+docs/                        Usage and development guides
 ```
+
+Keep the importable public `yini` package at the module root. Go modules do not assign special meaning to `src/`; placing the public package there would add `/src` to its import path. Put private packages under `internal/` when useful.
 
 ## Commands
 
---TODO--
+Use `Taskfile.yml` as the command interface. Run these from the repository root:
+
+| Command | Purpose |
+| --- | --- |
+| `task generate` | Regenerate the ANTLR Go package with `libs/antlr4/antlr-4.13.2-complete.jar`. |
+| `task fmt` | Format Go code. |
+| `task vet` | Run Go analyzers, excluding generated unreachable-code warnings. |
+| `task test` | Run all Go tests. |
+| `task check` | Run formatting, vet, and tests. |
+
+Generation writes to `internal/grammar/generated/`. Java is needed only to regenerate it. The generator JAR is version 4.13.2; the Go runtime in `go.mod` is pinned separately.
 
 ## Required Checks
 
---TODO--
+Run `task check` before submitting changes. If generated files or generation settings change, run `task generate` first and then `task check`. Test both modes for behavior that differs by mode, and assert diagnostic locations when changing source mapping.
 
 ## Code Style
 
-Follow the existing GO-lang style in nearby files.
+Follow the existing Go style in nearby files.
 
 - Keep changes small and focused.
 - Prefer explicit, readable logic over compact cleverness.
@@ -40,17 +62,20 @@ Follow the existing GO-lang style in nearby files.
 - Keep comments useful and sparse; explain non-obvious parser behavior, not obvious assignments.
 
 Naming conventions:
-- Follow common GO-lang naming conventions.
+- Follow common Go naming conventions.
 
 ## Strict vs Lenient Behavior
 
 Default parsing is lenient.
 
-- Lenient mode: `/END` is optional, duplicate keys/sections generally warn/recover according to options, and some loose syntax is accepted.
-- Strict mode: `/END` is required by default, stricter structure rules apply, and strict-only syntax errors should be precise.
+- Lenient mode: `/END` is optional; duplicate keys and sibling sections keep the first definition with a warning. Ignore a duplicate section's entire block. Empty member values and trailing collection commas are accepted.
+- Strict mode: `/END` is required, exactly one explicit top-level section is required, and orphan members are errors. Duplicate names, empty member values, trailing collection commas, `=` inside inline objects, and non-string concatenation operands are errors.
+- `@yini` declarations never switch the selected mode. `@yini strict` in lenient mode is an error; `@yini lenient` in strict mode is a warning.
+- EOF may end the final assignment or section header; `/END` may appear at EOF without a trailing newline.
+- Validate the permissive grammar's output against the specification: section hierarchy/depth, identifiers, directives, values, comments, and mode rules. Diagnostics should name the problem in plain language and point to the offending line and, where possible, column.
 - Use `Go` error values for expected failures, including malformed input. Do not panic for ordinary parse or validation errors.
-- Return structured diagnostics for recoverable parse issues. Library calls must not write diagnostics to stdout or stderr unless an explicit option enables logging.
-- Keep default lenient behavior and strict behavior explicit in the public options. Document any rule-specific overrides and their precedence.
+- Return structured diagnostics for recoverable parse issues. Library calls must not write diagnostics to stdout or stderr.
+- Keep default lenient behavior and strict behavior explicit in the public options. If rule-specific overrides are added later, document their precedence.
 - A tooling-oriented parse operation, if exposed, should retain diagnostics and recover from normal syntax errors without panicking.
 
 When fixing parser behavior, test both the intended valid path and the nearest invalid path. Prefer line/column assertions for diagnostic-location bugs.
@@ -60,7 +85,9 @@ When fixing parser behavior, test both the intended valid path and the nearest i
 - `ParseString` and `ParseFile` should return a result with a structured YINI document and structured diagnostics, together with a Go `error` for failures.
 - Preserve source locations in the document where they are useful for diagnostics and tooling.
 - Provide a simple `map[string]any` view of parsed values for application code. Do not silently lose numeric precision when producing that view.
-- Treat numeric conversion rules as part of the public contract. Follow the targeted specification version, and ask the maintainer when it leaves a conversion rule unspecified.
+- `Document.Values()` returns a deep copy. Accepted orphan members and top-level sections appear beside one another. Name collisions between them are errors.
+- Convert integer literals directly to exact signed `int64` values and floating literals to IEEE 754 binary64 `float64` values. Report integer overflow, floating overflow, and nonzero floating underflow to zero as errors. Exponent-only literals such as `3e4` are valid. Test boundaries, separators, and every supported base. Do not silently round an integer through floating point.
+- Treat numeric conversion rules as part of the public contract. Ask the maintainer when the targeted specification leaves a conversion rule unspecified.
 
 ## Grammar and Generated Files
 
@@ -68,7 +95,7 @@ The files under `spec/` and `grammar/` are reference copies maintained outside t
 
 The checked-in grammar source is under `grammar/v1.0.0-rc.6/`. If it appears to conflict with the specification or blocks a parser fix, report the issue to the maintainer instead of changing the grammar source.
 
-ANTLR-generated Go files live in `internal/grammar/generated/`. Generate them from the checked-in grammar without modifying `grammar/`. Do not hand-edit generated files unless the user explicitly asks for an emergency generated-output patch.
+ANTLR-generated Go files live in `internal/grammar/generated/`. Use `task generate` with the pinned JAR and checked-in grammar without modifying `grammar/`. Do not hand-edit generated files unless the user explicitly asks for an emergency generated-output patch.
 
 Do not edit files under `libs/` unless the task is specifically about vendored tooling.
 
@@ -81,6 +108,7 @@ Do not edit files under `libs/` unless the task is specifically about vendored t
 - Use `tests/golden/` when parsing output for fixtures changes intentionally.
 - Keep tests deterministic and avoid broad snapshot/golden churn unless the parser behavior intentionally changed.
 - For file-location bugs, include fixtures or inline content that proves exact line/column behavior.
+- Write original YINI fixture content for this repository. Cases, filenames, and shapes may be inspired by sibling parser repositories, but do not copy their exact YINI content or code.
 
 ## Documentation Guidance
 

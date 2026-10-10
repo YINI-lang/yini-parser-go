@@ -1,0 +1,30 @@
+version: '3'
+
+tasks:
+  generate:
+    desc: Generate the Go lexer and parser from the checked-in RC.6 grammar.
+    cmds:
+      - java -jar libs/antlr4/antlr-4.13.2-complete.jar -Dlanguage=Go -visitor -no-listener -package generated -Xexact-output-dir -o internal/grammar/generated grammar/v1.0.0-rc.6/YiniLexer.g4 grammar/v1.0.0-rc.6/YiniParser.g4
+      - go fmt ./internal/grammar/generated
+
+  fmt:
+    desc: Format Go packages.
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run Go analyzers, excluding unreachable-code reports from generated ANTLR code.
+    cmds:
+      - go vet -unreachable=false ./...
+
+  test:
+    desc: Run all Go tests.
+    cmds:
+      - go test ./...
+
+  check:
+    desc: Format, analyze, and test the module.
+    cmds:
+      - task: fmt
+      - task: vet
+      - task: test

@@ -1,3 +1,60 @@
 # yini-parser-go
 
-The official GO-lang parser for the YINI format — an INI-inspired, indentation-insensitive configuration format.
+Go library for parsing YINI files and inline YINI text. This first usable version targets the YINI 1.0.0 RC.6 syntax and is planned as `v1.0.0-alpha.1`.
+
+The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
+
+---
+
+## Install
+
+```sh
+go get github.com/YINI-lang/yini-parser-go
+```
+
+---
+
+## Parse inline text
+
+```go
+package main
+
+import (
+    "fmt"
+
+    yini "github.com/YINI-lang/yini-parser-go"
+)
+
+func main() {
+    result, err := yini.ParseString("^ Service\nport = 8080\n", yini.Options{})
+    if err != nil {
+        fmt.Println(err)
+        return
+    }
+    fmt.Println(result.Document.Values()["Service"].(map[string]any)["port"]) // 8080
+}
+```
+
+`Options{}` selects lenient mode. Choose strict mode explicitly:
+
+```go
+result, err := yini.ParseFile("settings.strict.yini", yini.Options{Mode: yini.ModeStrict})
+```
+
+Strict mode requires one explicit top-level section and `/END`, and rejects orphan members. The `.strict.yini` filename suffix and `@yini` declaration do not select the mode; `Options.Mode` does. A file can end immediately after its final assignment in lenient mode or `/END` in strict mode.
+
+---
+
+## Results and diagnostics
+
+`ParseString`, `ParseFile`, and `ParseReader` return a `Result` and a Go `error`. The result contains a structured `Document` with section/member source positions and all diagnostics. On malformed input, the document may be partial and the error is a `*yini.ParseError` with a line and column. Warnings remain in `Result.Diagnostics` without causing an error. Library calls do not print diagnostics.
+
+`Document.Values()` returns a deep-copy `map[string]any` for application code. Lenient orphan members and top-level sections appear side by side in this map. Values use `string`, `bool`, `nil`, `int64`, `float64`, `[]any`, and `map[string]any`. Integers outside signed 64-bit range and floating literals that overflow or lose a nonzero value to zero produce errors.
+
+For editors and other tools, `ParseForTooling` returns diagnostics and recoverable document content without returning an error for normal YINI syntax failures.
+
+See [usage](docs/usage.md) for mode and diagnostic details and [development](docs/development.md) for the Taskfile commands and repository layout. The checked-in RC.6 specification is in `spec/`.
+
+---
+
+^YINI ≡

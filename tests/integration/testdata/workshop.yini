@@ -1,0 +1,10 @@
+label = "north wing"
+retryCount = 3
+
+^ Workshop
+active = on
+tags = ["wood", "steel",]
+details = { lead: "Mira", floor = 2 }
+
+^^ Calibrator
+margin = 0.125

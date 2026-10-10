@@ -1,0 +1,11 @@
+@yini strict
+
+^ Observatory
+title = "Night survey"
+count = 17
+ready = yes
+coordinates = [12.5, -4.25]
+
+^^ Instrument
+model = "Orion"
+/END
