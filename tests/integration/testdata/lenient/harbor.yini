@@ -1,0 +1,10 @@
+@yini lenient
+
+region = "coast"
+
+^ Harbor
+open = yes
+berths = [3, 5,]
+
+^^ Dock
+depth = 7.25

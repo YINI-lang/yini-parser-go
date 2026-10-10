@@ -20,8 +20,8 @@ func TestParseFilesAndValues(t *testing.T) {
 		want map[string]any
 	}{
 		{
-			name: "lenient",
-			file: "workshop.yini",
+			name: "lenient workshop",
+			file: filepath.Join("lenient", "workshop.yini"),
 			want: map[string]any{
 				"label":      "north wing",
 				"retryCount": int64(3),
@@ -34,8 +34,20 @@ func TestParseFilesAndValues(t *testing.T) {
 			},
 		},
 		{
-			name: "strict",
-			file: "observatory.strict.yini",
+			name: "lenient harbor",
+			file: filepath.Join("lenient", "harbor.yini"),
+			want: map[string]any{
+				"region": "coast",
+				"Harbor": map[string]any{
+					"open":   true,
+					"berths": []any{int64(3), int64(5)},
+					"Dock":   map[string]any{"depth": 7.25},
+				},
+			},
+		},
+		{
+			name: "strict observatory",
+			file: filepath.Join("strict", "observatory.strict.yini"),
 			mode: yini.ModeStrict,
 			want: map[string]any{
 				"Observatory": map[string]any{
@@ -44,6 +56,20 @@ func TestParseFilesAndValues(t *testing.T) {
 					"ready":       true,
 					"coordinates": []any{12.5, -4.25},
 					"Instrument":  map[string]any{"model": "Orion"},
+				},
+			},
+		},
+		{
+			name: "strict archive",
+			file: filepath.Join("strict", "archive.strict.yini"),
+			mode: yini.ModeStrict,
+			want: map[string]any{
+				"Archive": map[string]any{
+					"label":    "East vault",
+					"sealed":   false,
+					"labels":   []any{"paper", "film"},
+					"metadata": map[string]any{"curator": "Ivo", "aisle": int64(4)},
+					"Shelf":    map[string]any{"slots": int64(64)},
 				},
 			},
 		},

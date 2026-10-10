@@ -1,0 +1,11 @@
+@yini strict
+
+^ Archive
+label = "East vault"
+sealed = no
+labels = ["paper", "film"]
+metadata = { curator: "Ivo", aisle: 4 }
+
+^^ Shelf
+slots = 64
+/END
