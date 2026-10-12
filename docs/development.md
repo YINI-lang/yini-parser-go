@@ -18,15 +18,14 @@ Integration tests and original YINI fixtures live in `tests/integration/`. Add f
 
 ## Shared conformance suite
 
-The Go adapter for `yini-test-suite` lives in `cmd/yini-test-adapter/`. Build it and run both modes against the installed test suite:
+The Go adapter for `yini-test-suite` lives in `cmd/yini-test-adapter/`. Build it and run the smoke suite in both modes against the installed test suite:
 
 ```powershell
 go build -o yini-test-adapter.exe ./cmd/yini-test-adapter
-yini-test-suite all --all-modes --adapter ./yini-test-adapter.exe --input '{input}' --mode '{mode}'
+yini-test-suite smoke --all-modes --adapter ./yini-test-adapter.exe --input '{input}' --mode '{mode}'
 ```
 
-The adapter writes parsed JSON to stdout and diagnostics to stderr. The suite reports pass and fail totals even when some cases fail.
-Replace `all` with `smoke` to run only the smoke cases.
+The adapter writes parsed JSON to stdout and diagnostics to stderr. Replace `smoke` with `all` to run the full suite, which currently has known failures. The suite reports pass and fail totals even when some cases fail.
 
 ---
 

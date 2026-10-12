@@ -1,11 +1,11 @@
 # yini-parser-go
 
 [![Go 1.22+](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](go.mod)
-[![Alpha planned](https://img.shields.io/badge/release-alpha%20planned-orange)](CHANGELOG.md)
+[![v1.0.0-alpha.1](https://img.shields.io/badge/release-v1.0.0--alpha.1-orange)](CHANGELOG.md)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
 
-Go library for parsing YINI files and inline YINI text. This first usable version targets the YINI 1.0.0 RC.6 syntax and is planned as `v1.0.0-alpha.1`.
+Go library for parsing YINI files and inline YINI text. The first alpha release, `v1.0.0-alpha.1`, targets the YINI 1.0.0 RC.6 syntax.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
 
@@ -14,7 +14,7 @@ The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pi
 ## Install
 
 ```sh
-go get github.com/YINI-lang/yini-parser-go
+go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.1
 ```
 
 ---
@@ -64,7 +64,7 @@ See [usage](docs/usage.md) for mode and diagnostic details and [development](doc
 
 ## Shared conformance tests
 
-The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this parser against the external `yini-test-suite`. It accepts a YINI file and an explicit lenient or strict mode, then writes parsed JSON to stdout and diagnostics to stderr. See the [development guide](docs/development.md#shared-conformance-suite) for build and run commands. CI runs the smoke suite separately from the full suite.
+The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this parser against the external `yini-test-suite`. It accepts a YINI file and an explicit lenient or strict mode, then writes parsed JSON to stdout and diagnostics to stderr. See the [development guide](docs/development.md#shared-conformance-suite) for build and run commands. CI runs the smoke suite in both modes; all 20 smoke cases currently pass. The full conformance suite still has known failures.
 
 ---
 
