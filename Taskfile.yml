@@ -22,6 +22,11 @@ tasks:
     cmds:
       - go test ./...
 
+  versions:
+    desc: List published module versions.
+    cmds:
+      - go list -m -versions github.com/YINI-lang/yini-parser-go
+
   check:
     desc: Format, analyze, and test the module.
     cmds:
