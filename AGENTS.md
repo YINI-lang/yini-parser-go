@@ -19,6 +19,7 @@ See also: [Shared AI agent instructions for the YINI project family](../AGENTS.m
 AGENTS.md                    Repository instructions
 README.md                    Public overview and quick start
 Taskfile.yml                 Development commands
+VERSION                      Source of truth for the parser release version
 go.mod, go.sum               Go module and pinned dependencies
 *.go                         Public yini package and parser implementation
 grammar/v1.0.0-rc.6/         Read-only grammar reference copies
@@ -42,6 +43,9 @@ Use `Taskfile.yml` as the command interface. Run these from the repository root:
 | `task vet` | Run Go analyzers, excluding generated unreachable-code warnings. |
 | `task test` | Run all Go tests. |
 | `task check` | Run formatting, vet, and tests. |
+| `task release` | Run checks and create the Git tag named by `VERSION`. |
+
+`VERSION` is the source of truth for the parser release version. Trim surrounding whitespace before using its value as a Git tag. Commit `VERSION` and all release changes before running `task release`.
 
 Generation writes to `internal/grammar/generated/`. Java is needed only to regenerate it. The generator JAR is version 4.13.2; the Go runtime in `go.mod` is pinned separately.
 

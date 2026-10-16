@@ -11,8 +11,11 @@ Use [Task](https://taskfile.dev/) from the repository root:
 | `task vet`      | Analyze Go packages. |
 | `task test`     | Run all tests. |
 | `task check`    | Run format, vet, and test. |
+| `task release`  | Run checks and create an annotated Git tag from `VERSION`. |
 
 `task generate` uses the included `libs/antlr4/antlr-4.13.2-complete.jar` and requires Java. Generated files are checked in, so consumers need only Go. `go.mod` pins the separate ANTLR Go runtime. Run `task generate` only when generation inputs or settings change, and run `task check` before submitting work. `task vet` disables the unreachable-code analyzer because ANTLR emits unreachable branches.
+
+`VERSION` is the parser release version. Commit it with the release changes before running `task release`. The task creates a local tag; push that tag to make the version available to Go users.
 
 Integration tests and original YINI fixtures live in `tests/integration/`. Add focused valid and invalid cases when changing semantic validation; assert line and column for source-location fixes. New fixtures must use original YINI content rather than copying content from sibling parser repositories.
 

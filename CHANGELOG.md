@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.0.0-alpha.2
+- Add `VERSION` as the source of truth for the parser release version.
+- Add `task release` to run checks and create an annotated local Git tag from the trimmed `VERSION` value. It requires the version to be committed and the working tree to be clean before tagging.
+- Update the README and development guide for the `v1.0.0-alpha.2` release workflow.
+
 ## v1.0.0-alpha.1
 
 Initial alpha release of the Go parser for YINI 1.0.0 RC.6.

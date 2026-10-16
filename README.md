@@ -1,11 +1,11 @@
 # yini-parser-go
 
 [![Go 1.22+](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](go.mod)
-[![v1.0.0-alpha.1](https://img.shields.io/badge/release-v1.0.0--alpha.1-orange)](CHANGELOG.md)
+[![v1.0.0-alpha.2](https://img.shields.io/badge/release-v1.0.0--alpha.2-orange)](CHANGELOG.md)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
 
-Go library for parsing YINI files and inline YINI text. The first alpha release, `v1.0.0-alpha.1`, targets the YINI 1.0.0 RC.6 syntax.
+Go library for parsing YINI files and inline YINI text. The first alpha release, `v1.0.0-alpha.2`, targets the YINI 1.0.0 RC.6 syntax.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
 
@@ -14,7 +14,7 @@ The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pi
 ## Install
 
 ```sh
-go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.1
+go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.2
 ```
 
 ---

@@ -27,6 +27,12 @@ tasks:
     cmds:
       - go list -m -versions github.com/YINI-lang/yini-parser-go
 
+  release:
+    desc: Run checks and create an annotated Git tag from VERSION.
+    cmds:
+      - task: check
+      - go run ./cmd/release-tag
+
   check:
     desc: Format, analyze, and test the module.
     cmds:
