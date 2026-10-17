@@ -5,7 +5,9 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
 
-Go library for parsing YINI files and inline YINI text. The first alpha release, `v1.0.0-alpha.2`, targets the YINI 1.0.0 RC.6 syntax.
+[YINI](https://yini-lang.org/refs/specification/) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
+
+`yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. This alpha release, `v1.0.0-alpha.2`, targets the YINI 1.0.0 RC.6 syntax.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
 
