@@ -5,7 +5,7 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
 
-[YINI](https://yini-lang.org/refs/specification/) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
+[YINI](https://yini-lang.org/refs/specification/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme&utm_medium=referral) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
 
 `yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. This alpha release, `v1.0.0-alpha.2`, targets the YINI 1.0.0 RC.6 syntax.
 

@@ -1,8 +1,13 @@
 name: Go Tests
 
 on:
+    push:
+        branches: [main]
     pull_request:
     workflow_dispatch:
+
+permissions:
+    contents: read
 
 jobs:
     run-all-tests:
@@ -10,12 +15,39 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Set up Go
               uses: actions/setup-go@v7
               with:
                   go-version-file: go.mod
+                  cache-dependency-path: go.sum
+
+            - name: Check Go formatting
+              run: |
+                  unformatted=$(git ls-files -z '*.go' | xargs -0 -r gofmt -l)
+                  if [ -n "$unformatted" ]; then
+                      printf 'Unformatted Go files:\n%s\n' "$unformatted"
+                      exit 1
+                  fi
+
+            - name: Run vet
+              run: go vet -unreachable=false ./...
+
+            - name: Run tests
+              run: go test ./...
+
+    test-current-go:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v7
+
+            - name: Set up current Go
+              uses: actions/setup-go@v7
+              with:
+                  go-version: stable
                   cache-dependency-path: go.sum
 
             - name: Run tests
