@@ -44,6 +44,6 @@ Integer conversion is exact within signed 64-bit range. Fractions and exponents 
 
 A duplicate section's whole block is ignored. A misplaced `#!` line is treated as a comment and reported once: warning in lenient mode, error in strict mode. EOF may end the last assignment or section header; strict `/END` also works at EOF.
 
-Check both the Go error and `Result.Diagnostics`. Each diagnostic has a severity, code, plain-language message, and one-based line/column position. `ParseForTooling` keeps these diagnostics and suppresses the Go error only for ordinary parse failures; invalid options still return an error. `ParseFile` and `ParseReader` return I/O errors directly.
+Check both the Go error and `Result.Diagnostics`. Each diagnostic has a severity, code, plain-language message, and one-based line/column position. Common syntax errors describe what is missing or misplaced. `ParseFile` prefixes parse errors with the file path; use `errors.As` to retrieve the wrapped `*yini.ParseError`. `ParseForTooling` keeps diagnostics and suppresses the Go error only for ordinary parse failures; invalid options still return an error. `ParseFile` and `ParseReader` return I/O errors directly.
 
 ^YINI ≡

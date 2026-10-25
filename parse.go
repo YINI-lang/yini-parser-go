@@ -53,7 +53,7 @@ func ParseString(content string, options Options) (Result, error) {
 			Position: locator.index(misplacedShebang),
 		})
 	}
-	listener := &syntaxListener{result: &result, locator: locator}
+	listener := &syntaxListener{result: &result, locator: locator, mode: mode}
 	lexer := generated.NewYiniLexer(antlr.NewInputStream(input))
 	lexer.RemoveErrorListeners()
 	lexer.AddErrorListener(listener)
@@ -108,6 +108,7 @@ func normalizeShebang(input string) (string, int) {
 
 // ParseFile reads and parses a UTF-8 YINI file. The filename does not select
 // the parsing mode; a .strict.yini file parsed leniently gets a warning.
+// Parse errors include the file path and can be inspected with errors.As.
 func ParseFile(path string, options Options) (Result, error) {
 	content, err := os.ReadFile(path)
 	if err != nil {
@@ -121,6 +122,9 @@ func ParseFile(path string, options Options) (Result, error) {
 			Message:  "The .strict.yini filename suggests strict mode, but lenient mode was selected",
 			Position: Position{Line: 1, Column: 1},
 		}}, result.Diagnostics...)
+	}
+	if err != nil {
+		return result, fmt.Errorf("%s: %w", path, err)
 	}
 	return result, err
 }
@@ -148,19 +152,14 @@ type syntaxListener struct {
 	*antlr.DefaultErrorListener
 	result  *Result
 	locator *sourceLocator
+	mode    Mode
 }
 
 func (l *syntaxListener) SyntaxError(recognizer antlr.Recognizer, offending any, line, column int, _ string, _ antlr.RecognitionException) {
-	message := "Invalid YINI syntax"
-	if token, ok := offending.(antlr.Token); ok {
-		if token.GetTokenType() == antlr.TokenEOF {
-			message = "Unexpected end of YINI content"
-		} else if token.GetText() != "" {
-			message = fmt.Sprintf("Unexpected %q in YINI content", token.GetText())
-		}
-	}
+	token, _ := offending.(antlr.Token)
+	message := l.syntaxMessage(recognizer, token)
 	position := Position{Line: line, Column: column + 1}
-	if token, ok := offending.(antlr.Token); ok {
+	if token != nil {
 		position = l.locator.token(token)
 	} else if lexer, ok := recognizer.(antlr.Lexer); ok {
 		index := lexer.GetInputStream().Index()
@@ -175,6 +174,78 @@ func (l *syntaxListener) SyntaxError(recognizer antlr.Recognizer, offending any,
 		Message:  message,
 		Position: position,
 	})
+}
+
+func (l *syntaxListener) syntaxMessage(recognizer antlr.Recognizer, token antlr.Token) string {
+	if token == nil {
+		return "Unrecognized YINI text; check for an invalid character or an unclosed quote"
+	}
+	parser, ok := recognizer.(antlr.Parser)
+	if !ok {
+		return fmt.Sprintf("Unexpected %q in YINI content", token.GetText())
+	}
+	context := parser.GetParserRuleContext()
+	tokenType := token.GetTokenType()
+	collection := syntaxNearestCollection(context)
+	switch {
+	case tokenType == antlr.TokenEOF && collection == generated.YiniParserRULE_list_literal:
+		return "Unclosed list; add ]"
+	case tokenType == antlr.TokenEOF && collection == generated.YiniParserRULE_object_literal:
+		return "Unclosed inline object; add }"
+	case tokenType == antlr.TokenEOF && syntaxInRule(context, generated.YiniParserRULE_concat_tail):
+		return "Expected a value after +"
+	case syntaxInRule(context, generated.YiniParserRULE_object_member_separator):
+		if l.mode == ModeStrict {
+			return "Expected : after an inline object key"
+		}
+		return "Expected : or = after an inline object key"
+	case tokenType == generated.YiniLexerCOMMA && collection == generated.YiniParserRULE_list_literal:
+		return "Unexpected comma in list; add a value before it"
+	case tokenType == generated.YiniLexerCC && collection == generated.YiniParserRULE_list_literal:
+		return "Expected ] to close the list"
+	case tokenType == generated.YiniLexerCB && collection == generated.YiniParserRULE_object_literal:
+		return "Expected } to close the inline object"
+	case tokenType == generated.YiniLexerFULL_LINE_COMMENT && syntaxInRule(context, generated.YiniParserRULE_eol):
+		return "Semicolon comments must start on their own line"
+	case tokenType == generated.YiniLexerPLUS && syntaxInRule(context, generated.YiniParserRULE_eol):
+		return "Concatenation must start with a string and place + on the same line"
+	}
+	if root, ok := context.(*generated.YiniContext); ok && root.Terminal_stmt() != nil {
+		return "Only comments and whitespace may follow /END"
+	}
+	if tokenType == antlr.TokenEOF {
+		return "Unexpected end of YINI content"
+	}
+	return fmt.Sprintf("Unexpected %q in YINI content", token.GetText())
+}
+
+func syntaxInRule(context antlr.ParserRuleContext, rule int) bool {
+	for context != nil {
+		if context.GetRuleIndex() == rule {
+			return true
+		}
+		parent, ok := context.GetParent().(antlr.ParserRuleContext)
+		if !ok {
+			break
+		}
+		context = parent
+	}
+	return false
+}
+
+func syntaxNearestCollection(context antlr.ParserRuleContext) int {
+	for context != nil {
+		switch context.GetRuleIndex() {
+		case generated.YiniParserRULE_list_literal, generated.YiniParserRULE_object_literal:
+			return context.GetRuleIndex()
+		}
+		parent, ok := context.GetParent().(antlr.ParserRuleContext)
+		if !ok {
+			break
+		}
+		context = parent
+	}
+	return -1
 }
 
 func uniqueDiagnostics(diagnostics []Diagnostic) []Diagnostic {

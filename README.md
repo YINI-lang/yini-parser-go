@@ -54,7 +54,7 @@ Strict mode requires one explicit top-level section and `/END`, and rejects orph
 
 ## Results and diagnostics
 
-`ParseString`, `ParseFile`, and `ParseReader` return a `Result` and a Go `error`. The result contains a structured `Document` with section/member source positions and all diagnostics. On malformed input, the document may be partial and the error is a `*yini.ParseError` with a line and column. Warnings remain in `Result.Diagnostics` without causing an error. Library calls do not print diagnostics.
+`ParseString`, `ParseFile`, and `ParseReader` return a `Result` and a Go `error`. The result contains a structured `Document` with section/member source positions and all diagnostics. On malformed input, the document may be partial and the error includes a line and column. `ParseFile` also includes the path; use `errors.As` to inspect its wrapped `*yini.ParseError`. Warnings remain in `Result.Diagnostics` without causing an error. Library calls do not print diagnostics.
 
 `Document.Values()` returns a deep-copy `map[string]any` for application code. Lenient orphan members and top-level sections appear side by side in this map. Values use `string`, `bool`, `nil`, `int64`, `float64`, `[]any`, and `map[string]any`. Integers outside signed 64-bit range and floating literals that overflow or lose a nonzero value to zero produce errors.
 

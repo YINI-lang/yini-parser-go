@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Include the file path in `ParseFile` parse errors while keeping `*yini.ParseError` available through `errors.As`.
+- Give more specific syntax diagnostics for common malformed lists, inline objects, concatenation, comments, and content after `/END`.
+
 ## v1.0.0-alpha.2
 - Add `VERSION` as the source of truth for the parser release version.
 - Add `task release` to run checks and create an annotated local Git tag from the trimmed `VERSION` value. It requires the version to be committed and the working tree to be clean before tagging.
