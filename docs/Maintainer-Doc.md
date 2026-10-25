@@ -9,7 +9,7 @@ The Go module and import path is `github.com/YINI-lang/yini-parser-go`. Go users
 ## Release checklist
 
 Before tagging a release, check that:
-- `VERSION` contains the intended Go module version, such as `v1.0.0-alpha.2`.
+- `VERSION` contains the intended Go module version, such as `v1.0.0-alpha.3`.
 - `CHANGELOG.md` has notes for that version, and the README badge and installation command name the same version.
 - All intended release files are committed and the working tree is clean.
 - `task check` passes.
@@ -39,10 +39,10 @@ Before tagging a release, check that:
 
    `task release` runs `task check` again, then creates a local tag named by the trimmed `VERSION` value. It does not push the tag.
 
-4. Push the exact tag printed by the task. For example, if `VERSION` contains `v1.0.0-alpha.2`:
+4. Push the exact tag printed by the task. For example, if `VERSION` contains `v1.0.0-alpha.3`:
 
    ```sh
-   git push origin v1.0.0-alpha.2
+   git push origin v1.0.0-alpha.3
    ```
 
    Pushing the tag makes that version available to Go tools. To publish release notes on GitHub, optionally create a GitHub Release from the existing tag and mark alpha, beta, or RC versions as pre-releases.
@@ -54,11 +54,11 @@ Before tagging a release, check that:
 Request the version through the Go module proxy. Replace the example version with the tag just pushed:
 
 ```sh
-go list -m github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.2
+go list -m github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.3
 task versions
 ```
 
-The first command should return the exact module path and version. `task versions` lists versions visible to Go. A consumer can then run `go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.2` and import the root `yini` package.
+The first command should return the exact module path and version. `task versions` lists versions visible to Go. A consumer can then run `go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.3` and import the root `yini` package.
 
 Never move a tag after users have fetched it. If the tagged code needs a fix, update `VERSION` and publish a new tag; Go verifies downloaded module content against the version it first observed. See the [Go module publishing guide](https://go.dev/doc/modules/publishing) for this rule.
 

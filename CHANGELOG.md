@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.0.0-alpha.3
 
 - Include the file path in `ParseFile` parse errors while keeping `*yini.ParseError` available through `errors.As`.
 - Give more specific syntax diagnostics for common malformed lists, inline objects, concatenation, comments, and content after `/END`.
