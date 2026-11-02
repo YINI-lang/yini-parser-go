@@ -1,7 +1,7 @@
 # Decode YINI documents into Go structs
 
 Date:   2026-10-25
-Status: Proposal for API review.
+Status: Accepted for implementation.
 
 ## Goal
 
@@ -64,7 +64,7 @@ err = result.Document.Decode(&whole)
 
 Pointers to supported types are supported recursively. Named scalar types with one of the supported underlying kinds follow the same checks. An empty interface receives an independent copy of the existing native value (`string`, `bool`, `int64`, `float64`, `[]any`, or `map[string]any`). `float32`, non-empty interfaces, fixed arrays, `uintptr`, and unsupported kinds return an error. No string-to-number, integer-to-float, float-to-integer, or other implicit conversion occurs. This keeps the parser's exact integer values intact.
 
-Only exported struct fields participate. An untagged field matches a YINI name exactly, including case. A `yini:"name"` tag sets the exact source name; `yini:"-"` excludes a Go field. Tags have no options in this version. Duplicate field mappings and malformed destination types are errors. Anonymous embedded fields are rejected unless tagged `yini:"-"`; they are not flattened.
+Only exported, named struct fields participate. Unexported fields, including unexported embedded fields, are ignored. An untagged field matches a YINI name exactly, including case. A `yini:"name"` tag sets the exact source name; `yini:"-"` excludes a Go field. Tags have no options in this version. Duplicate field mappings and malformed destination types are errors. Exported anonymous embedded fields are rejected unless tagged `yini:"-"`; they are not flattened.
 
 Unknown YINI members or child sections are errors when decoding into a struct; a `map[string]T` accepts any source name. Missing fields remain at their Go zero value; there is no required-field tag in this version. A present null for a non-nullable destination is an error. This schema check is independent of lenient and strict parsing: parsing a valid document can succeed while decoding it into a particular struct fails.
 
@@ -73,6 +73,8 @@ Decoding builds a fresh destination value and assigns it only after all fields d
 ## Errors and locations
 
 Decoding returns a Go error and does not append to parse diagnostics. A `*DecodeError` reports the YINI path and the nearest available source position. Use `errors.As` to inspect it. For example, a bad second list element can report `Service.ports[1]` with the `ports` member's position. A section mismatch uses the section header position. Destination validation errors without a source location use a zero `Position`.
+
+Path segments with ordinary identifier characters use dots. Other names use quoted brackets, such as `Service["ui.theme"]`. `Section.Decode` paths include the section's own name.
 
 Return the first error deterministically. Traverse document members and sections in source order. Inline objects are currently stored as Go maps, so examine their keys in sorted order. Error text should identify the source path, source type, and required Go type in plain language. Do not print from library code.
 
@@ -95,4 +97,4 @@ The current document tree does not retain separate locations for inline object e
 
 ## API review decisions
 
-The proposed methods and exported error type are additions to the public API, so the maintainer must approve their shape before implementation. In particular, this proposal recommends exact-case field matching and rejecting unknown YINI fields. Those defaults should be confirmed as part of API review because changing them after release would affect callers.
+The maintainer approved implementation of this API. Field matching is exact-case, unknown YINI fields are errors, and embedded fields are handled as described above.
