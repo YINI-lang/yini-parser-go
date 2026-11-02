@@ -50,6 +50,22 @@ result, err := yini.ParseFile("settings.strict.yini", yini.Options{Mode: yini.Mo
 
 Strict mode requires one explicit top-level section and `/END`, and rejects orphan members. The `.strict.yini` filename suffix and `@yini` declaration do not select the mode; `Options.Mode` does. A file can end immediately after its final assignment in lenient mode or `/END` in strict mode.
 
+To decode a parsed section into a typed struct, call `Decode` after checking the parse error:
+
+```go
+type ServiceConfig struct {
+    Port int64 `yini:"port"`
+}
+
+var service ServiceConfig
+if err := result.Document.Sections[0].Decode(&service); err != nil {
+    fmt.Println(err)
+    return
+}
+```
+
+`Document.Decode` maps the whole document, including top-level section names. See [usage](docs/usage.md) for the mapping and error rules.
+
 ---
 
 ## Results and diagnostics

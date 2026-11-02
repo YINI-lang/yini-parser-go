@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
+- Return `*DecodeError` with YINI paths and source positions; leave the destination unchanged if decoding fails.
+
 ## v1.0.0-alpha.3
 
 - Include the file path in `ParseFile` parse errors while keeping `*yini.ParseError` available through `errors.As`.

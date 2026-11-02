@@ -30,6 +30,33 @@ The value mapping is:
 
 Integer conversion is exact within signed 64-bit range. Fractions and exponents use IEEE 754 binary64. Overflow and nonzero underflow to zero are errors, so callers never receive a silently rounded large integer. Floating values may have ordinary binary64 rounding.
 
+## Decode into Go structs
+
+After a successful parse, use `Document.Decode(&dst)` to map the whole document or `Section.Decode(&dst)` to map one section's contents. `dst` must be a non-nil pointer to a struct. `Document.Decode` keeps orphan members and top-level sections at the same level; it does not unwrap a single top-level section.
+
+```go
+type Service struct {
+    Port int64 `yini:"port"`
+}
+type Config struct {
+    Service Service `yini:"Service"`
+}
+
+func decodeConfig(result yini.Result) (Config, error) {
+    var config Config
+    if err := result.Document.Decode(&config); err != nil {
+        return Config{}, err
+    }
+    return config, nil
+}
+```
+
+Only exported, named fields participate. Untagged fields match YINI names exactly, including case. Use `yini:"name"` to choose a name and `yini:"-"` to ignore a field. Unexported fields, including embedded ones, are ignored. Exported anonymous embedded fields must be ignored with `yini:"-"` or replaced with named fields; decoding does not flatten them. Tag options and duplicate field mappings are errors. Unknown YINI names are errors when decoding to a struct; missing Go fields remain zero. `map[string]T` accepts any source name.
+
+Strings decode to strings; booleans to bools; integers to signed or unsigned integer types if they fit; floats to `float64`; lists to slices; and objects or sections to structs or `map[string]T`. Pointers to supported types and named scalar types are supported. Null sets a pointer, slice, map, or empty interface to nil and is an error for other types. An empty interface receives a deep copy of the native value. There are no implicit numeric or string conversions. Unsupported types, including `float32`, arrays, and non-empty interfaces, are errors even if the corresponding field is absent from the document.
+
+Decoding replaces the destination only after every value succeeds. On failure, the destination remains unchanged; on success, absent fields are reset to zero. `*DecodeError` provides a YINI path and the nearest available source position through `errors.As`. List elements and inline object entries use their containing member's position. Decode errors do not change parse diagnostics or `Document.Values()`.
+
 ## Modes and recovery
 
 | Rule | Lenient | Strict |
