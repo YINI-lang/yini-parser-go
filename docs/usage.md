@@ -64,7 +64,7 @@ Decoding replaces the destination only after every value succeeds. On failure, t
 | Top-level structure | Sections and orphan members | Exactly one top-level section; no orphans |
 | `/END` | Optional | Required |
 | Duplicate key or sibling section | Warning; first wins | Error |
-| Empty member value | Null | Error; write `null` |
+| Empty member value | Warning; treated as null | Error; write `null` |
 | Trailing list/object comma | Accepted | Error |
 | Inline object `=` | Accepted | Error; use `:` |
 | Concatenation operands after the first string | Strings, numbers, booleans, null | Strings only |

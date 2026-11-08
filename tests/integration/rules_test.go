@@ -122,6 +122,62 @@ func TestEmptyDocumentsAndLineEndings(t *testing.T) {
 	t.Fatal("missing duplicate-key diagnostic")
 }
 
+func TestEmptyMemberValues(t *testing.T) {
+	for _, test := range []struct {
+		name     string
+		value    string
+		explicit bool
+	}{
+		{name: "empty"},
+		{name: "whitespace", value: " \t"},
+		{name: "hash comment", value: " # no value"},
+		{name: "slash comment", value: " // no value"},
+		{name: "block comment", value: " /* no value */"},
+		{name: "explicit null", value: " null", explicit: true},
+	} {
+		for _, mode := range []yini.Mode{yini.ModeLenient, yini.ModeStrict} {
+			t.Run(test.name+"/"+string(mode), func(t *testing.T) {
+				content := "^ Journal\n  note =" + test.value + "\ncount = 7\n/END"
+				result, err := yini.ParseString(content, yini.Options{Mode: mode})
+				wantError := mode == yini.ModeStrict && !test.explicit
+				if (err != nil) != wantError {
+					t.Fatalf("ParseString error = %v; want error %v (diagnostics: %#v)", err, wantError, result.Diagnostics)
+				}
+				values := result.Document.Values()["Journal"].(map[string]any)
+				if values["count"] != int64(7) {
+					t.Fatalf("following member was not preserved: %#v", values)
+				}
+				if value, exists := values["note"]; exists != !wantError || value != nil {
+					t.Fatalf("note = %#v, exists %v; want null unless rejected", value, exists)
+				}
+				if test.explicit {
+					if len(result.Diagnostics) != 0 {
+						t.Fatalf("explicit null produced diagnostics: %#v", result.Diagnostics)
+					}
+					return
+				}
+				severity := yini.SeverityWarning
+				if wantError {
+					severity = yini.SeverityError
+				}
+				if len(result.Diagnostics) != 1 {
+					t.Fatalf("want one empty-value diagnostic, got %#v", result.Diagnostics)
+				}
+				diagnostic := result.Diagnostics[0]
+				if diagnostic.Code != "empty-value" || diagnostic.Severity != severity || diagnostic.Position != (yini.Position{Line: 2, Column: 8}) {
+					t.Fatalf("unexpected empty-value diagnostic: %#v", diagnostic)
+				}
+			})
+		}
+	}
+	for _, content := range []string{"note =", "^ Journal\nnote ="} {
+		result, err := yini.ParseString(content, yini.Options{})
+		if err != nil || len(result.Diagnostics) != 1 || result.Diagnostics[0].Code != "empty-value" || result.Diagnostics[0].Severity != yini.SeverityWarning {
+			t.Fatalf("lenient empty value at EOF %q: %v (%#v)", content, err, result.Diagnostics)
+		}
+	}
+}
+
 func TestMisplacedShebang(t *testing.T) {
 	content := "^ Journal\ntext = '#! stays text'\n#! later comment\nentry = 1\n"
 	lenient, err := yini.ParseString(content, yini.Options{})

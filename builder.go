@@ -203,6 +203,7 @@ func (b *documentBuilder) addMember(member generated.IMemberContext) {
 			b.report(SeverityError, "empty-value", fmt.Sprintf("Member %q needs a value; write null explicitly if intended", name), b.position(member.EQ().GetSymbol()))
 			return
 		}
+		b.report(SeverityWarning, "empty-value", fmt.Sprintf("Member %q has an empty value; treating it as null", name), b.position(member.EQ().GetSymbol()))
 	} else {
 		var valid bool
 		value, valid = b.parseValue(member.Value())

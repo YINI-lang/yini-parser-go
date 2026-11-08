@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Warn when a lenient root-level or section-level member has an empty value, including when only whitespace or comments follow `=`. The value remains `null`; explicit `null` does not produce this warning.
 - Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
 - Return `*DecodeError` with YINI paths and source positions; leave the destination unchanged if decoding fails.
 

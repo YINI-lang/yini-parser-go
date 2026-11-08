@@ -35,6 +35,12 @@ func TestRun(t *testing.T) {
 			wantStderr: "warning duplicate-key at line 3, column 1",
 		},
 		{
+			name:       "empty value warning",
+			content:    "^ Depot\nremark =\n",
+			wantJSON:   `{"Depot":{"remark":null}}` + "\n",
+			wantStderr: "warning empty-value at line 2, column 8: Member \"remark\" has an empty value",
+		},
+		{
 			name:       "parse failure",
 			content:    "^ Depot\nopen = yes\n",
 			mode:       "strict",
