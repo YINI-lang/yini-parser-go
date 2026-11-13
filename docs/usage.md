@@ -55,6 +55,8 @@ Only exported, named fields participate. Untagged fields match YINI names exactl
 
 Strings decode to strings; booleans to bools; integers to signed or unsigned integer types if they fit; floats to `float64`; lists to slices; and objects or sections to structs or `map[string]T`. Pointers to supported types and named scalar types are supported. Null sets a pointer, slice, map, or empty interface to nil and is an error for other types. An empty interface receives a deep copy of the native value. There are no implicit numeric or string conversions. Unsupported types, including `float32`, arrays, and non-empty interfaces, are errors even if the corresponding field is absent from the document.
 
+Recursive structs, slices, and maps are supported. A pointer chain must eventually reach a supported value type; pointer-only cycles such as `type Loop *Loop` are invalid schemas, even for missing or null fields.
+
 Decoding replaces the destination only after every value succeeds. On failure, the destination remains unchanged; on success, absent fields are reset to zero. `*DecodeError` provides a YINI path and the nearest available source position through `errors.As`. List elements and inline object entries use their containing member's position. Decode errors do not change parse diagnostics or `Document.Values()`.
 
 ## Modes and recovery
