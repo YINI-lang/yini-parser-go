@@ -2,11 +2,12 @@
 
 ## Unreleased
 
-- Warn when a lenient root-level or section-level member has an empty value, including when only whitespace or comments follow `=`. The value remains `null`; explicit `null` does not produce this warning.
-- Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
-- Return `*DecodeError` with YINI paths and source positions; leave the destination unchanged if decoding fails.
-- Reject pointer-only recursive destination types during schema validation to prevent unbounded recursion while decoding.
-- Add struct-decoding regression tests in both parse modes for numeric boundaries, type mismatches, recursive types, deep-copy isolation, source locations, and unchanged destinations on failure.
+- **Fixed:** Reject pointer-only recursive destination types during schema validation to prevent unbounded recursion while decoding.
+- **Changed:** Warn when a lenient root-level or section-level member has an empty value, including when only whitespace or comments follow `=`. The value remains `null`; explicit `null` does not produce this warning.
+- **Added:** Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
+- **Added:** Return `*DecodeError` with YINI paths and source positions; leave the destination unchanged if decoding fails.
+- **Added:** Add struct-decoding regression tests in both parse modes for numeric boundaries, type mismatches, recursive types, deep-copy isolation, source locations, and unchanged destinations on failure.
+- **Updated:** Expand integration test data from four to eight original YINI fixtures, covering duplicate recovery, root members and nulls, typed struct decoding, and numeric and string forms.
 
 ## v1.0.0-alpha.3
 

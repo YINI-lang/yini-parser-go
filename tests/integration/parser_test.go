@@ -14,10 +14,11 @@ import (
 
 func TestParseFilesAndValues(t *testing.T) {
 	tests := []struct {
-		name string
-		file string
-		mode yini.Mode
-		want map[string]any
+		name        string
+		file        string
+		mode        yini.Mode
+		want        map[string]any
+		diagnostics []yini.Diagnostic
 	}{
 		{
 			name: "lenient workshop",
@@ -42,6 +43,43 @@ func TestParseFilesAndValues(t *testing.T) {
 					"open":   true,
 					"berths": []any{int64(3), int64(5)},
 					"Dock":   map[string]any{"depth": 7.25},
+				},
+			},
+		},
+		{
+			name: "lenient dispatch",
+			file: filepath.Join("lenient", "dispatch.yini"),
+			want: map[string]any{
+				"Dispatch": map[string]any{
+					"priority": "routine",
+					"Courier": map[string]any{
+						"name":  "Bramble",
+						"zones": []any{"north", "west"},
+					},
+					"Backup": map[string]any{"enabled": true},
+				},
+			},
+			diagnostics: []yini.Diagnostic{
+				{Code: "duplicate-key", Severity: yini.SeverityWarning, Position: yini.Position{Line: 4, Column: 1}},
+				{Code: "duplicate-section", Severity: yini.SeverityWarning, Position: yini.Position{Line: 10, Column: 1}},
+			},
+		},
+		{
+			name: "lenient field station",
+			file: filepath.Join("lenient", "field-station.yini"),
+			want: map[string]any{
+				"station":     "ridge-17",
+				"fallback":    nil,
+				"pending":     []any{},
+				"annotations": map[string]any{},
+				"Weather": map[string]any{
+					"enabled":     true,
+					"samples":     []any{},
+					"calibration": nil,
+				},
+				"Radio": map[string]any{
+					"channels":    []any{int64(7), int64(11)},
+					"credentials": nil,
 				},
 			},
 		},
@@ -73,12 +111,67 @@ func TestParseFilesAndValues(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "strict job runner",
+			file: filepath.Join("strict", "job-runner.strict.yini"),
+			mode: yini.ModeStrict,
+			want: map[string]any{
+				"JobRunner": map[string]any{
+					"name":    "nightly-index",
+					"workers": int64(6),
+					"queues":  []any{"scan", "summarize"},
+					"jobs": []any{
+						map[string]any{"name": "index", "attempts": int64(3), "labels": []any{"local", "fast"}},
+						map[string]any{"name": "summarize", "attempts": int64(1), "labels": []any{}},
+					},
+					"fallback": nil,
+					"maxDelay": 12.5,
+					"metadata": map[string]any{"owner": "operations", "region": "east"},
+					"Pool": map[string]any{
+						"enabled": true,
+						"limits":  map[string]any{"pending": int64(64), "running": int64(6)},
+						"Retry":   map[string]any{"delays": []any{int64(1), int64(3), int64(8)}, "jitter": 0.125},
+					},
+				},
+			},
+		},
+		{
+			name: "strict telemetry",
+			file: filepath.Join("strict", "telemetry.strict.yini"),
+			mode: yini.ModeStrict,
+			want: map[string]any{
+				"sensor.grid": map[string]any{
+					"serial":        int64(9007199254740993),
+					"minimum":       int64(math.MinInt64),
+					"maximum":       int64(math.MaxInt64),
+					"mask":          int64(195),
+					"permissions":   int64(416),
+					"batch":         int64(22),
+					"signature":     int64(51966),
+					"frequency":     float64(2500),
+					"gain":          0.0625,
+					"path":          `C:\Stations\Ridge`,
+					"message":       "channel\tready\n\u03A9",
+					"display.label": "Grid #4",
+					"window A":      map[string]any{"samples": []any{0.0, -1.25, float64(200)}},
+				},
+			},
+		},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			result, err := yini.ParseFile(filepath.Join("testdata", test.file), yini.Options{Mode: test.mode})
 			if err != nil {
 				t.Fatalf("ParseFile: %v (diagnostics: %#v)", err, result.Diagnostics)
+			}
+			if len(result.Diagnostics) != len(test.diagnostics) {
+				t.Fatalf("diagnostics = %#v, want %#v", result.Diagnostics, test.diagnostics)
+			}
+			for i, want := range test.diagnostics {
+				got := result.Diagnostics[i]
+				if got.Code != want.Code || got.Severity != want.Severity || got.Position != want.Position {
+					t.Fatalf("diagnostic %d = %#v, want %#v", i, got, want)
+				}
 			}
 			if got := result.Document.Values(); !reflect.DeepEqual(got, test.want) {
 				t.Fatalf("Values() = %#v, want %#v", got, test.want)
@@ -95,6 +188,49 @@ func TestParseFilesAndValues(t *testing.T) {
 			}
 			if !reflect.DeepEqual(result.Document.Values(), test.want) {
 				t.Fatal("Values() returned document-owned nested map")
+			}
+		})
+	}
+}
+
+func TestLenientFixturesRejectStrictMode(t *testing.T) {
+	tests := []struct {
+		file        string
+		diagnostics []yini.Diagnostic
+	}{
+		{
+			file: "dispatch.yini",
+			diagnostics: []yini.Diagnostic{
+				{Code: "duplicate-key", Severity: yini.SeverityError, Position: yini.Position{Line: 4, Column: 1}},
+				{Code: "duplicate-section", Severity: yini.SeverityError, Position: yini.Position{Line: 10, Column: 1}},
+			},
+		},
+		{
+			file: "field-station.yini",
+			diagnostics: []yini.Diagnostic{
+				{Code: "orphan-member", Severity: yini.SeverityError, Position: yini.Position{Line: 1, Column: 1}},
+				{Code: "orphan-member", Severity: yini.SeverityError, Position: yini.Position{Line: 2, Column: 1}},
+				{Code: "orphan-member", Severity: yini.SeverityError, Position: yini.Position{Line: 3, Column: 1}},
+				{Code: "orphan-member", Severity: yini.SeverityError, Position: yini.Position{Line: 4, Column: 1}},
+				{Code: "top-level-section", Severity: yini.SeverityError, Position: yini.Position{Line: 11, Column: 1}},
+			},
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.file, func(t *testing.T) {
+			result, err := yini.ParseFile(filepath.Join("testdata", "lenient", test.file), yini.Options{Mode: yini.ModeStrict})
+			var parseError *yini.ParseError
+			if !errors.As(err, &parseError) || !result.HasErrors() {
+				t.Fatalf("strict ParseFile = %v (%#v); want a ParseError", err, result.Diagnostics)
+			}
+			if len(result.Diagnostics) != len(test.diagnostics) {
+				t.Fatalf("diagnostics = %#v, want %#v", result.Diagnostics, test.diagnostics)
+			}
+			for i, want := range test.diagnostics {
+				got := result.Diagnostics[i]
+				if got.Code != want.Code || got.Severity != want.Severity || got.Position != want.Position {
+					t.Fatalf("diagnostic %d = %#v, want %#v", i, got, want)
+				}
 			}
 		})
 	}

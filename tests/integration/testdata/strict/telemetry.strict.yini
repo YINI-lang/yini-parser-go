@@ -1,0 +1,17 @@
+^ `sensor.grid`
+serial = 9_007_199_254_740_993
+minimum = -9223372036854775808
+maximum = 9223372036854775807
+mask = 0b_1100_0011
+permissions = 0o_640
+batch = 0z_1X
+signature = 0x_CAFE
+frequency = 2.5e3
+gain = .0625
+path = 'C:\Stations\Ridge'
+message = C'channel\tready\n\u03A9'
+`display.label` = 'Grid #4'
+
+^^ `window A`
+samples = [0.0, -1.25, 2e2]
+/END
