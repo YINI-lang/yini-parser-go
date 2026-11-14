@@ -1,0 +1,22 @@
+@yini strict
+
+^ JobRunner
+name = 'nightly-index'
+workers = 6
+queues = ['scan', 'summarize']
+jobs = [
+    { name: 'index', attempts: 3, labels: ['local', 'fast'] },
+    { name: 'summarize', attempts: 1, labels: [] }
+]
+fallback = null
+maxDelay = 12.5
+metadata = { owner: 'operations', region: 'east' }
+
+^^ Pool
+enabled = true
+limits = { pending: 64, running: 6 }
+
+^^^ Retry
+delays = [1, 3, 8]
+jitter = 0.125
+/END

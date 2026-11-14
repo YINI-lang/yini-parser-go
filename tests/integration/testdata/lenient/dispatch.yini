@@ -1,0 +1,18 @@
+// Keep the first courier and ignore the duplicate's entire block.
+^ Dispatch
+priority = 'routine'
+priority = 'express'
+
+^^ Courier
+name = 'Bramble'
+zones = ['north', 'west']
+
+^^ Courier
+name = 'Replacement'
+discarded = true
+^^^ Internal
+token = 'must not leak'
+
+^^ Backup
+enabled = true
+/END

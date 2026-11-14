@@ -1,0 +1,14 @@
+station = 'ridge-17'
+fallback = null
+pending = []
+annotations = {}
+
+^ Weather
+enabled = true
+samples = []
+calibration = null
+
+^ Radio
+channels = [7, 11]
+credentials = null
+/END

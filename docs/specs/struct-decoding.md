@@ -1,7 +1,7 @@
 # Decode YINI documents into Go structs
 
 Date:   2026-10-25
-Status: Accepted for implementation.
+Status: Implemented.
 
 ## Goal
 

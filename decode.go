@@ -69,7 +69,18 @@ func validateDecodeType(typ reflect.Type, seen map[reflect.Type]bool) error {
 	}
 	seen[typ] = true
 	switch typ.Kind() {
-	case reflect.Pointer, reflect.Slice:
+	case reflect.Pointer:
+		// Pointer traversal must reach a value type without consuming source data.
+		pointers := make(map[reflect.Type]bool)
+		for typ.Kind() == reflect.Pointer {
+			if pointers[typ] {
+				return &DecodeError{Message: fmt.Sprintf("Go type %s has a pointer cycle with no supported value type.", typ)}
+			}
+			pointers[typ] = true
+			typ = typ.Elem()
+		}
+		return validateDecodeType(typ, seen)
+	case reflect.Slice:
 		return validateDecodeType(typ.Elem(), seen)
 	case reflect.Map:
 		if typ.Key() != reflect.TypeOf("") {
