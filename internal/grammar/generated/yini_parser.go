@@ -1,4 +1,4 @@
-// Code generated from grammar/v1.0.0-rc.6/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
+// Code generated from grammar/v1.0.0-rc.7/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
 
 package generated // YiniParser
 import (
@@ -34,174 +34,182 @@ func yiniparserParserInit() {
 	staticData.LiteralNames = []string{
 		"", "", "", "", "", "", "", "", "", "", "", "'{}'", "'[]'", "", "",
 		"'^'", "'\\u00A7'", "'>'", "'<'", "'='", "','", "':'", "'['", "']'",
-		"'{'", "'}'", "'+'", "'$'", "'%'", "'@'", "';'",
+		"'{'", "'}'", "'+'", "'-'", "'$'", "'%'", "'@'", "';'",
 	}
 	staticData.SymbolicNames = []string{
 		"", "SHEBANG", "YINI_TOKEN", "INCLUDE_TOKEN", "DEPRECATED_TOKEN", "TERMINAL_TOKEN",
 		"SECTION_HEAD", "INVALID_SECTION_HEAD", "BOOLEAN_FALSE", "BOOLEAN_TRUE",
 		"NULL", "EMPTY_OBJECT", "EMPTY_LIST", "STRING", "NUMBER", "CARET", "SS",
 		"GT", "LT", "EQ", "COMMA", "COLON", "OB", "CB", "OC", "CC", "PLUS",
-		"DOLLAR", "PC", "AT", "SEMICOLON", "NL", "WS", "BLOCK_COMMENT", "DISABLED_LINE",
-		"FULL_LINE_COMMENT", "INLINE_COMMENT", "KEY", "IDENT_INVALID", "REST",
-		"META_INVALID",
+		"MINUS", "DOLLAR", "PC", "AT", "SEMICOLON", "NL", "WS", "BLOCK_COMMENT",
+		"DISABLED_LINE", "FULL_LINE_COMMENT", "INLINE_COMMENT", "KEY", "IDENT_INVALID",
+		"REST", "META_INVALID",
 	}
 	staticData.RuleNames = []string{
 		"yini", "prolog", "terminal_stmt", "terminal_trivia", "stmt", "full_line_comment_stmt",
 		"disabled_line_stmt", "invalid_section_stmt", "meta_stmt", "directive",
-		"yini_directive", "yini_mode_declaration", "annotation", "eol", "assignment",
-		"member", "value", "scalar_value", "concat_expression", "concat_tail",
-		"concat_operand", "string_literal", "object_literal", "object_members",
-		"object_member", "object_member_separator", "list_literal", "elements",
-		"number_literal", "null_literal", "boolean_literal", "bad_meta_text",
-		"bad_member",
+		"yini_directive", "yini_mode_declaration", "annotation", "eol", "line_end",
+		"assignment", "identifier", "member", "value", "scalar_value", "concat_expression",
+		"concat_tail", "concat_operand", "string_literal", "object_literal",
+		"object_members", "object_member", "object_member_separator", "list_literal",
+		"elements", "multiline_trivia", "number_literal", "null_literal", "boolean_literal",
+		"bad_meta_text", "bad_member",
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 40, 324, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 41, 340, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
 		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
 		21, 7, 21, 2, 22, 7, 22, 2, 23, 7, 23, 2, 24, 7, 24, 2, 25, 7, 25, 2, 26,
 		7, 26, 2, 27, 7, 27, 2, 28, 7, 28, 2, 29, 7, 29, 2, 30, 7, 30, 2, 31, 7,
-		31, 2, 32, 7, 32, 1, 0, 3, 0, 68, 8, 0, 1, 0, 5, 0, 71, 8, 0, 10, 0, 12,
-		0, 74, 9, 0, 1, 0, 3, 0, 77, 8, 0, 1, 0, 1, 0, 1, 1, 1, 1, 5, 1, 83, 8,
-		1, 10, 1, 12, 1, 86, 9, 1, 1, 1, 4, 1, 89, 8, 1, 11, 1, 12, 1, 90, 3, 1,
-		93, 8, 1, 1, 2, 1, 2, 5, 2, 97, 8, 2, 10, 2, 12, 2, 100, 9, 2, 1, 3, 1,
-		3, 3, 3, 104, 8, 3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 3,
-		4, 114, 8, 4, 1, 5, 1, 5, 3, 5, 118, 8, 5, 1, 6, 1, 6, 1, 7, 1, 7, 1, 8,
-		1, 8, 1, 8, 1, 8, 1, 8, 3, 8, 129, 8, 8, 1, 9, 1, 9, 1, 9, 3, 9, 134, 8,
-		9, 1, 9, 3, 9, 137, 8, 9, 1, 10, 1, 10, 3, 10, 141, 8, 10, 1, 10, 1, 10,
-		1, 11, 1, 11, 1, 12, 1, 12, 1, 12, 1, 13, 4, 13, 151, 8, 13, 11, 13, 12,
-		13, 152, 1, 14, 1, 14, 1, 14, 1, 15, 1, 15, 1, 15, 3, 15, 161, 8, 15, 1,
-		16, 1, 16, 1, 16, 1, 16, 3, 16, 167, 8, 16, 1, 17, 1, 17, 1, 17, 1, 17,
-		3, 17, 173, 8, 17, 1, 18, 1, 18, 4, 18, 177, 8, 18, 11, 18, 12, 18, 178,
-		1, 19, 1, 19, 5, 19, 183, 8, 19, 10, 19, 12, 19, 186, 9, 19, 1, 19, 1,
-		19, 1, 20, 1, 20, 1, 21, 1, 21, 1, 22, 1, 22, 5, 22, 196, 8, 22, 10, 22,
-		12, 22, 199, 9, 22, 1, 22, 3, 22, 202, 8, 22, 1, 22, 5, 22, 205, 8, 22,
-		10, 22, 12, 22, 208, 9, 22, 1, 22, 1, 22, 5, 22, 212, 8, 22, 10, 22, 12,
-		22, 215, 9, 22, 1, 22, 1, 22, 5, 22, 219, 8, 22, 10, 22, 12, 22, 222, 9,
-		22, 3, 22, 224, 8, 22, 1, 23, 1, 23, 1, 23, 5, 23, 229, 8, 23, 10, 23,
-		12, 23, 232, 9, 23, 1, 23, 5, 23, 235, 8, 23, 10, 23, 12, 23, 238, 9, 23,
-		1, 23, 3, 23, 241, 8, 23, 1, 24, 1, 24, 1, 24, 1, 24, 1, 25, 1, 25, 1,
-		26, 1, 26, 5, 26, 251, 8, 26, 10, 26, 12, 26, 254, 9, 26, 1, 26, 3, 26,
-		257, 8, 26, 1, 26, 5, 26, 260, 8, 26, 10, 26, 12, 26, 263, 9, 26, 1, 26,
-		1, 26, 5, 26, 267, 8, 26, 10, 26, 12, 26, 270, 9, 26, 1, 26, 1, 26, 5,
-		26, 274, 8, 26, 10, 26, 12, 26, 277, 9, 26, 3, 26, 279, 8, 26, 1, 27, 1,
-		27, 5, 27, 283, 8, 27, 10, 27, 12, 27, 286, 9, 27, 1, 27, 1, 27, 5, 27,
-		290, 8, 27, 10, 27, 12, 27, 293, 9, 27, 1, 27, 5, 27, 296, 8, 27, 10, 27,
-		12, 27, 299, 9, 27, 1, 27, 3, 27, 302, 8, 27, 1, 28, 1, 28, 1, 29, 1, 29,
-		1, 30, 1, 30, 1, 31, 1, 31, 1, 32, 1, 32, 3, 32, 314, 8, 32, 1, 32, 1,
-		32, 1, 32, 3, 32, 319, 8, 32, 1, 32, 3, 32, 322, 8, 32, 1, 32, 0, 0, 33,
-		0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36,
-		38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 0, 3, 2, 0, 8,
-		10, 13, 14, 2, 0, 19, 19, 21, 21, 1, 0, 8, 9, 344, 0, 67, 1, 0, 0, 0, 2,
-		92, 1, 0, 0, 0, 4, 94, 1, 0, 0, 0, 6, 103, 1, 0, 0, 0, 8, 113, 1, 0, 0,
-		0, 10, 115, 1, 0, 0, 0, 12, 119, 1, 0, 0, 0, 14, 121, 1, 0, 0, 0, 16, 128,
-		1, 0, 0, 0, 18, 136, 1, 0, 0, 0, 20, 138, 1, 0, 0, 0, 22, 144, 1, 0, 0,
-		0, 24, 146, 1, 0, 0, 0, 26, 150, 1, 0, 0, 0, 28, 154, 1, 0, 0, 0, 30, 157,
-		1, 0, 0, 0, 32, 166, 1, 0, 0, 0, 34, 172, 1, 0, 0, 0, 36, 174, 1, 0, 0,
-		0, 38, 180, 1, 0, 0, 0, 40, 189, 1, 0, 0, 0, 42, 191, 1, 0, 0, 0, 44, 223,
-		1, 0, 0, 0, 46, 225, 1, 0, 0, 0, 48, 242, 1, 0, 0, 0, 50, 246, 1, 0, 0,
-		0, 52, 278, 1, 0, 0, 0, 54, 280, 1, 0, 0, 0, 56, 303, 1, 0, 0, 0, 58, 305,
-		1, 0, 0, 0, 60, 307, 1, 0, 0, 0, 62, 309, 1, 0, 0, 0, 64, 313, 1, 0, 0,
-		0, 66, 68, 3, 2, 1, 0, 67, 66, 1, 0, 0, 0, 67, 68, 1, 0, 0, 0, 68, 72,
-		1, 0, 0, 0, 69, 71, 3, 8, 4, 0, 70, 69, 1, 0, 0, 0, 71, 74, 1, 0, 0, 0,
-		72, 70, 1, 0, 0, 0, 72, 73, 1, 0, 0, 0, 73, 76, 1, 0, 0, 0, 74, 72, 1,
-		0, 0, 0, 75, 77, 3, 4, 2, 0, 76, 75, 1, 0, 0, 0, 76, 77, 1, 0, 0, 0, 77,
-		78, 1, 0, 0, 0, 78, 79, 5, 0, 0, 1, 79, 1, 1, 0, 0, 0, 80, 84, 5, 1, 0,
-		0, 81, 83, 3, 26, 13, 0, 82, 81, 1, 0, 0, 0, 83, 86, 1, 0, 0, 0, 84, 82,
-		1, 0, 0, 0, 84, 85, 1, 0, 0, 0, 85, 93, 1, 0, 0, 0, 86, 84, 1, 0, 0, 0,
-		87, 89, 3, 26, 13, 0, 88, 87, 1, 0, 0, 0, 89, 90, 1, 0, 0, 0, 90, 88, 1,
-		0, 0, 0, 90, 91, 1, 0, 0, 0, 91, 93, 1, 0, 0, 0, 92, 80, 1, 0, 0, 0, 92,
-		88, 1, 0, 0, 0, 93, 3, 1, 0, 0, 0, 94, 98, 5, 5, 0, 0, 95, 97, 3, 6, 3,
-		0, 96, 95, 1, 0, 0, 0, 97, 100, 1, 0, 0, 0, 98, 96, 1, 0, 0, 0, 98, 99,
-		1, 0, 0, 0, 99, 5, 1, 0, 0, 0, 100, 98, 1, 0, 0, 0, 101, 104, 3, 26, 13,
-		0, 102, 104, 3, 10, 5, 0, 103, 101, 1, 0, 0, 0, 103, 102, 1, 0, 0, 0, 104,
-		7, 1, 0, 0, 0, 105, 114, 3, 26, 13, 0, 106, 114, 3, 10, 5, 0, 107, 114,
-		3, 12, 6, 0, 108, 114, 5, 6, 0, 0, 109, 114, 3, 14, 7, 0, 110, 114, 3,
-		28, 14, 0, 111, 114, 3, 16, 8, 0, 112, 114, 3, 64, 32, 0, 113, 105, 1,
-		0, 0, 0, 113, 106, 1, 0, 0, 0, 113, 107, 1, 0, 0, 0, 113, 108, 1, 0, 0,
-		0, 113, 109, 1, 0, 0, 0, 113, 110, 1, 0, 0, 0, 113, 111, 1, 0, 0, 0, 113,
-		112, 1, 0, 0, 0, 114, 9, 1, 0, 0, 0, 115, 117, 5, 35, 0, 0, 116, 118, 3,
-		26, 13, 0, 117, 116, 1, 0, 0, 0, 117, 118, 1, 0, 0, 0, 118, 11, 1, 0, 0,
-		0, 119, 120, 5, 34, 0, 0, 120, 13, 1, 0, 0, 0, 121, 122, 5, 7, 0, 0, 122,
-		15, 1, 0, 0, 0, 123, 129, 3, 18, 9, 0, 124, 129, 3, 24, 12, 0, 125, 126,
-		3, 62, 31, 0, 126, 127, 3, 26, 13, 0, 127, 129, 1, 0, 0, 0, 128, 123, 1,
-		0, 0, 0, 128, 124, 1, 0, 0, 0, 128, 125, 1, 0, 0, 0, 129, 17, 1, 0, 0,
-		0, 130, 137, 3, 20, 10, 0, 131, 133, 5, 3, 0, 0, 132, 134, 3, 42, 21, 0,
-		133, 132, 1, 0, 0, 0, 133, 134, 1, 0, 0, 0, 134, 135, 1, 0, 0, 0, 135,
-		137, 3, 26, 13, 0, 136, 130, 1, 0, 0, 0, 136, 131, 1, 0, 0, 0, 137, 19,
-		1, 0, 0, 0, 138, 140, 5, 2, 0, 0, 139, 141, 3, 22, 11, 0, 140, 139, 1,
-		0, 0, 0, 140, 141, 1, 0, 0, 0, 141, 142, 1, 0, 0, 0, 142, 143, 3, 26, 13,
-		0, 143, 21, 1, 0, 0, 0, 144, 145, 5, 37, 0, 0, 145, 23, 1, 0, 0, 0, 146,
-		147, 5, 4, 0, 0, 147, 148, 3, 26, 13, 0, 148, 25, 1, 0, 0, 0, 149, 151,
-		5, 31, 0, 0, 150, 149, 1, 0, 0, 0, 151, 152, 1, 0, 0, 0, 152, 150, 1, 0,
-		0, 0, 152, 153, 1, 0, 0, 0, 153, 27, 1, 0, 0, 0, 154, 155, 3, 30, 15, 0,
-		155, 156, 3, 26, 13, 0, 156, 29, 1, 0, 0, 0, 157, 158, 5, 37, 0, 0, 158,
-		160, 5, 19, 0, 0, 159, 161, 3, 32, 16, 0, 160, 159, 1, 0, 0, 0, 160, 161,
-		1, 0, 0, 0, 161, 31, 1, 0, 0, 0, 162, 167, 3, 36, 18, 0, 163, 167, 3, 34,
-		17, 0, 164, 167, 3, 52, 26, 0, 165, 167, 3, 44, 22, 0, 166, 162, 1, 0,
-		0, 0, 166, 163, 1, 0, 0, 0, 166, 164, 1, 0, 0, 0, 166, 165, 1, 0, 0, 0,
-		167, 33, 1, 0, 0, 0, 168, 173, 3, 58, 29, 0, 169, 173, 3, 42, 21, 0, 170,
-		173, 3, 56, 28, 0, 171, 173, 3, 60, 30, 0, 172, 168, 1, 0, 0, 0, 172, 169,
-		1, 0, 0, 0, 172, 170, 1, 0, 0, 0, 172, 171, 1, 0, 0, 0, 173, 35, 1, 0,
-		0, 0, 174, 176, 5, 13, 0, 0, 175, 177, 3, 38, 19, 0, 176, 175, 1, 0, 0,
-		0, 177, 178, 1, 0, 0, 0, 178, 176, 1, 0, 0, 0, 178, 179, 1, 0, 0, 0, 179,
-		37, 1, 0, 0, 0, 180, 184, 5, 26, 0, 0, 181, 183, 5, 31, 0, 0, 182, 181,
-		1, 0, 0, 0, 183, 186, 1, 0, 0, 0, 184, 182, 1, 0, 0, 0, 184, 185, 1, 0,
-		0, 0, 185, 187, 1, 0, 0, 0, 186, 184, 1, 0, 0, 0, 187, 188, 3, 40, 20,
-		0, 188, 39, 1, 0, 0, 0, 189, 190, 7, 0, 0, 0, 190, 41, 1, 0, 0, 0, 191,
-		192, 5, 13, 0, 0, 192, 43, 1, 0, 0, 0, 193, 197, 5, 24, 0, 0, 194, 196,
-		5, 31, 0, 0, 195, 194, 1, 0, 0, 0, 196, 199, 1, 0, 0, 0, 197, 195, 1, 0,
-		0, 0, 197, 198, 1, 0, 0, 0, 198, 201, 1, 0, 0, 0, 199, 197, 1, 0, 0, 0,
-		200, 202, 3, 46, 23, 0, 201, 200, 1, 0, 0, 0, 201, 202, 1, 0, 0, 0, 202,
-		206, 1, 0, 0, 0, 203, 205, 5, 31, 0, 0, 204, 203, 1, 0, 0, 0, 205, 208,
-		1, 0, 0, 0, 206, 204, 1, 0, 0, 0, 206, 207, 1, 0, 0, 0, 207, 209, 1, 0,
-		0, 0, 208, 206, 1, 0, 0, 0, 209, 213, 5, 25, 0, 0, 210, 212, 5, 31, 0,
-		0, 211, 210, 1, 0, 0, 0, 212, 215, 1, 0, 0, 0, 213, 211, 1, 0, 0, 0, 213,
-		214, 1, 0, 0, 0, 214, 224, 1, 0, 0, 0, 215, 213, 1, 0, 0, 0, 216, 220,
-		5, 11, 0, 0, 217, 219, 5, 31, 0, 0, 218, 217, 1, 0, 0, 0, 219, 222, 1,
-		0, 0, 0, 220, 218, 1, 0, 0, 0, 220, 221, 1, 0, 0, 0, 221, 224, 1, 0, 0,
-		0, 222, 220, 1, 0, 0, 0, 223, 193, 1, 0, 0, 0, 223, 216, 1, 0, 0, 0, 224,
-		45, 1, 0, 0, 0, 225, 236, 3, 48, 24, 0, 226, 230, 5, 20, 0, 0, 227, 229,
-		5, 31, 0, 0, 228, 227, 1, 0, 0, 0, 229, 232, 1, 0, 0, 0, 230, 228, 1, 0,
-		0, 0, 230, 231, 1, 0, 0, 0, 231, 233, 1, 0, 0, 0, 232, 230, 1, 0, 0, 0,
-		233, 235, 3, 48, 24, 0, 234, 226, 1, 0, 0, 0, 235, 238, 1, 0, 0, 0, 236,
-		234, 1, 0, 0, 0, 236, 237, 1, 0, 0, 0, 237, 240, 1, 0, 0, 0, 238, 236,
-		1, 0, 0, 0, 239, 241, 5, 20, 0, 0, 240, 239, 1, 0, 0, 0, 240, 241, 1, 0,
-		0, 0, 241, 47, 1, 0, 0, 0, 242, 243, 5, 37, 0, 0, 243, 244, 3, 50, 25,
-		0, 244, 245, 3, 32, 16, 0, 245, 49, 1, 0, 0, 0, 246, 247, 7, 1, 0, 0, 247,
-		51, 1, 0, 0, 0, 248, 252, 5, 22, 0, 0, 249, 251, 5, 31, 0, 0, 250, 249,
-		1, 0, 0, 0, 251, 254, 1, 0, 0, 0, 252, 250, 1, 0, 0, 0, 252, 253, 1, 0,
-		0, 0, 253, 256, 1, 0, 0, 0, 254, 252, 1, 0, 0, 0, 255, 257, 3, 54, 27,
-		0, 256, 255, 1, 0, 0, 0, 256, 257, 1, 0, 0, 0, 257, 261, 1, 0, 0, 0, 258,
-		260, 5, 31, 0, 0, 259, 258, 1, 0, 0, 0, 260, 263, 1, 0, 0, 0, 261, 259,
-		1, 0, 0, 0, 261, 262, 1, 0, 0, 0, 262, 264, 1, 0, 0, 0, 263, 261, 1, 0,
-		0, 0, 264, 268, 5, 23, 0, 0, 265, 267, 5, 31, 0, 0, 266, 265, 1, 0, 0,
-		0, 267, 270, 1, 0, 0, 0, 268, 266, 1, 0, 0, 0, 268, 269, 1, 0, 0, 0, 269,
-		279, 1, 0, 0, 0, 270, 268, 1, 0, 0, 0, 271, 275, 5, 12, 0, 0, 272, 274,
-		5, 31, 0, 0, 273, 272, 1, 0, 0, 0, 274, 277, 1, 0, 0, 0, 275, 273, 1, 0,
-		0, 0, 275, 276, 1, 0, 0, 0, 276, 279, 1, 0, 0, 0, 277, 275, 1, 0, 0, 0,
-		278, 248, 1, 0, 0, 0, 278, 271, 1, 0, 0, 0, 279, 53, 1, 0, 0, 0, 280, 297,
-		3, 32, 16, 0, 281, 283, 5, 31, 0, 0, 282, 281, 1, 0, 0, 0, 283, 286, 1,
-		0, 0, 0, 284, 282, 1, 0, 0, 0, 284, 285, 1, 0, 0, 0, 285, 287, 1, 0, 0,
-		0, 286, 284, 1, 0, 0, 0, 287, 291, 5, 20, 0, 0, 288, 290, 5, 31, 0, 0,
-		289, 288, 1, 0, 0, 0, 290, 293, 1, 0, 0, 0, 291, 289, 1, 0, 0, 0, 291,
-		292, 1, 0, 0, 0, 292, 294, 1, 0, 0, 0, 293, 291, 1, 0, 0, 0, 294, 296,
-		3, 32, 16, 0, 295, 284, 1, 0, 0, 0, 296, 299, 1, 0, 0, 0, 297, 295, 1,
-		0, 0, 0, 297, 298, 1, 0, 0, 0, 298, 301, 1, 0, 0, 0, 299, 297, 1, 0, 0,
-		0, 300, 302, 5, 20, 0, 0, 301, 300, 1, 0, 0, 0, 301, 302, 1, 0, 0, 0, 302,
-		55, 1, 0, 0, 0, 303, 304, 5, 14, 0, 0, 304, 57, 1, 0, 0, 0, 305, 306, 5,
-		10, 0, 0, 306, 59, 1, 0, 0, 0, 307, 308, 7, 2, 0, 0, 308, 61, 1, 0, 0,
-		0, 309, 310, 5, 40, 0, 0, 310, 63, 1, 0, 0, 0, 311, 314, 5, 39, 0, 0, 312,
-		314, 3, 32, 16, 0, 313, 311, 1, 0, 0, 0, 313, 312, 1, 0, 0, 0, 313, 314,
-		1, 0, 0, 0, 314, 315, 1, 0, 0, 0, 315, 318, 5, 19, 0, 0, 316, 319, 3, 32,
-		16, 0, 317, 319, 5, 39, 0, 0, 318, 316, 1, 0, 0, 0, 318, 317, 1, 0, 0,
-		0, 319, 321, 1, 0, 0, 0, 320, 322, 3, 26, 13, 0, 321, 320, 1, 0, 0, 0,
-		321, 322, 1, 0, 0, 0, 322, 65, 1, 0, 0, 0, 42, 67, 72, 76, 84, 90, 92,
-		98, 103, 113, 117, 128, 133, 136, 140, 152, 160, 166, 172, 178, 184, 197,
-		201, 206, 213, 220, 223, 230, 236, 240, 252, 256, 261, 268, 275, 278, 284,
-		291, 297, 301, 313, 318, 321,
+		31, 2, 32, 7, 32, 2, 33, 7, 33, 2, 34, 7, 34, 2, 35, 7, 35, 1, 0, 3, 0,
+		74, 8, 0, 1, 0, 5, 0, 77, 8, 0, 10, 0, 12, 0, 80, 9, 0, 1, 0, 3, 0, 83,
+		8, 0, 1, 0, 1, 0, 1, 1, 1, 1, 5, 1, 89, 8, 1, 10, 1, 12, 1, 92, 9, 1, 1,
+		1, 4, 1, 95, 8, 1, 11, 1, 12, 1, 96, 3, 1, 99, 8, 1, 1, 2, 1, 2, 5, 2,
+		103, 8, 2, 10, 2, 12, 2, 106, 9, 2, 1, 3, 1, 3, 3, 3, 110, 8, 3, 1, 4,
+		1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 3, 4, 120, 8, 4, 1, 5, 1, 5,
+		3, 5, 124, 8, 5, 1, 6, 1, 6, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 8, 1, 8,
+		3, 8, 135, 8, 8, 1, 9, 1, 9, 1, 9, 3, 9, 140, 8, 9, 1, 9, 3, 9, 143, 8,
+		9, 1, 10, 1, 10, 3, 10, 147, 8, 10, 1, 10, 1, 10, 1, 11, 1, 11, 1, 12,
+		1, 12, 1, 12, 1, 13, 4, 13, 157, 8, 13, 11, 13, 12, 13, 158, 1, 14, 1,
+		14, 3, 14, 163, 8, 14, 1, 15, 1, 15, 1, 15, 1, 16, 1, 16, 1, 17, 1, 17,
+		1, 17, 3, 17, 173, 8, 17, 1, 18, 1, 18, 1, 18, 1, 18, 3, 18, 179, 8, 18,
+		1, 19, 1, 19, 1, 19, 1, 19, 3, 19, 185, 8, 19, 1, 20, 1, 20, 4, 20, 189,
+		8, 20, 11, 20, 12, 20, 190, 1, 21, 1, 21, 5, 21, 195, 8, 21, 10, 21, 12,
+		21, 198, 9, 21, 1, 21, 1, 21, 1, 22, 1, 22, 1, 22, 1, 22, 1, 22, 3, 22,
+		207, 8, 22, 1, 23, 1, 23, 1, 24, 1, 24, 5, 24, 213, 8, 24, 10, 24, 12,
+		24, 216, 9, 24, 1, 24, 3, 24, 219, 8, 24, 1, 24, 5, 24, 222, 8, 24, 10,
+		24, 12, 24, 225, 9, 24, 1, 24, 1, 24, 3, 24, 229, 8, 24, 1, 25, 1, 25,
+		5, 25, 233, 8, 25, 10, 25, 12, 25, 236, 9, 25, 1, 25, 1, 25, 5, 25, 240,
+		8, 25, 10, 25, 12, 25, 243, 9, 25, 1, 25, 5, 25, 246, 8, 25, 10, 25, 12,
+		25, 249, 9, 25, 1, 25, 5, 25, 252, 8, 25, 10, 25, 12, 25, 255, 9, 25, 1,
+		25, 3, 25, 258, 8, 25, 1, 26, 1, 26, 1, 26, 1, 26, 1, 27, 1, 27, 1, 28,
+		1, 28, 5, 28, 268, 8, 28, 10, 28, 12, 28, 271, 9, 28, 1, 28, 3, 28, 274,
+		8, 28, 1, 28, 5, 28, 277, 8, 28, 10, 28, 12, 28, 280, 9, 28, 1, 28, 1,
+		28, 3, 28, 284, 8, 28, 1, 29, 1, 29, 5, 29, 288, 8, 29, 10, 29, 12, 29,
+		291, 9, 29, 1, 29, 1, 29, 5, 29, 295, 8, 29, 10, 29, 12, 29, 298, 9, 29,
+		1, 29, 5, 29, 301, 8, 29, 10, 29, 12, 29, 304, 9, 29, 1, 29, 5, 29, 307,
+		8, 29, 10, 29, 12, 29, 310, 9, 29, 1, 29, 3, 29, 313, 8, 29, 1, 30, 1,
+		30, 1, 31, 3, 31, 318, 8, 31, 1, 31, 1, 31, 1, 32, 1, 32, 1, 33, 1, 33,
+		1, 34, 1, 34, 1, 35, 1, 35, 3, 35, 330, 8, 35, 1, 35, 1, 35, 1, 35, 3,
+		35, 335, 8, 35, 1, 35, 3, 35, 338, 8, 35, 1, 35, 0, 0, 36, 0, 2, 4, 6,
+		8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42,
+		44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 0, 5, 2, 0, 8,
+		10, 38, 38, 2, 0, 19, 19, 21, 21, 2, 0, 32, 32, 35, 36, 1, 0, 26, 27, 1,
+		0, 8, 9, 362, 0, 73, 1, 0, 0, 0, 2, 98, 1, 0, 0, 0, 4, 100, 1, 0, 0, 0,
+		6, 109, 1, 0, 0, 0, 8, 119, 1, 0, 0, 0, 10, 121, 1, 0, 0, 0, 12, 125, 1,
+		0, 0, 0, 14, 127, 1, 0, 0, 0, 16, 134, 1, 0, 0, 0, 18, 142, 1, 0, 0, 0,
+		20, 144, 1, 0, 0, 0, 22, 150, 1, 0, 0, 0, 24, 152, 1, 0, 0, 0, 26, 156,
+		1, 0, 0, 0, 28, 162, 1, 0, 0, 0, 30, 164, 1, 0, 0, 0, 32, 167, 1, 0, 0,
+		0, 34, 169, 1, 0, 0, 0, 36, 178, 1, 0, 0, 0, 38, 184, 1, 0, 0, 0, 40, 186,
+		1, 0, 0, 0, 42, 192, 1, 0, 0, 0, 44, 206, 1, 0, 0, 0, 46, 208, 1, 0, 0,
+		0, 48, 228, 1, 0, 0, 0, 50, 230, 1, 0, 0, 0, 52, 259, 1, 0, 0, 0, 54, 263,
+		1, 0, 0, 0, 56, 283, 1, 0, 0, 0, 58, 285, 1, 0, 0, 0, 60, 314, 1, 0, 0,
+		0, 62, 317, 1, 0, 0, 0, 64, 321, 1, 0, 0, 0, 66, 323, 1, 0, 0, 0, 68, 325,
+		1, 0, 0, 0, 70, 329, 1, 0, 0, 0, 72, 74, 3, 2, 1, 0, 73, 72, 1, 0, 0, 0,
+		73, 74, 1, 0, 0, 0, 74, 78, 1, 0, 0, 0, 75, 77, 3, 8, 4, 0, 76, 75, 1,
+		0, 0, 0, 77, 80, 1, 0, 0, 0, 78, 76, 1, 0, 0, 0, 78, 79, 1, 0, 0, 0, 79,
+		82, 1, 0, 0, 0, 80, 78, 1, 0, 0, 0, 81, 83, 3, 4, 2, 0, 82, 81, 1, 0, 0,
+		0, 82, 83, 1, 0, 0, 0, 83, 84, 1, 0, 0, 0, 84, 85, 5, 0, 0, 1, 85, 1, 1,
+		0, 0, 0, 86, 90, 5, 1, 0, 0, 87, 89, 3, 26, 13, 0, 88, 87, 1, 0, 0, 0,
+		89, 92, 1, 0, 0, 0, 90, 88, 1, 0, 0, 0, 90, 91, 1, 0, 0, 0, 91, 99, 1,
+		0, 0, 0, 92, 90, 1, 0, 0, 0, 93, 95, 3, 26, 13, 0, 94, 93, 1, 0, 0, 0,
+		95, 96, 1, 0, 0, 0, 96, 94, 1, 0, 0, 0, 96, 97, 1, 0, 0, 0, 97, 99, 1,
+		0, 0, 0, 98, 86, 1, 0, 0, 0, 98, 94, 1, 0, 0, 0, 99, 3, 1, 0, 0, 0, 100,
+		104, 5, 5, 0, 0, 101, 103, 3, 6, 3, 0, 102, 101, 1, 0, 0, 0, 103, 106,
+		1, 0, 0, 0, 104, 102, 1, 0, 0, 0, 104, 105, 1, 0, 0, 0, 105, 5, 1, 0, 0,
+		0, 106, 104, 1, 0, 0, 0, 107, 110, 3, 26, 13, 0, 108, 110, 3, 10, 5, 0,
+		109, 107, 1, 0, 0, 0, 109, 108, 1, 0, 0, 0, 110, 7, 1, 0, 0, 0, 111, 120,
+		3, 26, 13, 0, 112, 120, 3, 10, 5, 0, 113, 120, 3, 12, 6, 0, 114, 120, 5,
+		6, 0, 0, 115, 120, 3, 14, 7, 0, 116, 120, 3, 30, 15, 0, 117, 120, 3, 16,
+		8, 0, 118, 120, 3, 70, 35, 0, 119, 111, 1, 0, 0, 0, 119, 112, 1, 0, 0,
+		0, 119, 113, 1, 0, 0, 0, 119, 114, 1, 0, 0, 0, 119, 115, 1, 0, 0, 0, 119,
+		116, 1, 0, 0, 0, 119, 117, 1, 0, 0, 0, 119, 118, 1, 0, 0, 0, 120, 9, 1,
+		0, 0, 0, 121, 123, 5, 36, 0, 0, 122, 124, 3, 26, 13, 0, 123, 122, 1, 0,
+		0, 0, 123, 124, 1, 0, 0, 0, 124, 11, 1, 0, 0, 0, 125, 126, 5, 35, 0, 0,
+		126, 13, 1, 0, 0, 0, 127, 128, 5, 7, 0, 0, 128, 15, 1, 0, 0, 0, 129, 135,
+		3, 18, 9, 0, 130, 135, 3, 24, 12, 0, 131, 132, 3, 68, 34, 0, 132, 133,
+		3, 28, 14, 0, 133, 135, 1, 0, 0, 0, 134, 129, 1, 0, 0, 0, 134, 130, 1,
+		0, 0, 0, 134, 131, 1, 0, 0, 0, 135, 17, 1, 0, 0, 0, 136, 143, 3, 20, 10,
+		0, 137, 139, 5, 3, 0, 0, 138, 140, 3, 46, 23, 0, 139, 138, 1, 0, 0, 0,
+		139, 140, 1, 0, 0, 0, 140, 141, 1, 0, 0, 0, 141, 143, 3, 28, 14, 0, 142,
+		136, 1, 0, 0, 0, 142, 137, 1, 0, 0, 0, 143, 19, 1, 0, 0, 0, 144, 146, 5,
+		2, 0, 0, 145, 147, 3, 22, 11, 0, 146, 145, 1, 0, 0, 0, 146, 147, 1, 0,
+		0, 0, 147, 148, 1, 0, 0, 0, 148, 149, 3, 28, 14, 0, 149, 21, 1, 0, 0, 0,
+		150, 151, 5, 38, 0, 0, 151, 23, 1, 0, 0, 0, 152, 153, 5, 4, 0, 0, 153,
+		154, 3, 28, 14, 0, 154, 25, 1, 0, 0, 0, 155, 157, 5, 32, 0, 0, 156, 155,
+		1, 0, 0, 0, 157, 158, 1, 0, 0, 0, 158, 156, 1, 0, 0, 0, 158, 159, 1, 0,
+		0, 0, 159, 27, 1, 0, 0, 0, 160, 163, 3, 26, 13, 0, 161, 163, 5, 0, 0, 1,
+		162, 160, 1, 0, 0, 0, 162, 161, 1, 0, 0, 0, 163, 29, 1, 0, 0, 0, 164, 165,
+		3, 34, 17, 0, 165, 166, 3, 28, 14, 0, 166, 31, 1, 0, 0, 0, 167, 168, 7,
+		0, 0, 0, 168, 33, 1, 0, 0, 0, 169, 170, 3, 32, 16, 0, 170, 172, 5, 19,
+		0, 0, 171, 173, 3, 36, 18, 0, 172, 171, 1, 0, 0, 0, 172, 173, 1, 0, 0,
+		0, 173, 35, 1, 0, 0, 0, 174, 179, 3, 40, 20, 0, 175, 179, 3, 38, 19, 0,
+		176, 179, 3, 56, 28, 0, 177, 179, 3, 48, 24, 0, 178, 174, 1, 0, 0, 0, 178,
+		175, 1, 0, 0, 0, 178, 176, 1, 0, 0, 0, 178, 177, 1, 0, 0, 0, 179, 37, 1,
+		0, 0, 0, 180, 185, 3, 64, 32, 0, 181, 185, 3, 46, 23, 0, 182, 185, 3, 62,
+		31, 0, 183, 185, 3, 66, 33, 0, 184, 180, 1, 0, 0, 0, 184, 181, 1, 0, 0,
+		0, 184, 182, 1, 0, 0, 0, 184, 183, 1, 0, 0, 0, 185, 39, 1, 0, 0, 0, 186,
+		188, 5, 13, 0, 0, 187, 189, 3, 42, 21, 0, 188, 187, 1, 0, 0, 0, 189, 190,
+		1, 0, 0, 0, 190, 188, 1, 0, 0, 0, 190, 191, 1, 0, 0, 0, 191, 41, 1, 0,
+		0, 0, 192, 196, 5, 26, 0, 0, 193, 195, 3, 60, 30, 0, 194, 193, 1, 0, 0,
+		0, 195, 198, 1, 0, 0, 0, 196, 194, 1, 0, 0, 0, 196, 197, 1, 0, 0, 0, 197,
+		199, 1, 0, 0, 0, 198, 196, 1, 0, 0, 0, 199, 200, 3, 44, 22, 0, 200, 43,
+		1, 0, 0, 0, 201, 207, 5, 13, 0, 0, 202, 207, 3, 62, 31, 0, 203, 207, 5,
+		9, 0, 0, 204, 207, 5, 8, 0, 0, 205, 207, 5, 10, 0, 0, 206, 201, 1, 0, 0,
+		0, 206, 202, 1, 0, 0, 0, 206, 203, 1, 0, 0, 0, 206, 204, 1, 0, 0, 0, 206,
+		205, 1, 0, 0, 0, 207, 45, 1, 0, 0, 0, 208, 209, 5, 13, 0, 0, 209, 47, 1,
+		0, 0, 0, 210, 214, 5, 24, 0, 0, 211, 213, 3, 60, 30, 0, 212, 211, 1, 0,
+		0, 0, 213, 216, 1, 0, 0, 0, 214, 212, 1, 0, 0, 0, 214, 215, 1, 0, 0, 0,
+		215, 218, 1, 0, 0, 0, 216, 214, 1, 0, 0, 0, 217, 219, 3, 50, 25, 0, 218,
+		217, 1, 0, 0, 0, 218, 219, 1, 0, 0, 0, 219, 223, 1, 0, 0, 0, 220, 222,
+		3, 60, 30, 0, 221, 220, 1, 0, 0, 0, 222, 225, 1, 0, 0, 0, 223, 221, 1,
+		0, 0, 0, 223, 224, 1, 0, 0, 0, 224, 226, 1, 0, 0, 0, 225, 223, 1, 0, 0,
+		0, 226, 229, 5, 25, 0, 0, 227, 229, 5, 11, 0, 0, 228, 210, 1, 0, 0, 0,
+		228, 227, 1, 0, 0, 0, 229, 49, 1, 0, 0, 0, 230, 247, 3, 52, 26, 0, 231,
+		233, 3, 60, 30, 0, 232, 231, 1, 0, 0, 0, 233, 236, 1, 0, 0, 0, 234, 232,
+		1, 0, 0, 0, 234, 235, 1, 0, 0, 0, 235, 237, 1, 0, 0, 0, 236, 234, 1, 0,
+		0, 0, 237, 241, 5, 20, 0, 0, 238, 240, 3, 60, 30, 0, 239, 238, 1, 0, 0,
+		0, 240, 243, 1, 0, 0, 0, 241, 239, 1, 0, 0, 0, 241, 242, 1, 0, 0, 0, 242,
+		244, 1, 0, 0, 0, 243, 241, 1, 0, 0, 0, 244, 246, 3, 52, 26, 0, 245, 234,
+		1, 0, 0, 0, 246, 249, 1, 0, 0, 0, 247, 245, 1, 0, 0, 0, 247, 248, 1, 0,
+		0, 0, 248, 257, 1, 0, 0, 0, 249, 247, 1, 0, 0, 0, 250, 252, 3, 60, 30,
+		0, 251, 250, 1, 0, 0, 0, 252, 255, 1, 0, 0, 0, 253, 251, 1, 0, 0, 0, 253,
+		254, 1, 0, 0, 0, 254, 256, 1, 0, 0, 0, 255, 253, 1, 0, 0, 0, 256, 258,
+		5, 20, 0, 0, 257, 253, 1, 0, 0, 0, 257, 258, 1, 0, 0, 0, 258, 51, 1, 0,
+		0, 0, 259, 260, 3, 32, 16, 0, 260, 261, 3, 54, 27, 0, 261, 262, 3, 36,
+		18, 0, 262, 53, 1, 0, 0, 0, 263, 264, 7, 1, 0, 0, 264, 55, 1, 0, 0, 0,
+		265, 269, 5, 22, 0, 0, 266, 268, 3, 60, 30, 0, 267, 266, 1, 0, 0, 0, 268,
+		271, 1, 0, 0, 0, 269, 267, 1, 0, 0, 0, 269, 270, 1, 0, 0, 0, 270, 273,
+		1, 0, 0, 0, 271, 269, 1, 0, 0, 0, 272, 274, 3, 58, 29, 0, 273, 272, 1,
+		0, 0, 0, 273, 274, 1, 0, 0, 0, 274, 278, 1, 0, 0, 0, 275, 277, 3, 60, 30,
+		0, 276, 275, 1, 0, 0, 0, 277, 280, 1, 0, 0, 0, 278, 276, 1, 0, 0, 0, 278,
+		279, 1, 0, 0, 0, 279, 281, 1, 0, 0, 0, 280, 278, 1, 0, 0, 0, 281, 284,
+		5, 23, 0, 0, 282, 284, 5, 12, 0, 0, 283, 265, 1, 0, 0, 0, 283, 282, 1,
+		0, 0, 0, 284, 57, 1, 0, 0, 0, 285, 302, 3, 36, 18, 0, 286, 288, 3, 60,
+		30, 0, 287, 286, 1, 0, 0, 0, 288, 291, 1, 0, 0, 0, 289, 287, 1, 0, 0, 0,
+		289, 290, 1, 0, 0, 0, 290, 292, 1, 0, 0, 0, 291, 289, 1, 0, 0, 0, 292,
+		296, 5, 20, 0, 0, 293, 295, 3, 60, 30, 0, 294, 293, 1, 0, 0, 0, 295, 298,
+		1, 0, 0, 0, 296, 294, 1, 0, 0, 0, 296, 297, 1, 0, 0, 0, 297, 299, 1, 0,
+		0, 0, 298, 296, 1, 0, 0, 0, 299, 301, 3, 36, 18, 0, 300, 289, 1, 0, 0,
+		0, 301, 304, 1, 0, 0, 0, 302, 300, 1, 0, 0, 0, 302, 303, 1, 0, 0, 0, 303,
+		312, 1, 0, 0, 0, 304, 302, 1, 0, 0, 0, 305, 307, 3, 60, 30, 0, 306, 305,
+		1, 0, 0, 0, 307, 310, 1, 0, 0, 0, 308, 306, 1, 0, 0, 0, 308, 309, 1, 0,
+		0, 0, 309, 311, 1, 0, 0, 0, 310, 308, 1, 0, 0, 0, 311, 313, 5, 20, 0, 0,
+		312, 308, 1, 0, 0, 0, 312, 313, 1, 0, 0, 0, 313, 59, 1, 0, 0, 0, 314, 315,
+		7, 2, 0, 0, 315, 61, 1, 0, 0, 0, 316, 318, 7, 3, 0, 0, 317, 316, 1, 0,
+		0, 0, 317, 318, 1, 0, 0, 0, 318, 319, 1, 0, 0, 0, 319, 320, 5, 14, 0, 0,
+		320, 63, 1, 0, 0, 0, 321, 322, 5, 10, 0, 0, 322, 65, 1, 0, 0, 0, 323, 324,
+		7, 4, 0, 0, 324, 67, 1, 0, 0, 0, 325, 326, 5, 41, 0, 0, 326, 69, 1, 0,
+		0, 0, 327, 330, 5, 40, 0, 0, 328, 330, 3, 36, 18, 0, 329, 327, 1, 0, 0,
+		0, 329, 328, 1, 0, 0, 0, 329, 330, 1, 0, 0, 0, 330, 331, 1, 0, 0, 0, 331,
+		334, 5, 19, 0, 0, 332, 335, 3, 36, 18, 0, 333, 335, 5, 40, 0, 0, 334, 332,
+		1, 0, 0, 0, 334, 333, 1, 0, 0, 0, 335, 337, 1, 0, 0, 0, 336, 338, 3, 26,
+		13, 0, 337, 336, 1, 0, 0, 0, 337, 338, 1, 0, 0, 0, 338, 71, 1, 0, 0, 0,
+		44, 73, 78, 82, 90, 96, 98, 104, 109, 119, 123, 134, 139, 142, 146, 158,
+		162, 172, 178, 184, 190, 196, 206, 214, 218, 223, 228, 234, 241, 247, 253,
+		257, 269, 273, 278, 283, 289, 296, 302, 308, 312, 317, 329, 334, 337,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -266,20 +274,21 @@ const (
 	YiniParserOC                   = 24
 	YiniParserCC                   = 25
 	YiniParserPLUS                 = 26
-	YiniParserDOLLAR               = 27
-	YiniParserPC                   = 28
-	YiniParserAT                   = 29
-	YiniParserSEMICOLON            = 30
-	YiniParserNL                   = 31
-	YiniParserWS                   = 32
-	YiniParserBLOCK_COMMENT        = 33
-	YiniParserDISABLED_LINE        = 34
-	YiniParserFULL_LINE_COMMENT    = 35
-	YiniParserINLINE_COMMENT       = 36
-	YiniParserKEY                  = 37
-	YiniParserIDENT_INVALID        = 38
-	YiniParserREST                 = 39
-	YiniParserMETA_INVALID         = 40
+	YiniParserMINUS                = 27
+	YiniParserDOLLAR               = 28
+	YiniParserPC                   = 29
+	YiniParserAT                   = 30
+	YiniParserSEMICOLON            = 31
+	YiniParserNL                   = 32
+	YiniParserWS                   = 33
+	YiniParserBLOCK_COMMENT        = 34
+	YiniParserDISABLED_LINE        = 35
+	YiniParserFULL_LINE_COMMENT    = 36
+	YiniParserINLINE_COMMENT       = 37
+	YiniParserKEY                  = 38
+	YiniParserIDENT_INVALID        = 39
+	YiniParserREST                 = 40
+	YiniParserMETA_INVALID         = 41
 )
 
 // YiniParser rules.
@@ -298,25 +307,28 @@ const (
 	YiniParserRULE_yini_mode_declaration   = 11
 	YiniParserRULE_annotation              = 12
 	YiniParserRULE_eol                     = 13
-	YiniParserRULE_assignment              = 14
-	YiniParserRULE_member                  = 15
-	YiniParserRULE_value                   = 16
-	YiniParserRULE_scalar_value            = 17
-	YiniParserRULE_concat_expression       = 18
-	YiniParserRULE_concat_tail             = 19
-	YiniParserRULE_concat_operand          = 20
-	YiniParserRULE_string_literal          = 21
-	YiniParserRULE_object_literal          = 22
-	YiniParserRULE_object_members          = 23
-	YiniParserRULE_object_member           = 24
-	YiniParserRULE_object_member_separator = 25
-	YiniParserRULE_list_literal            = 26
-	YiniParserRULE_elements                = 27
-	YiniParserRULE_number_literal          = 28
-	YiniParserRULE_null_literal            = 29
-	YiniParserRULE_boolean_literal         = 30
-	YiniParserRULE_bad_meta_text           = 31
-	YiniParserRULE_bad_member              = 32
+	YiniParserRULE_line_end                = 14
+	YiniParserRULE_assignment              = 15
+	YiniParserRULE_identifier              = 16
+	YiniParserRULE_member                  = 17
+	YiniParserRULE_value                   = 18
+	YiniParserRULE_scalar_value            = 19
+	YiniParserRULE_concat_expression       = 20
+	YiniParserRULE_concat_tail             = 21
+	YiniParserRULE_concat_operand          = 22
+	YiniParserRULE_string_literal          = 23
+	YiniParserRULE_object_literal          = 24
+	YiniParserRULE_object_members          = 25
+	YiniParserRULE_object_member           = 26
+	YiniParserRULE_object_member_separator = 27
+	YiniParserRULE_list_literal            = 28
+	YiniParserRULE_elements                = 29
+	YiniParserRULE_multiline_trivia        = 30
+	YiniParserRULE_number_literal          = 31
+	YiniParserRULE_null_literal            = 32
+	YiniParserRULE_boolean_literal         = 33
+	YiniParserRULE_bad_meta_text           = 34
+	YiniParserRULE_bad_member              = 35
 )
 
 // IYiniContext is an interface to support dynamic dispatch.
@@ -470,39 +482,39 @@ func (p *YiniParser) Yini() (localctx IYiniContext) {
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(67)
+	p.SetState(73)
 	p.GetErrorHandler().Sync(p)
 
 	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 0, p.GetParserRuleContext()) == 1 {
 		{
-			p.SetState(66)
+			p.SetState(72)
 			p.Prolog()
 		}
 
 	} else if p.HasError() { // JIM
 		goto errorExit
 	}
-	p.SetState(72)
+	p.SetState(78)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1840415014876) != 0 {
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3681009827804) != 0 {
 		{
-			p.SetState(69)
+			p.SetState(75)
 			p.Stmt()
 		}
 
-		p.SetState(74)
+		p.SetState(80)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
 		_la = p.GetTokenStream().LA(1)
 	}
-	p.SetState(76)
+	p.SetState(82)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -511,13 +523,13 @@ func (p *YiniParser) Yini() (localctx IYiniContext) {
 
 	if _la == YiniParserTERMINAL_TOKEN {
 		{
-			p.SetState(75)
+			p.SetState(81)
 			p.Terminal_stmt()
 		}
 
 	}
 	{
-		p.SetState(78)
+		p.SetState(84)
 		p.Match(YiniParserEOF)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -654,7 +666,7 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 	p.EnterRule(localctx, 2, YiniParserRULE_prolog)
 	var _alt int
 
-	p.SetState(92)
+	p.SetState(98)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -664,14 +676,14 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 	case YiniParserSHEBANG:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(80)
+			p.SetState(86)
 			p.Match(YiniParserSHEBANG)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(84)
+		p.SetState(90)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -683,12 +695,12 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			if _alt == 1 {
 				{
-					p.SetState(81)
+					p.SetState(87)
 					p.Eol()
 				}
 
 			}
-			p.SetState(86)
+			p.SetState(92)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -701,7 +713,7 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 
 	case YiniParserNL:
 		p.EnterOuterAlt(localctx, 2)
-		p.SetState(88)
+		p.SetState(94)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -711,7 +723,7 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 			switch _alt {
 			case 1:
 				{
-					p.SetState(87)
+					p.SetState(93)
 					p.Eol()
 				}
 
@@ -720,7 +732,7 @@ func (p *YiniParser) Prolog() (localctx IPrologContext) {
 				goto errorExit
 			}
 
-			p.SetState(90)
+			p.SetState(96)
 			p.GetErrorHandler().Sync(p)
 			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 4, p.GetParserRuleContext())
 			if p.HasError() {
@@ -864,14 +876,14 @@ func (p *YiniParser) Terminal_stmt() (localctx ITerminal_stmtContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(94)
+		p.SetState(100)
 		p.Match(YiniParserTERMINAL_TOKEN)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(98)
+	p.SetState(104)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -880,11 +892,11 @@ func (p *YiniParser) Terminal_stmt() (localctx ITerminal_stmtContext) {
 
 	for _la == YiniParserNL || _la == YiniParserFULL_LINE_COMMENT {
 		{
-			p.SetState(95)
+			p.SetState(101)
 			p.Terminal_trivia()
 		}
 
-		p.SetState(100)
+		p.SetState(106)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -1005,7 +1017,7 @@ func (s *Terminal_triviaContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 func (p *YiniParser) Terminal_trivia() (localctx ITerminal_triviaContext) {
 	localctx = NewTerminal_triviaContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 6, YiniParserRULE_terminal_trivia)
-	p.SetState(103)
+	p.SetState(109)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1015,14 +1027,14 @@ func (p *YiniParser) Terminal_trivia() (localctx ITerminal_triviaContext) {
 	case YiniParserNL:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(101)
+			p.SetState(107)
 			p.Eol()
 		}
 
 	case YiniParserFULL_LINE_COMMENT:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(102)
+			p.SetState(108)
 			p.Full_line_comment_stmt()
 		}
 
@@ -1234,38 +1246,38 @@ func (s *StmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *YiniParser) Stmt() (localctx IStmtContext) {
 	localctx = NewStmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, YiniParserRULE_stmt)
-	p.SetState(113)
+	p.SetState(119)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetTokenStream().LA(1) {
-	case YiniParserNL:
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 8, p.GetParserRuleContext()) {
+	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(105)
+			p.SetState(111)
 			p.Eol()
 		}
 
-	case YiniParserFULL_LINE_COMMENT:
+	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(106)
+			p.SetState(112)
 			p.Full_line_comment_stmt()
 		}
 
-	case YiniParserDISABLED_LINE:
+	case 3:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(107)
+			p.SetState(113)
 			p.Disabled_line_stmt()
 		}
 
-	case YiniParserSECTION_HEAD:
+	case 4:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(108)
+			p.SetState(114)
 			p.Match(YiniParserSECTION_HEAD)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -1273,36 +1285,35 @@ func (p *YiniParser) Stmt() (localctx IStmtContext) {
 			}
 		}
 
-	case YiniParserINVALID_SECTION_HEAD:
+	case 5:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(109)
+			p.SetState(115)
 			p.Invalid_section_stmt()
 		}
 
-	case YiniParserKEY:
+	case 6:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(110)
+			p.SetState(116)
 			p.Assignment()
 		}
 
-	case YiniParserYINI_TOKEN, YiniParserINCLUDE_TOKEN, YiniParserDEPRECATED_TOKEN, YiniParserMETA_INVALID:
+	case 7:
 		p.EnterOuterAlt(localctx, 7)
 		{
-			p.SetState(111)
+			p.SetState(117)
 			p.Meta_stmt()
 		}
 
-	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE, YiniParserNULL, YiniParserEMPTY_OBJECT, YiniParserEMPTY_LIST, YiniParserSTRING, YiniParserNUMBER, YiniParserEQ, YiniParserOB, YiniParserOC, YiniParserREST:
+	case 8:
 		p.EnterOuterAlt(localctx, 8)
 		{
-			p.SetState(112)
+			p.SetState(118)
 			p.Bad_member()
 		}
 
-	default:
-		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+	case antlr.ATNInvalidAltNumber:
 		goto errorExit
 	}
 
@@ -1409,19 +1420,19 @@ func (p *YiniParser) Full_line_comment_stmt() (localctx IFull_line_comment_stmtC
 	p.EnterRule(localctx, 10, YiniParserRULE_full_line_comment_stmt)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(115)
+		p.SetState(121)
 		p.Match(YiniParserFULL_LINE_COMMENT)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(117)
+	p.SetState(123)
 	p.GetErrorHandler().Sync(p)
 
 	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 9, p.GetParserRuleContext()) == 1 {
 		{
-			p.SetState(116)
+			p.SetState(122)
 			p.Eol()
 		}
 
@@ -1515,7 +1526,7 @@ func (p *YiniParser) Disabled_line_stmt() (localctx IDisabled_line_stmtContext) 
 	p.EnterRule(localctx, 12, YiniParserRULE_disabled_line_stmt)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(119)
+		p.SetState(125)
 		p.Match(YiniParserDISABLED_LINE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1609,7 +1620,7 @@ func (p *YiniParser) Invalid_section_stmt() (localctx IInvalid_section_stmtConte
 	p.EnterRule(localctx, 14, YiniParserRULE_invalid_section_stmt)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(121)
+		p.SetState(127)
 		p.Match(YiniParserINVALID_SECTION_HEAD)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1641,7 +1652,7 @@ type IMeta_stmtContext interface {
 	Directive() IDirectiveContext
 	Annotation() IAnnotationContext
 	Bad_meta_text() IBad_meta_textContext
-	Eol() IEolContext
+	Line_end() ILine_endContext
 
 	// IsMeta_stmtContext differentiates from other interfaces.
 	IsMeta_stmtContext()
@@ -1727,10 +1738,10 @@ func (s *Meta_stmtContext) Bad_meta_text() IBad_meta_textContext {
 	return t.(IBad_meta_textContext)
 }
 
-func (s *Meta_stmtContext) Eol() IEolContext {
+func (s *Meta_stmtContext) Line_end() ILine_endContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IEolContext); ok {
+		if _, ok := ctx.(ILine_endContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1740,7 +1751,7 @@ func (s *Meta_stmtContext) Eol() IEolContext {
 		return nil
 	}
 
-	return t.(IEolContext)
+	return t.(ILine_endContext)
 }
 
 func (s *Meta_stmtContext) GetRuleContext() antlr.RuleContext {
@@ -1764,7 +1775,7 @@ func (s *Meta_stmtContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 func (p *YiniParser) Meta_stmt() (localctx IMeta_stmtContext) {
 	localctx = NewMeta_stmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 16, YiniParserRULE_meta_stmt)
-	p.SetState(128)
+	p.SetState(134)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1774,26 +1785,26 @@ func (p *YiniParser) Meta_stmt() (localctx IMeta_stmtContext) {
 	case YiniParserYINI_TOKEN, YiniParserINCLUDE_TOKEN:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(123)
+			p.SetState(129)
 			p.Directive()
 		}
 
 	case YiniParserDEPRECATED_TOKEN:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(124)
+			p.SetState(130)
 			p.Annotation()
 		}
 
 	case YiniParserMETA_INVALID:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(125)
+			p.SetState(131)
 			p.Bad_meta_text()
 		}
 		{
-			p.SetState(126)
-			p.Eol()
+			p.SetState(132)
+			p.Line_end()
 		}
 
 	default:
@@ -1824,7 +1835,7 @@ type IDirectiveContext interface {
 	// Getter signatures
 	Yini_directive() IYini_directiveContext
 	INCLUDE_TOKEN() antlr.TerminalNode
-	Eol() IEolContext
+	Line_end() ILine_endContext
 	String_literal() IString_literalContext
 
 	// IsDirectiveContext differentiates from other interfaces.
@@ -1883,10 +1894,10 @@ func (s *DirectiveContext) INCLUDE_TOKEN() antlr.TerminalNode {
 	return s.GetToken(YiniParserINCLUDE_TOKEN, 0)
 }
 
-func (s *DirectiveContext) Eol() IEolContext {
+func (s *DirectiveContext) Line_end() ILine_endContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IEolContext); ok {
+		if _, ok := ctx.(ILine_endContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -1896,7 +1907,7 @@ func (s *DirectiveContext) Eol() IEolContext {
 		return nil
 	}
 
-	return t.(IEolContext)
+	return t.(ILine_endContext)
 }
 
 func (s *DirectiveContext) String_literal() IString_literalContext {
@@ -1938,7 +1949,7 @@ func (p *YiniParser) Directive() (localctx IDirectiveContext) {
 	p.EnterRule(localctx, 18, YiniParserRULE_directive)
 	var _la int
 
-	p.SetState(136)
+	p.SetState(142)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1948,21 +1959,21 @@ func (p *YiniParser) Directive() (localctx IDirectiveContext) {
 	case YiniParserYINI_TOKEN:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(130)
+			p.SetState(136)
 			p.Yini_directive()
 		}
 
 	case YiniParserINCLUDE_TOKEN:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(131)
+			p.SetState(137)
 			p.Match(YiniParserINCLUDE_TOKEN)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(133)
+		p.SetState(139)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -1971,14 +1982,14 @@ func (p *YiniParser) Directive() (localctx IDirectiveContext) {
 
 		if _la == YiniParserSTRING {
 			{
-				p.SetState(132)
+				p.SetState(138)
 				p.String_literal()
 			}
 
 		}
 		{
-			p.SetState(135)
-			p.Eol()
+			p.SetState(141)
+			p.Line_end()
 		}
 
 	default:
@@ -2008,7 +2019,7 @@ type IYini_directiveContext interface {
 
 	// Getter signatures
 	YINI_TOKEN() antlr.TerminalNode
-	Eol() IEolContext
+	Line_end() ILine_endContext
 	Yini_mode_declaration() IYini_mode_declarationContext
 
 	// IsYini_directiveContext differentiates from other interfaces.
@@ -2051,10 +2062,10 @@ func (s *Yini_directiveContext) YINI_TOKEN() antlr.TerminalNode {
 	return s.GetToken(YiniParserYINI_TOKEN, 0)
 }
 
-func (s *Yini_directiveContext) Eol() IEolContext {
+func (s *Yini_directiveContext) Line_end() ILine_endContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IEolContext); ok {
+		if _, ok := ctx.(ILine_endContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -2064,7 +2075,7 @@ func (s *Yini_directiveContext) Eol() IEolContext {
 		return nil
 	}
 
-	return t.(IEolContext)
+	return t.(ILine_endContext)
 }
 
 func (s *Yini_directiveContext) Yini_mode_declaration() IYini_mode_declarationContext {
@@ -2108,14 +2119,14 @@ func (p *YiniParser) Yini_directive() (localctx IYini_directiveContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(138)
+		p.SetState(144)
 		p.Match(YiniParserYINI_TOKEN)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(140)
+	p.SetState(146)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -2124,14 +2135,14 @@ func (p *YiniParser) Yini_directive() (localctx IYini_directiveContext) {
 
 	if _la == YiniParserKEY {
 		{
-			p.SetState(139)
+			p.SetState(145)
 			p.Yini_mode_declaration()
 		}
 
 	}
 	{
-		p.SetState(142)
-		p.Eol()
+		p.SetState(148)
+		p.Line_end()
 	}
 
 errorExit:
@@ -2220,7 +2231,7 @@ func (p *YiniParser) Yini_mode_declaration() (localctx IYini_mode_declarationCon
 	p.EnterRule(localctx, 22, YiniParserRULE_yini_mode_declaration)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(144)
+		p.SetState(150)
 		p.Match(YiniParserKEY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2250,7 +2261,7 @@ type IAnnotationContext interface {
 
 	// Getter signatures
 	DEPRECATED_TOKEN() antlr.TerminalNode
-	Eol() IEolContext
+	Line_end() ILine_endContext
 
 	// IsAnnotationContext differentiates from other interfaces.
 	IsAnnotationContext()
@@ -2292,10 +2303,10 @@ func (s *AnnotationContext) DEPRECATED_TOKEN() antlr.TerminalNode {
 	return s.GetToken(YiniParserDEPRECATED_TOKEN, 0)
 }
 
-func (s *AnnotationContext) Eol() IEolContext {
+func (s *AnnotationContext) Line_end() ILine_endContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IEolContext); ok {
+		if _, ok := ctx.(ILine_endContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -2305,7 +2316,7 @@ func (s *AnnotationContext) Eol() IEolContext {
 		return nil
 	}
 
-	return t.(IEolContext)
+	return t.(ILine_endContext)
 }
 
 func (s *AnnotationContext) GetRuleContext() antlr.RuleContext {
@@ -2331,7 +2342,7 @@ func (p *YiniParser) Annotation() (localctx IAnnotationContext) {
 	p.EnterRule(localctx, 24, YiniParserRULE_annotation)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(146)
+		p.SetState(152)
 		p.Match(YiniParserDEPRECATED_TOKEN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2339,8 +2350,8 @@ func (p *YiniParser) Annotation() (localctx IAnnotationContext) {
 		}
 	}
 	{
-		p.SetState(147)
-		p.Eol()
+		p.SetState(153)
+		p.Line_end()
 	}
 
 errorExit:
@@ -2435,7 +2446,7 @@ func (p *YiniParser) Eol() (localctx IEolContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(150)
+	p.SetState(156)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -2445,7 +2456,7 @@ func (p *YiniParser) Eol() (localctx IEolContext) {
 		switch _alt {
 		case 1:
 			{
-				p.SetState(149)
+				p.SetState(155)
 				p.Match(YiniParserNL)
 				if p.HasError() {
 					// Recognition error - abort rule
@@ -2458,12 +2469,143 @@ func (p *YiniParser) Eol() (localctx IEolContext) {
 			goto errorExit
 		}
 
-		p.SetState(152)
+		p.SetState(158)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 14, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// ILine_endContext is an interface to support dynamic dispatch.
+type ILine_endContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	Eol() IEolContext
+	EOF() antlr.TerminalNode
+
+	// IsLine_endContext differentiates from other interfaces.
+	IsLine_endContext()
+}
+
+type Line_endContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyLine_endContext() *Line_endContext {
+	var p = new(Line_endContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_line_end
+	return p
+}
+
+func InitEmptyLine_endContext(p *Line_endContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_line_end
+}
+
+func (*Line_endContext) IsLine_endContext() {}
+
+func NewLine_endContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Line_endContext {
+	var p = new(Line_endContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = YiniParserRULE_line_end
+
+	return p
+}
+
+func (s *Line_endContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *Line_endContext) Eol() IEolContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IEolContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IEolContext)
+}
+
+func (s *Line_endContext) EOF() antlr.TerminalNode {
+	return s.GetToken(YiniParserEOF, 0)
+}
+
+func (s *Line_endContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *Line_endContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *Line_endContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case YiniParserVisitor:
+		return t.VisitLine_end(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *YiniParser) Line_end() (localctx ILine_endContext) {
+	localctx = NewLine_endContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 28, YiniParserRULE_line_end)
+	p.SetState(162)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetTokenStream().LA(1) {
+	case YiniParserNL:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(160)
+			p.Eol()
+		}
+
+	case YiniParserEOF:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(161)
+			p.Match(YiniParserEOF)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	default:
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
 errorExit:
@@ -2488,7 +2630,7 @@ type IAssignmentContext interface {
 
 	// Getter signatures
 	Member() IMemberContext
-	Eol() IEolContext
+	Line_end() ILine_endContext
 
 	// IsAssignmentContext differentiates from other interfaces.
 	IsAssignmentContext()
@@ -2542,10 +2684,10 @@ func (s *AssignmentContext) Member() IMemberContext {
 	return t.(IMemberContext)
 }
 
-func (s *AssignmentContext) Eol() IEolContext {
+func (s *AssignmentContext) Line_end() ILine_endContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IEolContext); ok {
+		if _, ok := ctx.(ILine_endContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -2555,7 +2697,7 @@ func (s *AssignmentContext) Eol() IEolContext {
 		return nil
 	}
 
-	return t.(IEolContext)
+	return t.(ILine_endContext)
 }
 
 func (s *AssignmentContext) GetRuleContext() antlr.RuleContext {
@@ -2578,15 +2720,129 @@ func (s *AssignmentContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *YiniParser) Assignment() (localctx IAssignmentContext) {
 	localctx = NewAssignmentContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, YiniParserRULE_assignment)
+	p.EnterRule(localctx, 30, YiniParserRULE_assignment)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(154)
+		p.SetState(164)
 		p.Member()
 	}
 	{
-		p.SetState(155)
-		p.Eol()
+		p.SetState(165)
+		p.Line_end()
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IIdentifierContext is an interface to support dynamic dispatch.
+type IIdentifierContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	KEY() antlr.TerminalNode
+	BOOLEAN_TRUE() antlr.TerminalNode
+	BOOLEAN_FALSE() antlr.TerminalNode
+	NULL() antlr.TerminalNode
+
+	// IsIdentifierContext differentiates from other interfaces.
+	IsIdentifierContext()
+}
+
+type IdentifierContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyIdentifierContext() *IdentifierContext {
+	var p = new(IdentifierContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_identifier
+	return p
+}
+
+func InitEmptyIdentifierContext(p *IdentifierContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_identifier
+}
+
+func (*IdentifierContext) IsIdentifierContext() {}
+
+func NewIdentifierContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *IdentifierContext {
+	var p = new(IdentifierContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = YiniParserRULE_identifier
+
+	return p
+}
+
+func (s *IdentifierContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *IdentifierContext) KEY() antlr.TerminalNode {
+	return s.GetToken(YiniParserKEY, 0)
+}
+
+func (s *IdentifierContext) BOOLEAN_TRUE() antlr.TerminalNode {
+	return s.GetToken(YiniParserBOOLEAN_TRUE, 0)
+}
+
+func (s *IdentifierContext) BOOLEAN_FALSE() antlr.TerminalNode {
+	return s.GetToken(YiniParserBOOLEAN_FALSE, 0)
+}
+
+func (s *IdentifierContext) NULL() antlr.TerminalNode {
+	return s.GetToken(YiniParserNULL, 0)
+}
+
+func (s *IdentifierContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *IdentifierContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *IdentifierContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case YiniParserVisitor:
+		return t.VisitIdentifier(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *YiniParser) Identifier() (localctx IIdentifierContext) {
+	localctx = NewIdentifierContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 32, YiniParserRULE_identifier)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(167)
+		_la = p.GetTokenStream().LA(1)
+
+		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&274877908736) != 0) {
+			p.GetErrorHandler().RecoverInline(p)
+		} else {
+			p.GetErrorHandler().ReportMatch(p)
+			p.Consume()
+		}
 	}
 
 errorExit:
@@ -2610,7 +2866,7 @@ type IMemberContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	KEY() antlr.TerminalNode
+	Identifier() IIdentifierContext
 	EQ() antlr.TerminalNode
 	Value() IValueContext
 
@@ -2650,8 +2906,20 @@ func NewMemberContext(parser antlr.Parser, parent antlr.ParserRuleContext, invok
 
 func (s *MemberContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *MemberContext) KEY() antlr.TerminalNode {
-	return s.GetToken(YiniParserKEY, 0)
+func (s *MemberContext) Identifier() IIdentifierContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IIdentifierContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IIdentifierContext)
 }
 
 func (s *MemberContext) EQ() antlr.TerminalNode {
@@ -2694,36 +2962,32 @@ func (s *MemberContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *YiniParser) Member() (localctx IMemberContext) {
 	localctx = NewMemberContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 30, YiniParserRULE_member)
+	p.EnterRule(localctx, 34, YiniParserRULE_member)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(157)
-		p.Match(YiniParserKEY)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
+		p.SetState(169)
+		p.Identifier()
 	}
 	{
-		p.SetState(158)
+		p.SetState(170)
 		p.Match(YiniParserEQ)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(160)
+	p.SetState(172)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&21004032) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&222330624) != 0 {
 		{
-			p.SetState(159)
+			p.SetState(171)
 			p.Value()
 		}
 
@@ -2875,39 +3139,39 @@ func (s *ValueContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *YiniParser) Value() (localctx IValueContext) {
 	localctx = NewValueContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 32, YiniParserRULE_value)
-	p.SetState(166)
+	p.EnterRule(localctx, 36, YiniParserRULE_value)
+	p.SetState(178)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
-	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 16, p.GetParserRuleContext()) {
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 17, p.GetParserRuleContext()) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(162)
+			p.SetState(174)
 			p.Concat_expression()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(163)
+			p.SetState(175)
 			p.Scalar_value()
 		}
 
 	case 3:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(164)
+			p.SetState(176)
 			p.List_literal()
 		}
 
 	case 4:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(165)
+			p.SetState(177)
 			p.Object_literal()
 		}
 
@@ -3061,8 +3325,8 @@ func (s *Scalar_valueContext) Accept(visitor antlr.ParseTreeVisitor) interface{}
 
 func (p *YiniParser) Scalar_value() (localctx IScalar_valueContext) {
 	localctx = NewScalar_valueContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 34, YiniParserRULE_scalar_value)
-	p.SetState(172)
+	p.EnterRule(localctx, 38, YiniParserRULE_scalar_value)
+	p.SetState(184)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -3072,28 +3336,28 @@ func (p *YiniParser) Scalar_value() (localctx IScalar_valueContext) {
 	case YiniParserNULL:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(168)
+			p.SetState(180)
 			p.Null_literal()
 		}
 
 	case YiniParserSTRING:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(169)
+			p.SetState(181)
 			p.String_literal()
 		}
 
-	case YiniParserNUMBER:
+	case YiniParserNUMBER, YiniParserPLUS, YiniParserMINUS:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(170)
+			p.SetState(182)
 			p.Number_literal()
 		}
 
 	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(171)
+			p.SetState(183)
 			p.Boolean_literal()
 		}
 
@@ -3228,37 +3492,43 @@ func (s *Concat_expressionContext) Accept(visitor antlr.ParseTreeVisitor) interf
 
 func (p *YiniParser) Concat_expression() (localctx IConcat_expressionContext) {
 	localctx = NewConcat_expressionContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, YiniParserRULE_concat_expression)
-	var _la int
+	p.EnterRule(localctx, 40, YiniParserRULE_concat_expression)
+	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(174)
+		p.SetState(186)
 		p.Match(YiniParserSTRING)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(176)
+	p.SetState(188)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
-	_la = p.GetTokenStream().LA(1)
+	_alt = 1
+	for ok := true; ok; ok = _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
+		switch _alt {
+		case 1:
+			{
+				p.SetState(187)
+				p.Concat_tail()
+			}
 
-	for ok := true; ok; ok = _la == YiniParserPLUS {
-		{
-			p.SetState(175)
-			p.Concat_tail()
+		default:
+			p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+			goto errorExit
 		}
 
-		p.SetState(178)
+		p.SetState(190)
 		p.GetErrorHandler().Sync(p)
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 19, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
-		_la = p.GetTokenStream().LA(1)
 	}
 
 errorExit:
@@ -3284,8 +3554,8 @@ type IConcat_tailContext interface {
 	// Getter signatures
 	PLUS() antlr.TerminalNode
 	Concat_operand() IConcat_operandContext
-	AllNL() []antlr.TerminalNode
-	NL(i int) antlr.TerminalNode
+	AllMultiline_trivia() []IMultiline_triviaContext
+	Multiline_trivia(i int) IMultiline_triviaContext
 
 	// IsConcat_tailContext differentiates from other interfaces.
 	IsConcat_tailContext()
@@ -3343,12 +3613,45 @@ func (s *Concat_tailContext) Concat_operand() IConcat_operandContext {
 	return t.(IConcat_operandContext)
 }
 
-func (s *Concat_tailContext) AllNL() []antlr.TerminalNode {
-	return s.GetTokens(YiniParserNL)
+func (s *Concat_tailContext) AllMultiline_trivia() []IMultiline_triviaContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMultiline_triviaContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMultiline_triviaContext); ok {
+			tst[i] = t.(IMultiline_triviaContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *Concat_tailContext) NL(i int) antlr.TerminalNode {
-	return s.GetToken(YiniParserNL, i)
+func (s *Concat_tailContext) Multiline_trivia(i int) IMultiline_triviaContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMultiline_triviaContext)
 }
 
 func (s *Concat_tailContext) GetRuleContext() antlr.RuleContext {
@@ -3371,36 +3674,32 @@ func (s *Concat_tailContext) Accept(visitor antlr.ParseTreeVisitor) interface{} 
 
 func (p *YiniParser) Concat_tail() (localctx IConcat_tailContext) {
 	localctx = NewConcat_tailContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 38, YiniParserRULE_concat_tail)
+	p.EnterRule(localctx, 42, YiniParserRULE_concat_tail)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(180)
+		p.SetState(192)
 		p.Match(YiniParserPLUS)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(184)
+	p.SetState(196)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	for _la == YiniParserNL {
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 		{
-			p.SetState(181)
-			p.Match(YiniParserNL)
-			if p.HasError() {
-				// Recognition error - abort rule
-				goto errorExit
-			}
+			p.SetState(193)
+			p.Multiline_trivia()
 		}
 
-		p.SetState(186)
+		p.SetState(198)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -3408,7 +3707,7 @@ func (p *YiniParser) Concat_tail() (localctx IConcat_tailContext) {
 		_la = p.GetTokenStream().LA(1)
 	}
 	{
-		p.SetState(187)
+		p.SetState(199)
 		p.Concat_operand()
 	}
 
@@ -3434,7 +3733,7 @@ type IConcat_operandContext interface {
 
 	// Getter signatures
 	STRING() antlr.TerminalNode
-	NUMBER() antlr.TerminalNode
+	Number_literal() INumber_literalContext
 	BOOLEAN_TRUE() antlr.TerminalNode
 	BOOLEAN_FALSE() antlr.TerminalNode
 	NULL() antlr.TerminalNode
@@ -3479,8 +3778,20 @@ func (s *Concat_operandContext) STRING() antlr.TerminalNode {
 	return s.GetToken(YiniParserSTRING, 0)
 }
 
-func (s *Concat_operandContext) NUMBER() antlr.TerminalNode {
-	return s.GetToken(YiniParserNUMBER, 0)
+func (s *Concat_operandContext) Number_literal() INumber_literalContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(INumber_literalContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(INumber_literalContext)
 }
 
 func (s *Concat_operandContext) BOOLEAN_TRUE() antlr.TerminalNode {
@@ -3515,20 +3826,68 @@ func (s *Concat_operandContext) Accept(visitor antlr.ParseTreeVisitor) interface
 
 func (p *YiniParser) Concat_operand() (localctx IConcat_operandContext) {
 	localctx = NewConcat_operandContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 40, YiniParserRULE_concat_operand)
-	var _la int
+	p.EnterRule(localctx, 44, YiniParserRULE_concat_operand)
+	p.SetState(206)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
 
-	p.EnterOuterAlt(localctx, 1)
-	{
-		p.SetState(189)
-		_la = p.GetTokenStream().LA(1)
-
-		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&26368) != 0) {
-			p.GetErrorHandler().RecoverInline(p)
-		} else {
-			p.GetErrorHandler().ReportMatch(p)
-			p.Consume()
+	switch p.GetTokenStream().LA(1) {
+	case YiniParserSTRING:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(201)
+			p.Match(YiniParserSTRING)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
 		}
+
+	case YiniParserNUMBER, YiniParserPLUS, YiniParserMINUS:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(202)
+			p.Number_literal()
+		}
+
+	case YiniParserBOOLEAN_TRUE:
+		p.EnterOuterAlt(localctx, 3)
+		{
+			p.SetState(203)
+			p.Match(YiniParserBOOLEAN_TRUE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case YiniParserBOOLEAN_FALSE:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(204)
+			p.Match(YiniParserBOOLEAN_FALSE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case YiniParserNULL:
+		p.EnterOuterAlt(localctx, 5)
+		{
+			p.SetState(205)
+			p.Match(YiniParserNULL)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	default:
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
 errorExit:
@@ -3614,10 +3973,10 @@ func (s *String_literalContext) Accept(visitor antlr.ParseTreeVisitor) interface
 
 func (p *YiniParser) String_literal() (localctx IString_literalContext) {
 	localctx = NewString_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 42, YiniParserRULE_string_literal)
+	p.EnterRule(localctx, 46, YiniParserRULE_string_literal)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(191)
+		p.SetState(208)
 		p.Match(YiniParserSTRING)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3648,8 +4007,8 @@ type IObject_literalContext interface {
 	// Getter signatures
 	OC() antlr.TerminalNode
 	CC() antlr.TerminalNode
-	AllNL() []antlr.TerminalNode
-	NL(i int) antlr.TerminalNode
+	AllMultiline_trivia() []IMultiline_triviaContext
+	Multiline_trivia(i int) IMultiline_triviaContext
 	Object_members() IObject_membersContext
 	EMPTY_OBJECT() antlr.TerminalNode
 
@@ -3697,12 +4056,45 @@ func (s *Object_literalContext) CC() antlr.TerminalNode {
 	return s.GetToken(YiniParserCC, 0)
 }
 
-func (s *Object_literalContext) AllNL() []antlr.TerminalNode {
-	return s.GetTokens(YiniParserNL)
+func (s *Object_literalContext) AllMultiline_trivia() []IMultiline_triviaContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMultiline_triviaContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMultiline_triviaContext); ok {
+			tst[i] = t.(IMultiline_triviaContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *Object_literalContext) NL(i int) antlr.TerminalNode {
-	return s.GetToken(YiniParserNL, i)
+func (s *Object_literalContext) Multiline_trivia(i int) IMultiline_triviaContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMultiline_triviaContext)
 }
 
 func (s *Object_literalContext) Object_members() IObject_membersContext {
@@ -3745,12 +4137,12 @@ func (s *Object_literalContext) Accept(visitor antlr.ParseTreeVisitor) interface
 
 func (p *YiniParser) Object_literal() (localctx IObject_literalContext) {
 	localctx = NewObject_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 44, YiniParserRULE_object_literal)
+	p.EnterRule(localctx, 48, YiniParserRULE_object_literal)
 	var _la int
 
 	var _alt int
 
-	p.SetState(223)
+	p.SetState(228)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -3760,76 +4152,68 @@ func (p *YiniParser) Object_literal() (localctx IObject_literalContext) {
 	case YiniParserOC:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(193)
+			p.SetState(210)
 			p.Match(YiniParserOC)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(197)
+		p.SetState(214)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 20, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 22, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
 		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			if _alt == 1 {
 				{
-					p.SetState(194)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
+					p.SetState(211)
+					p.Multiline_trivia()
 				}
 
 			}
-			p.SetState(199)
+			p.SetState(216)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 20, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 22, p.GetParserRuleContext())
 			if p.HasError() {
 				goto errorExit
 			}
 		}
-		p.SetState(201)
+		p.SetState(218)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
 		_la = p.GetTokenStream().LA(1)
 
-		if _la == YiniParserKEY {
+		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&274877908736) != 0 {
 			{
-				p.SetState(200)
+				p.SetState(217)
 				p.Object_members()
 			}
 
 		}
-		p.SetState(206)
+		p.SetState(223)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
 		_la = p.GetTokenStream().LA(1)
 
-		for _la == YiniParserNL {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 			{
-				p.SetState(203)
-				p.Match(YiniParserNL)
-				if p.HasError() {
-					// Recognition error - abort rule
-					goto errorExit
-				}
+				p.SetState(220)
+				p.Multiline_trivia()
 			}
 
-			p.SetState(208)
+			p.SetState(225)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -3837,41 +4221,10 @@ func (p *YiniParser) Object_literal() (localctx IObject_literalContext) {
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(209)
+			p.SetState(226)
 			p.Match(YiniParserCC)
 			if p.HasError() {
 				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(213)
-		p.GetErrorHandler().Sync(p)
-		if p.HasError() {
-			goto errorExit
-		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 23, p.GetParserRuleContext())
-		if p.HasError() {
-			goto errorExit
-		}
-		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-			if _alt == 1 {
-				{
-					p.SetState(210)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
-				}
-
-			}
-			p.SetState(215)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 23, p.GetParserRuleContext())
-			if p.HasError() {
 				goto errorExit
 			}
 		}
@@ -3879,41 +4232,10 @@ func (p *YiniParser) Object_literal() (localctx IObject_literalContext) {
 	case YiniParserEMPTY_OBJECT:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(216)
+			p.SetState(227)
 			p.Match(YiniParserEMPTY_OBJECT)
 			if p.HasError() {
 				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(220)
-		p.GetErrorHandler().Sync(p)
-		if p.HasError() {
-			goto errorExit
-		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 24, p.GetParserRuleContext())
-		if p.HasError() {
-			goto errorExit
-		}
-		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-			if _alt == 1 {
-				{
-					p.SetState(217)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
-				}
-
-			}
-			p.SetState(222)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 24, p.GetParserRuleContext())
-			if p.HasError() {
 				goto errorExit
 			}
 		}
@@ -3948,8 +4270,8 @@ type IObject_membersContext interface {
 	Object_member(i int) IObject_memberContext
 	AllCOMMA() []antlr.TerminalNode
 	COMMA(i int) antlr.TerminalNode
-	AllNL() []antlr.TerminalNode
-	NL(i int) antlr.TerminalNode
+	AllMultiline_trivia() []IMultiline_triviaContext
+	Multiline_trivia(i int) IMultiline_triviaContext
 
 	// IsObject_membersContext differentiates from other interfaces.
 	IsObject_membersContext()
@@ -4036,12 +4358,45 @@ func (s *Object_membersContext) COMMA(i int) antlr.TerminalNode {
 	return s.GetToken(YiniParserCOMMA, i)
 }
 
-func (s *Object_membersContext) AllNL() []antlr.TerminalNode {
-	return s.GetTokens(YiniParserNL)
+func (s *Object_membersContext) AllMultiline_trivia() []IMultiline_triviaContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMultiline_triviaContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMultiline_triviaContext); ok {
+			tst[i] = t.(IMultiline_triviaContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *Object_membersContext) NL(i int) antlr.TerminalNode {
-	return s.GetToken(YiniParserNL, i)
+func (s *Object_membersContext) Multiline_trivia(i int) IMultiline_triviaContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMultiline_triviaContext)
 }
 
 func (s *Object_membersContext) GetRuleContext() antlr.RuleContext {
@@ -4064,53 +4419,41 @@ func (s *Object_membersContext) Accept(visitor antlr.ParseTreeVisitor) interface
 
 func (p *YiniParser) Object_members() (localctx IObject_membersContext) {
 	localctx = NewObject_membersContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 46, YiniParserRULE_object_members)
+	p.EnterRule(localctx, 50, YiniParserRULE_object_members)
 	var _la int
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(225)
+		p.SetState(230)
 		p.Object_member()
 	}
-	p.SetState(236)
+	p.SetState(247)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
-	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 27, p.GetParserRuleContext())
+	_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 28, p.GetParserRuleContext())
 	if p.HasError() {
 		goto errorExit
 	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
-			{
-				p.SetState(226)
-				p.Match(YiniParserCOMMA)
-				if p.HasError() {
-					// Recognition error - abort rule
-					goto errorExit
-				}
-			}
-			p.SetState(230)
+			p.SetState(234)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
 			_la = p.GetTokenStream().LA(1)
 
-			for _la == YiniParserNL {
+			for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 				{
-					p.SetState(227)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
+					p.SetState(231)
+					p.Multiline_trivia()
 				}
 
-				p.SetState(232)
+				p.SetState(236)
 				p.GetErrorHandler().Sync(p)
 				if p.HasError() {
 					goto errorExit
@@ -4118,31 +4461,75 @@ func (p *YiniParser) Object_members() (localctx IObject_membersContext) {
 				_la = p.GetTokenStream().LA(1)
 			}
 			{
-				p.SetState(233)
+				p.SetState(237)
+				p.Match(YiniParserCOMMA)
+				if p.HasError() {
+					// Recognition error - abort rule
+					goto errorExit
+				}
+			}
+			p.SetState(241)
+			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
+			_la = p.GetTokenStream().LA(1)
+
+			for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
+				{
+					p.SetState(238)
+					p.Multiline_trivia()
+				}
+
+				p.SetState(243)
+				p.GetErrorHandler().Sync(p)
+				if p.HasError() {
+					goto errorExit
+				}
+				_la = p.GetTokenStream().LA(1)
+			}
+			{
+				p.SetState(244)
 				p.Object_member()
 			}
 
 		}
-		p.SetState(238)
+		p.SetState(249)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 27, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 28, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
 	}
-	p.SetState(240)
+	p.SetState(257)
 	p.GetErrorHandler().Sync(p)
-	if p.HasError() {
-		goto errorExit
-	}
-	_la = p.GetTokenStream().LA(1)
 
-	if _la == YiniParserCOMMA {
+	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 30, p.GetParserRuleContext()) == 1 {
+		p.SetState(253)
+		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
+		_la = p.GetTokenStream().LA(1)
+
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
+			{
+				p.SetState(250)
+				p.Multiline_trivia()
+			}
+
+			p.SetState(255)
+			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
+			_la = p.GetTokenStream().LA(1)
+		}
 		{
-			p.SetState(239)
+			p.SetState(256)
 			p.Match(YiniParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -4150,6 +4537,8 @@ func (p *YiniParser) Object_members() (localctx IObject_membersContext) {
 			}
 		}
 
+	} else if p.HasError() { // JIM
+		goto errorExit
 	}
 
 errorExit:
@@ -4173,7 +4562,7 @@ type IObject_memberContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	KEY() antlr.TerminalNode
+	Identifier() IIdentifierContext
 	Object_member_separator() IObject_member_separatorContext
 	Value() IValueContext
 
@@ -4213,8 +4602,20 @@ func NewObject_memberContext(parser antlr.Parser, parent antlr.ParserRuleContext
 
 func (s *Object_memberContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *Object_memberContext) KEY() antlr.TerminalNode {
-	return s.GetToken(YiniParserKEY, 0)
+func (s *Object_memberContext) Identifier() IIdentifierContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IIdentifierContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IIdentifierContext)
 }
 
 func (s *Object_memberContext) Object_member_separator() IObject_member_separatorContext {
@@ -4269,22 +4670,18 @@ func (s *Object_memberContext) Accept(visitor antlr.ParseTreeVisitor) interface{
 
 func (p *YiniParser) Object_member() (localctx IObject_memberContext) {
 	localctx = NewObject_memberContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 48, YiniParserRULE_object_member)
+	p.EnterRule(localctx, 52, YiniParserRULE_object_member)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(242)
-		p.Match(YiniParserKEY)
-		if p.HasError() {
-			// Recognition error - abort rule
-			goto errorExit
-		}
+		p.SetState(259)
+		p.Identifier()
 	}
 	{
-		p.SetState(243)
+		p.SetState(260)
 		p.Object_member_separator()
 	}
 	{
-		p.SetState(244)
+		p.SetState(261)
 		p.Value()
 	}
 
@@ -4376,12 +4773,12 @@ func (s *Object_member_separatorContext) Accept(visitor antlr.ParseTreeVisitor) 
 
 func (p *YiniParser) Object_member_separator() (localctx IObject_member_separatorContext) {
 	localctx = NewObject_member_separatorContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 50, YiniParserRULE_object_member_separator)
+	p.EnterRule(localctx, 54, YiniParserRULE_object_member_separator)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(246)
+		p.SetState(263)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(_la == YiniParserEQ || _la == YiniParserCOLON) {
@@ -4415,8 +4812,8 @@ type IList_literalContext interface {
 	// Getter signatures
 	OB() antlr.TerminalNode
 	CB() antlr.TerminalNode
-	AllNL() []antlr.TerminalNode
-	NL(i int) antlr.TerminalNode
+	AllMultiline_trivia() []IMultiline_triviaContext
+	Multiline_trivia(i int) IMultiline_triviaContext
 	Elements() IElementsContext
 	EMPTY_LIST() antlr.TerminalNode
 
@@ -4464,12 +4861,45 @@ func (s *List_literalContext) CB() antlr.TerminalNode {
 	return s.GetToken(YiniParserCB, 0)
 }
 
-func (s *List_literalContext) AllNL() []antlr.TerminalNode {
-	return s.GetTokens(YiniParserNL)
+func (s *List_literalContext) AllMultiline_trivia() []IMultiline_triviaContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMultiline_triviaContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMultiline_triviaContext); ok {
+			tst[i] = t.(IMultiline_triviaContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *List_literalContext) NL(i int) antlr.TerminalNode {
-	return s.GetToken(YiniParserNL, i)
+func (s *List_literalContext) Multiline_trivia(i int) IMultiline_triviaContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMultiline_triviaContext)
 }
 
 func (s *List_literalContext) Elements() IElementsContext {
@@ -4512,12 +4942,12 @@ func (s *List_literalContext) Accept(visitor antlr.ParseTreeVisitor) interface{}
 
 func (p *YiniParser) List_literal() (localctx IList_literalContext) {
 	localctx = NewList_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 52, YiniParserRULE_list_literal)
+	p.EnterRule(localctx, 56, YiniParserRULE_list_literal)
 	var _la int
 
 	var _alt int
 
-	p.SetState(278)
+	p.SetState(283)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4527,76 +4957,68 @@ func (p *YiniParser) List_literal() (localctx IList_literalContext) {
 	case YiniParserOB:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(248)
+			p.SetState(265)
 			p.Match(YiniParserOB)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(252)
+		p.SetState(269)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 29, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
 		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			if _alt == 1 {
 				{
-					p.SetState(249)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
+					p.SetState(266)
+					p.Multiline_trivia()
 				}
 
 			}
-			p.SetState(254)
+			p.SetState(271)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 29, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 31, p.GetParserRuleContext())
 			if p.HasError() {
 				goto errorExit
 			}
 		}
-		p.SetState(256)
+		p.SetState(273)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
 		_la = p.GetTokenStream().LA(1)
 
-		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&21004032) != 0 {
+		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&222330624) != 0 {
 			{
-				p.SetState(255)
+				p.SetState(272)
 				p.Elements()
 			}
 
 		}
-		p.SetState(261)
+		p.SetState(278)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
 		_la = p.GetTokenStream().LA(1)
 
-		for _la == YiniParserNL {
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 			{
-				p.SetState(258)
-				p.Match(YiniParserNL)
-				if p.HasError() {
-					// Recognition error - abort rule
-					goto errorExit
-				}
+				p.SetState(275)
+				p.Multiline_trivia()
 			}
 
-			p.SetState(263)
+			p.SetState(280)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -4604,41 +5026,10 @@ func (p *YiniParser) List_literal() (localctx IList_literalContext) {
 			_la = p.GetTokenStream().LA(1)
 		}
 		{
-			p.SetState(264)
+			p.SetState(281)
 			p.Match(YiniParserCB)
 			if p.HasError() {
 				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(268)
-		p.GetErrorHandler().Sync(p)
-		if p.HasError() {
-			goto errorExit
-		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 32, p.GetParserRuleContext())
-		if p.HasError() {
-			goto errorExit
-		}
-		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-			if _alt == 1 {
-				{
-					p.SetState(265)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
-				}
-
-			}
-			p.SetState(270)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 32, p.GetParserRuleContext())
-			if p.HasError() {
 				goto errorExit
 			}
 		}
@@ -4646,41 +5037,10 @@ func (p *YiniParser) List_literal() (localctx IList_literalContext) {
 	case YiniParserEMPTY_LIST:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(271)
+			p.SetState(282)
 			p.Match(YiniParserEMPTY_LIST)
 			if p.HasError() {
 				// Recognition error - abort rule
-				goto errorExit
-			}
-		}
-		p.SetState(275)
-		p.GetErrorHandler().Sync(p)
-		if p.HasError() {
-			goto errorExit
-		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 33, p.GetParserRuleContext())
-		if p.HasError() {
-			goto errorExit
-		}
-		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
-			if _alt == 1 {
-				{
-					p.SetState(272)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
-				}
-
-			}
-			p.SetState(277)
-			p.GetErrorHandler().Sync(p)
-			if p.HasError() {
-				goto errorExit
-			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 33, p.GetParserRuleContext())
-			if p.HasError() {
 				goto errorExit
 			}
 		}
@@ -4715,8 +5075,8 @@ type IElementsContext interface {
 	Value(i int) IValueContext
 	AllCOMMA() []antlr.TerminalNode
 	COMMA(i int) antlr.TerminalNode
-	AllNL() []antlr.TerminalNode
-	NL(i int) antlr.TerminalNode
+	AllMultiline_trivia() []IMultiline_triviaContext
+	Multiline_trivia(i int) IMultiline_triviaContext
 
 	// IsElementsContext differentiates from other interfaces.
 	IsElementsContext()
@@ -4803,12 +5163,45 @@ func (s *ElementsContext) COMMA(i int) antlr.TerminalNode {
 	return s.GetToken(YiniParserCOMMA, i)
 }
 
-func (s *ElementsContext) AllNL() []antlr.TerminalNode {
-	return s.GetTokens(YiniParserNL)
+func (s *ElementsContext) AllMultiline_trivia() []IMultiline_triviaContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IMultiline_triviaContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IMultiline_triviaContext); ok {
+			tst[i] = t.(IMultiline_triviaContext)
+			i++
+		}
+	}
+
+	return tst
 }
 
-func (s *ElementsContext) NL(i int) antlr.TerminalNode {
-	return s.GetToken(YiniParserNL, i)
+func (s *ElementsContext) Multiline_trivia(i int) IMultiline_triviaContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IMultiline_triviaContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IMultiline_triviaContext)
 }
 
 func (s *ElementsContext) GetRuleContext() antlr.RuleContext {
@@ -4831,17 +5224,17 @@ func (s *ElementsContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *YiniParser) Elements() (localctx IElementsContext) {
 	localctx = NewElementsContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 54, YiniParserRULE_elements)
+	p.EnterRule(localctx, 58, YiniParserRULE_elements)
 	var _la int
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(280)
+		p.SetState(285)
 		p.Value()
 	}
-	p.SetState(297)
+	p.SetState(302)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4852,24 +5245,20 @@ func (p *YiniParser) Elements() (localctx IElementsContext) {
 	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
-			p.SetState(284)
+			p.SetState(289)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
 			_la = p.GetTokenStream().LA(1)
 
-			for _la == YiniParserNL {
+			for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 				{
-					p.SetState(281)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
+					p.SetState(286)
+					p.Multiline_trivia()
 				}
 
-				p.SetState(286)
+				p.SetState(291)
 				p.GetErrorHandler().Sync(p)
 				if p.HasError() {
 					goto errorExit
@@ -4877,31 +5266,27 @@ func (p *YiniParser) Elements() (localctx IElementsContext) {
 				_la = p.GetTokenStream().LA(1)
 			}
 			{
-				p.SetState(287)
+				p.SetState(292)
 				p.Match(YiniParserCOMMA)
 				if p.HasError() {
 					// Recognition error - abort rule
 					goto errorExit
 				}
 			}
-			p.SetState(291)
+			p.SetState(296)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
 			_la = p.GetTokenStream().LA(1)
 
-			for _la == YiniParserNL {
+			for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
 				{
-					p.SetState(288)
-					p.Match(YiniParserNL)
-					if p.HasError() {
-						// Recognition error - abort rule
-						goto errorExit
-					}
+					p.SetState(293)
+					p.Multiline_trivia()
 				}
 
-				p.SetState(293)
+				p.SetState(298)
 				p.GetErrorHandler().Sync(p)
 				if p.HasError() {
 					goto errorExit
@@ -4909,12 +5294,12 @@ func (p *YiniParser) Elements() (localctx IElementsContext) {
 				_la = p.GetTokenStream().LA(1)
 			}
 			{
-				p.SetState(294)
+				p.SetState(299)
 				p.Value()
 			}
 
 		}
-		p.SetState(299)
+		p.SetState(304)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -4924,16 +5309,32 @@ func (p *YiniParser) Elements() (localctx IElementsContext) {
 			goto errorExit
 		}
 	}
-	p.SetState(301)
+	p.SetState(312)
 	p.GetErrorHandler().Sync(p)
-	if p.HasError() {
-		goto errorExit
-	}
-	_la = p.GetTokenStream().LA(1)
 
-	if _la == YiniParserCOMMA {
+	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 39, p.GetParserRuleContext()) == 1 {
+		p.SetState(308)
+		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
+		_la = p.GetTokenStream().LA(1)
+
+		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0 {
+			{
+				p.SetState(305)
+				p.Multiline_trivia()
+			}
+
+			p.SetState(310)
+			p.GetErrorHandler().Sync(p)
+			if p.HasError() {
+				goto errorExit
+			}
+			_la = p.GetTokenStream().LA(1)
+		}
 		{
-			p.SetState(300)
+			p.SetState(311)
 			p.Match(YiniParserCOMMA)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -4941,6 +5342,117 @@ func (p *YiniParser) Elements() (localctx IElementsContext) {
 			}
 		}
 
+	} else if p.HasError() { // JIM
+		goto errorExit
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IMultiline_triviaContext is an interface to support dynamic dispatch.
+type IMultiline_triviaContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	NL() antlr.TerminalNode
+	DISABLED_LINE() antlr.TerminalNode
+	FULL_LINE_COMMENT() antlr.TerminalNode
+
+	// IsMultiline_triviaContext differentiates from other interfaces.
+	IsMultiline_triviaContext()
+}
+
+type Multiline_triviaContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyMultiline_triviaContext() *Multiline_triviaContext {
+	var p = new(Multiline_triviaContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_multiline_trivia
+	return p
+}
+
+func InitEmptyMultiline_triviaContext(p *Multiline_triviaContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = YiniParserRULE_multiline_trivia
+}
+
+func (*Multiline_triviaContext) IsMultiline_triviaContext() {}
+
+func NewMultiline_triviaContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *Multiline_triviaContext {
+	var p = new(Multiline_triviaContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = YiniParserRULE_multiline_trivia
+
+	return p
+}
+
+func (s *Multiline_triviaContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *Multiline_triviaContext) NL() antlr.TerminalNode {
+	return s.GetToken(YiniParserNL, 0)
+}
+
+func (s *Multiline_triviaContext) DISABLED_LINE() antlr.TerminalNode {
+	return s.GetToken(YiniParserDISABLED_LINE, 0)
+}
+
+func (s *Multiline_triviaContext) FULL_LINE_COMMENT() antlr.TerminalNode {
+	return s.GetToken(YiniParserFULL_LINE_COMMENT, 0)
+}
+
+func (s *Multiline_triviaContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *Multiline_triviaContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *Multiline_triviaContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case YiniParserVisitor:
+		return t.VisitMultiline_trivia(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *YiniParser) Multiline_trivia() (localctx IMultiline_triviaContext) {
+	localctx = NewMultiline_triviaContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 60, YiniParserRULE_multiline_trivia)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(314)
+		_la = p.GetTokenStream().LA(1)
+
+		if !((int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&107374182400) != 0) {
+			p.GetErrorHandler().RecoverInline(p)
+		} else {
+			p.GetErrorHandler().ReportMatch(p)
+			p.Consume()
+		}
 	}
 
 errorExit:
@@ -4965,6 +5477,8 @@ type INumber_literalContext interface {
 
 	// Getter signatures
 	NUMBER() antlr.TerminalNode
+	PLUS() antlr.TerminalNode
+	MINUS() antlr.TerminalNode
 
 	// IsNumber_literalContext differentiates from other interfaces.
 	IsNumber_literalContext()
@@ -5006,6 +5520,14 @@ func (s *Number_literalContext) NUMBER() antlr.TerminalNode {
 	return s.GetToken(YiniParserNUMBER, 0)
 }
 
+func (s *Number_literalContext) PLUS() antlr.TerminalNode {
+	return s.GetToken(YiniParserPLUS, 0)
+}
+
+func (s *Number_literalContext) MINUS() antlr.TerminalNode {
+	return s.GetToken(YiniParserMINUS, 0)
+}
+
 func (s *Number_literalContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -5026,10 +5548,33 @@ func (s *Number_literalContext) Accept(visitor antlr.ParseTreeVisitor) interface
 
 func (p *YiniParser) Number_literal() (localctx INumber_literalContext) {
 	localctx = NewNumber_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 56, YiniParserRULE_number_literal)
+	p.EnterRule(localctx, 62, YiniParserRULE_number_literal)
+	var _la int
+
 	p.EnterOuterAlt(localctx, 1)
+	p.SetState(317)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == YiniParserPLUS || _la == YiniParserMINUS {
+		{
+			p.SetState(316)
+			_la = p.GetTokenStream().LA(1)
+
+			if !(_la == YiniParserPLUS || _la == YiniParserMINUS) {
+				p.GetErrorHandler().RecoverInline(p)
+			} else {
+				p.GetErrorHandler().ReportMatch(p)
+				p.Consume()
+			}
+		}
+
+	}
 	{
-		p.SetState(303)
+		p.SetState(319)
 		p.Match(YiniParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5120,10 +5665,10 @@ func (s *Null_literalContext) Accept(visitor antlr.ParseTreeVisitor) interface{}
 
 func (p *YiniParser) Null_literal() (localctx INull_literalContext) {
 	localctx = NewNull_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 58, YiniParserRULE_null_literal)
+	p.EnterRule(localctx, 64, YiniParserRULE_null_literal)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(305)
+		p.SetState(321)
 		p.Match(YiniParserNULL)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5219,12 +5764,12 @@ func (s *Boolean_literalContext) Accept(visitor antlr.ParseTreeVisitor) interfac
 
 func (p *YiniParser) Boolean_literal() (localctx IBoolean_literalContext) {
 	localctx = NewBoolean_literalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 60, YiniParserRULE_boolean_literal)
+	p.EnterRule(localctx, 66, YiniParserRULE_boolean_literal)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(307)
+		p.SetState(323)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(_la == YiniParserBOOLEAN_FALSE || _la == YiniParserBOOLEAN_TRUE) {
@@ -5318,10 +5863,10 @@ func (s *Bad_meta_textContext) Accept(visitor antlr.ParseTreeVisitor) interface{
 
 func (p *YiniParser) Bad_meta_text() (localctx IBad_meta_textContext) {
 	localctx = NewBad_meta_textContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 62, YiniParserRULE_bad_meta_text)
+	p.EnterRule(localctx, 68, YiniParserRULE_bad_meta_text)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(309)
+		p.SetState(325)
 		p.Match(YiniParserMETA_INVALID)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5482,9 +6027,9 @@ func (s *Bad_memberContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
 
 func (p *YiniParser) Bad_member() (localctx IBad_memberContext) {
 	localctx = NewBad_memberContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 64, YiniParserRULE_bad_member)
+	p.EnterRule(localctx, 70, YiniParserRULE_bad_member)
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(313)
+	p.SetState(329)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -5492,7 +6037,7 @@ func (p *YiniParser) Bad_member() (localctx IBad_memberContext) {
 	switch p.GetTokenStream().LA(1) {
 	case YiniParserREST:
 		{
-			p.SetState(311)
+			p.SetState(327)
 			p.Match(YiniParserREST)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5500,9 +6045,9 @@ func (p *YiniParser) Bad_member() (localctx IBad_memberContext) {
 			}
 		}
 
-	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE, YiniParserNULL, YiniParserEMPTY_OBJECT, YiniParserEMPTY_LIST, YiniParserSTRING, YiniParserNUMBER, YiniParserOB, YiniParserOC:
+	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE, YiniParserNULL, YiniParserEMPTY_OBJECT, YiniParserEMPTY_LIST, YiniParserSTRING, YiniParserNUMBER, YiniParserOB, YiniParserOC, YiniParserPLUS, YiniParserMINUS:
 		{
-			p.SetState(312)
+			p.SetState(328)
 			p.Value()
 		}
 
@@ -5511,29 +6056,29 @@ func (p *YiniParser) Bad_member() (localctx IBad_memberContext) {
 	default:
 	}
 	{
-		p.SetState(315)
+		p.SetState(331)
 		p.Match(YiniParserEQ)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(318)
+	p.SetState(334)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 
 	switch p.GetTokenStream().LA(1) {
-	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE, YiniParserNULL, YiniParserEMPTY_OBJECT, YiniParserEMPTY_LIST, YiniParserSTRING, YiniParserNUMBER, YiniParserOB, YiniParserOC:
+	case YiniParserBOOLEAN_FALSE, YiniParserBOOLEAN_TRUE, YiniParserNULL, YiniParserEMPTY_OBJECT, YiniParserEMPTY_LIST, YiniParserSTRING, YiniParserNUMBER, YiniParserOB, YiniParserOC, YiniParserPLUS, YiniParserMINUS:
 		{
-			p.SetState(316)
+			p.SetState(332)
 			p.Value()
 		}
 
 	case YiniParserREST:
 		{
-			p.SetState(317)
+			p.SetState(333)
 			p.Match(YiniParserREST)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -5545,12 +6090,12 @@ func (p *YiniParser) Bad_member() (localctx IBad_memberContext) {
 		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
 		goto errorExit
 	}
-	p.SetState(321)
+	p.SetState(337)
 	p.GetErrorHandler().Sync(p)
 
-	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 41, p.GetParserRuleContext()) == 1 {
+	if p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 43, p.GetParserRuleContext()) == 1 {
 		{
-			p.SetState(320)
+			p.SetState(336)
 			p.Eol()
 		}
 

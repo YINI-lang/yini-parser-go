@@ -1,4 +1,4 @@
-// Code generated from grammar/v1.0.0-rc.6/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
+// Code generated from grammar/v1.0.0-rc.7/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
 
 package generated // YiniParser
 import "github.com/antlr4-go/antlr/v4"
@@ -49,8 +49,14 @@ type YiniParserVisitor interface {
 	// Visit a parse tree produced by YiniParser#eol.
 	VisitEol(ctx *EolContext) interface{}
 
+	// Visit a parse tree produced by YiniParser#line_end.
+	VisitLine_end(ctx *Line_endContext) interface{}
+
 	// Visit a parse tree produced by YiniParser#assignment.
 	VisitAssignment(ctx *AssignmentContext) interface{}
+
+	// Visit a parse tree produced by YiniParser#identifier.
+	VisitIdentifier(ctx *IdentifierContext) interface{}
 
 	// Visit a parse tree produced by YiniParser#member.
 	VisitMember(ctx *MemberContext) interface{}
@@ -90,6 +96,9 @@ type YiniParserVisitor interface {
 
 	// Visit a parse tree produced by YiniParser#elements.
 	VisitElements(ctx *ElementsContext) interface{}
+
+	// Visit a parse tree produced by YiniParser#multiline_trivia.
+	VisitMultiline_trivia(ctx *Multiline_triviaContext) interface{}
 
 	// Visit a parse tree produced by YiniParser#number_literal.
 	VisitNumber_literal(ctx *Number_literalContext) interface{}

@@ -1,11 +1,22 @@
 version: '3'
 
+vars:
+  GRAMMAR_BASE: grammar/v1.0.0-rc.7
+  LEXER_FILE: '{{.GRAMMAR_BASE}}/YiniLexer.g4'
+  PARSER_FILE: '{{.GRAMMAR_BASE}}/YiniParser.g4'
+  ANTLR_JAR: libs/antlr4/antlr-4.13.2-complete.jar
+  DIR_OUTPUT: internal/grammar/generated
+
 tasks:
   generate:
-    desc: Generate the Go lexer and parser from the checked-in RC.6 grammar.
+    desc: Generate the Go lexer and parser from the checked-in grammar.
     cmds:
-      - java -jar libs/antlr4/antlr-4.13.2-complete.jar -Dlanguage=Go -visitor -no-listener -package generated -Xexact-output-dir -o internal/grammar/generated grammar/v1.0.0-rc.6/YiniLexer.g4 grammar/v1.0.0-rc.6/YiniParser.g4
-      - go fmt ./internal/grammar/generated
+      - >
+        java -jar {{.ANTLR_JAR}}
+        -Dlanguage=Go -visitor -no-listener -package generated
+        -Xexact-output-dir -o {{.DIR_OUTPUT}}
+        {{.LEXER_FILE}} {{.PARSER_FILE}}
+      - go fmt ./{{.DIR_OUTPUT}}
 
   fmt:
     desc: Format Go packages.

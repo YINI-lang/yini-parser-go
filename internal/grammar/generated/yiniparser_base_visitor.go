@@ -1,4 +1,4 @@
-// Code generated from grammar/v1.0.0-rc.6/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
+// Code generated from grammar/v1.0.0-rc.7/YiniParser.g4 by ANTLR 4.13.2. DO NOT EDIT.
 
 package generated // YiniParser
 import "github.com/antlr4-go/antlr/v4"
@@ -63,7 +63,15 @@ func (v *BaseYiniParserVisitor) VisitEol(ctx *EolContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
+func (v *BaseYiniParserVisitor) VisitLine_end(ctx *Line_endContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
 func (v *BaseYiniParserVisitor) VisitAssignment(ctx *AssignmentContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseYiniParserVisitor) VisitIdentifier(ctx *IdentifierContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
@@ -116,6 +124,10 @@ func (v *BaseYiniParserVisitor) VisitList_literal(ctx *List_literalContext) inte
 }
 
 func (v *BaseYiniParserVisitor) VisitElements(ctx *ElementsContext) interface{} {
+	return v.VisitChildren(ctx)
+}
+
+func (v *BaseYiniParserVisitor) VisitMultiline_trivia(ctx *Multiline_triviaContext) interface{} {
 	return v.VisitChildren(ctx)
 }
 
