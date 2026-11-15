@@ -65,13 +65,18 @@ Decoding replaces the destination only after every value succeeds. On failure, t
 | --- | --- | --- |
 | Top-level structure | Sections and orphan members | Exactly one top-level section; no orphans |
 | `/END` | Optional | Required |
-| Duplicate key or sibling section | Warning; first wins | Error |
+| Duplicate key | Warning; first wins | Error |
+| Duplicate sibling section | Error | Error |
 | Empty member value | Warning; treated as null | Error; write `null` |
 | Trailing list/object comma | Accepted | Error |
 | Inline object `=` | Accepted | Error; use `:` |
 | Concatenation operands after the first string | Strings, numbers, booleans, null | Strings only |
 
-A duplicate section's whole block is ignored. A misplaced `#!` line is treated as a comment and reported once: warning in lenient mode, error in strict mode. EOF may end the last assignment or section header; strict `/END` also works at EOF.
+A duplicate section invalidates the document; its whole block is ignored during recovery, preserving the first section. A misplaced `#!` line is treated as a comment and reported once: warning in lenient mode, error in strict mode. EOF may end the last assignment or section header; strict `/END` also works at EOF.
+
+RC.7 supports `E`/`e` escaped strings with the same escapes as `C`/`c`, including escaped backticks, and `command` strings with structural indentation removed. Source line endings become LF in multiline string values; characters produced by escapes retain their values. Mixed source line endings produce a warning in lenient mode and an error in strict mode.
+
+Lenient numeric concatenation preserves decimal spelling after removing digit separators and plus signs and normalizing `E` to `e`; for example, `'n=' + 3E+04` produces `n=3e04`. Non-decimal integers convert exactly to decimal. The `%` binary prefix remains valid but produces a deprecation warning in both modes; prefer `0b`.
 
 Check both the Go error and `Result.Diagnostics`. Each diagnostic has a severity, code, plain-language message, and one-based line/column position. Common syntax errors describe what is missing or misplaced. `ParseFile` prefixes parse errors with the file path; use `errors.As` to retrieve the wrapped `*yini.ParseError`. `ParseForTooling` keeps diagnostics and suppresses the Go error only for ordinary parse failures; invalid options still return an error. `ParseFile` and `ParseReader` return I/O errors directly.
 

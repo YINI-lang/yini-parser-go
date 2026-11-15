@@ -33,7 +33,7 @@ func (b *documentBuilder) parseScalar(context generated.IScalar_valueContext) (a
 	case context.String_literal() != nil:
 		return b.parseStringToken(context.String_literal().GetStart())
 	case context.Number_literal() != nil:
-		value, _, ok := b.parseNumberToken(context.Number_literal().GetStart())
+		value, _, ok := b.parseNumberLiteral(context.Number_literal())
 		return value, ok
 	case context.Boolean_literal() != nil:
 		text := strings.ToLower(context.Boolean_literal().GetText())
@@ -48,6 +48,14 @@ func (b *documentBuilder) parseStringToken(token antlr.Token) (any, bool) {
 	if token == nil {
 		return nil, false
 	}
+	if strings.HasPrefix(token.GetText(), `command"""`) {
+		input := token.GetInputStream()
+		next := token.GetStop() + 1
+		if next < input.Size() && !strings.ContainsAny(input.GetText(next, next), "\r\n") {
+			b.report(SeverityError, "string", "A command string closing delimiter must be followed by a line ending or EOF", b.locator.index(next))
+			return nil, false
+		}
+	}
 	value, err := decodeString(token.GetText())
 	if err != nil {
 		position := b.position(token)
@@ -60,14 +68,23 @@ func (b *documentBuilder) parseStringToken(token antlr.Token) (any, bool) {
 	return value, true
 }
 
-func (b *documentBuilder) parseNumberToken(token antlr.Token) (any, string, bool) {
-	if token == nil {
+func (b *documentBuilder) parseNumberLiteral(context generated.INumber_literalContext) (any, string, bool) {
+	if context == nil || context.NUMBER() == nil {
 		return nil, "", false
 	}
-	value, canonical, err := parseNumber(token.GetText())
-	if err != nil {
-		b.report(SeverityError, "number", err.Error(), b.position(token))
+	start := context.GetStart()
+	number := context.NUMBER().GetSymbol()
+	if start != number && start.GetStop()+1 != number.GetStart() {
+		b.report(SeverityError, "number", "A numeric sign must immediately precede its number", b.position(start))
 		return nil, "", false
+	}
+	value, canonical, err := parseNumber(context.GetText())
+	if err != nil {
+		b.report(SeverityError, "number", err.Error(), b.position(start))
+		return nil, "", false
+	}
+	if strings.HasPrefix(number.GetText(), "%") {
+		b.report(SeverityWarning, "deprecated-binary-prefix", "The '%' binary prefix is deprecated; use '0b' instead", b.position(number))
 	}
 	return value, canonical, true
 }
@@ -98,8 +115,8 @@ func (b *documentBuilder) parseConcat(context generated.IConcat_expressionContex
 		case b.mode == ModeStrict:
 			b.report(SeverityError, "concat-strict", "Strict mode allows only strings in concatenation", b.position(operand.GetStart()))
 			return nil, false
-		case operand.NUMBER() != nil:
-			_, canonical, valid := b.parseNumberToken(operand.NUMBER().GetSymbol())
+		case operand.Number_literal() != nil:
+			_, canonical, valid := b.parseNumberLiteral(operand.Number_literal())
 			if !valid {
 				return nil, false
 			}
@@ -127,6 +144,12 @@ func (b *documentBuilder) parseList(context generated.IList_literalContext) (any
 		b.report(SeverityError, "trailing-comma", "Strict mode does not allow a trailing comma in a list", b.position(elements.GetStop()))
 		return nil, false
 	}
+	for _, comma := range elements.AllCOMMA() {
+		if tokenStartsLine(comma.GetSymbol()) {
+			b.report(SeverityError, "list-comma", "A list line must not begin with a comma", b.position(comma.GetSymbol()))
+			return nil, false
+		}
+	}
 	for _, element := range elements.AllValue() {
 		value, ok := b.parseValue(element)
 		if !ok {
@@ -148,11 +171,11 @@ func (b *documentBuilder) parseObject(context generated.IObject_literalContext) 
 		return nil, false
 	}
 	for _, member := range members.AllObject_member() {
-		if member.KEY() == nil {
+		if member.Identifier() == nil {
 			return nil, false
 		}
-		position := b.position(member.KEY().GetSymbol())
-		name, err := parseIdentifier(member.KEY().GetText())
+		position := b.position(member.Identifier().GetStart())
+		name, err := parseIdentifier(member.Identifier().GetText())
 		if err != nil {
 			b.report(SeverityError, "identifier", err.Error(), position)
 			return nil, false
@@ -167,7 +190,7 @@ func (b *documentBuilder) parseObject(context generated.IObject_literalContext) 
 			if b.mode == ModeStrict {
 				severity = SeverityError
 			}
-			b.report(severity, "duplicate-object-key", fmt.Sprintf("Inline object member %q is already defined; keeping the first value", name), position)
+			b.report(severity, "duplicate-object-key", fmt.Sprintf("Duplicate inline object member %q; keeping the first value", name), position)
 			continue
 		}
 		value, ok := b.parseValue(member.Value())

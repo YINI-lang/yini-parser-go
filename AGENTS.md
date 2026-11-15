@@ -22,7 +22,7 @@ Taskfile.yml                 Development commands
 VERSION                      Source of truth for the parser release version
 go.mod, go.sum               Go module and pinned dependencies
 *.go                         Public yini package and parser implementation
-grammar/v1.0.0-rc.6/         Read-only grammar reference copies
+grammar/v1.0.0-rc.7/         Active read-only grammar reference copies
 spec/                        Read-only specification reference copies
 internal/grammar/generated/  ANTLR-generated Go package
 libs/antlr4/                 Included ANTLR generator JAR and license
@@ -39,10 +39,11 @@ Use `Taskfile.yml` as the command interface. Run these from the repository root:
 | Command | Purpose |
 | --- | --- |
 | `task generate` | Regenerate the ANTLR Go package with `libs/antlr4/antlr-4.13.2-complete.jar`. |
+| `task build` | Compile all Go packages. |
 | `task fmt` | Format Go code. |
 | `task vet` | Run Go analyzers, excluding generated unreachable-code warnings. |
 | `task test` | Run all Go tests. |
-| `task check` | Run formatting, vet, and tests. |
+| `task check` | Run formatting, build, vet, and tests. |
 | `task release` | Run checks and create the Git tag named by `VERSION`. |
 
 `VERSION` is the source of truth for the parser release version. Trim surrounding whitespace before using its value as a Git tag. Commit `VERSION` and all release changes before running `task release`.
@@ -72,7 +73,8 @@ Naming conventions:
 
 Default parsing is lenient.
 
-- Lenient mode: `/END` is optional; duplicate keys and sibling sections keep the first definition with a warning. Ignore a duplicate section's entire block. Empty member values and trailing collection commas are accepted.
+- Lenient mode: `/END` is optional; duplicate keys keep the first definition with a warning. Empty member values and trailing collection commas are accepted.
+- Duplicate sibling sections are errors in both modes. Ignore a duplicate section's entire block during recovery; do not merge or overwrite sections.
 - Strict mode: `/END` is required, exactly one explicit top-level section is required, and orphan members are errors. Duplicate names, empty member values, trailing collection commas, `=` inside inline objects, and non-string concatenation operands are errors.
 - `@yini` declarations never switch the selected mode. `@yini strict` in lenient mode is an error; `@yini lenient` in strict mode is a warning.
 - EOF may end the final assignment or section header; `/END` may appear at EOF without a trailing newline.
@@ -97,7 +99,7 @@ When fixing parser behavior, test both the intended valid path and the nearest i
 
 The files under `spec/` and `grammar/` are reference copies maintained outside this repository. Do not edit or regenerate them here. Updates to those files must be made at their authoritative source and manually copied into this repository only at the maintainer's explicit direction.
 
-The checked-in grammar source is under `grammar/v1.0.0-rc.6/`. If it appears to conflict with the specification or blocks a parser fix, report the issue to the maintainer instead of changing the grammar source.
+The active checked-in grammar source is under `grammar/v1.0.0-rc.7/`. The PDF under `spec/` is an older RC.6 reference. Use the authoritative RC.7 specification for current behavior. If the grammar appears to conflict with the specification or blocks a parser fix, report the issue to the maintainer instead of changing the grammar source.
 
 ANTLR-generated Go files live in `internal/grammar/generated/`. Use `task generate` with the pinned JAR and checked-in grammar without modifying `grammar/`. Do not hand-edit generated files unless the user explicitly asks for an emergency generated-output patch.
 

@@ -7,7 +7,7 @@
 
 [YINI](https://yini-lang.org/refs/specification/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme&utm_medium=referral) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
 
-`yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. This alpha release, `v1.0.0-alpha.3`, targets the YINI 1.0.0 RC.6 syntax.
+`yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. The development version targets YINI 1.0.0 RC.7; the latest tagged alpha release is `v1.0.0-alpha.3`.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
 
@@ -76,13 +76,13 @@ if err := result.Document.Sections[0].Decode(&service); err != nil {
 
 For editors and other tools, `ParseForTooling` returns diagnostics and recoverable document content without returning an error for normal YINI syntax failures.
 
-See [usage](docs/usage.md) for mode and diagnostic details and [development](docs/development.md) for the Taskfile commands and repository layout. The checked-in RC.6 specification is in `spec/`.
+See [usage](docs/usage.md) for mode and diagnostic details and [development](docs/development.md) for the Taskfile commands and repository layout. The active grammar is in `grammar/v1.0.0-rc.7/`; `spec/` retains an older RC.6 reference.
 
 ---
 
 ## Shared conformance tests
 
-The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this parser against the external `yini-test-suite`. It accepts a YINI file and an explicit lenient or strict mode, then writes parsed JSON to stdout and diagnostics to stderr. See the [development guide](docs/development.md#shared-conformance-suite) for build and run commands. CI runs the smoke suite in both modes; all 20 smoke cases currently pass. The full conformance suite still has known failures.
+The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this parser against the external `yini-test-suite`. It accepts a YINI file and an explicit lenient or strict mode, then writes parsed JSON to stdout and diagnostics to stderr. See the [development guide](docs/development.md#shared-conformance-suite) for build and run commands. CI pins `yini-test-suite` to `0.4.0rc1` and runs smoke and full conformance tests in both modes. All 542 cases currently pass.
 
 ---
 

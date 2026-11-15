@@ -18,11 +18,14 @@ func decodeString(text string) (string, error) {
 	if text == "" {
 		return "", &stringDecodeError{0, "Empty string token"}
 	}
+	if strings.HasPrefix(text, `command"""`) {
+		return decodeCommandString(text)
+	}
 	prefixLength := 0
 	classic := false
-	if len(text) > 1 && (text[0] == 'C' || text[0] == 'c' || text[0] == 'R' || text[0] == 'r') {
+	if len(text) > 1 && strings.ContainsRune("CcEeRr", rune(text[0])) {
 		prefixLength = 1
-		classic = text[0] == 'C' || text[0] == 'c'
+		classic = strings.ContainsRune("CcEe", rune(text[0]))
 	}
 	literal := text[prefixLength:]
 	delimiterLength := 1
@@ -50,6 +53,14 @@ func decodeString(text string) (string, error) {
 		}
 		if char < 0x20 && char != '\t' && !(triple && (char == '\r' || char == '\n')) {
 			return "", &stringDecodeError{start + index, "Literal control characters are not allowed in strings"}
+		}
+		if char == '\r' {
+			decoded.WriteByte('\n')
+			index += width
+			if index < len(inner) && inner[index] == '\n' {
+				index++
+			}
+			continue
 		}
 		if !classic || char != '\\' {
 			decoded.WriteRune(char)
@@ -98,7 +109,71 @@ func decodeString(text string) (string, error) {
 	return decoded.String(), nil
 }
 
+func decodeCommandString(text string) (string, error) {
+	const prefix = `command"""`
+	content := text[len(prefix):]
+	if !strings.HasPrefix(content, "\r") && !strings.HasPrefix(content, "\n") {
+		return "", &stringDecodeError{len(prefix), "A command string must begin with a line break"}
+	}
+	// Keep original byte offsets while splitting all supported line endings.
+	var lines []string
+	var offsets []int
+	start := len(prefix)
+	for index := start; index < len(text); index++ {
+		if text[index] != '\r' && text[index] != '\n' {
+			continue
+		}
+		lines = append(lines, text[start:index])
+		offsets = append(offsets, start)
+		if text[index] == '\r' && index+1 < len(text) && text[index+1] == '\n' {
+			index++
+		}
+		start = index + 1
+	}
+	lines = append(lines, text[start:])
+	offsets = append(offsets, start)
+	closing := lines[len(lines)-1]
+	if strings.TrimLeft(closing, " ") != `"""` {
+		return "", &stringDecodeError{offsets[len(offsets)-1], "A command string closing delimiter must be on its own line"}
+	}
+	lines = lines[1 : len(lines)-1]
+	offsets = offsets[1 : len(offsets)-1]
+	indent := 0
+	foundContent := false
+	for _, line := range lines {
+		spaces := len(line) - len(strings.TrimLeft(line, " "))
+		if spaces < len(line) {
+			indent = spaces
+			foundContent = true
+			break
+		}
+		if spaces > indent {
+			indent = spaces
+		}
+	}
+	beforeContent := foundContent
+	for index, line := range lines {
+		for offset, char := range line {
+			if char < 0x20 && char != '\t' {
+				return "", &stringDecodeError{offsets[index] + offset, "Literal control characters are not allowed in strings"}
+			}
+		}
+		spaces := len(line) - len(strings.TrimLeft(line, " "))
+		if spaces < len(line) {
+			if spaces < indent {
+				return "", &stringDecodeError{offsets[index] + spaces, "A command string content line has insufficient indentation"}
+			}
+			beforeContent = false
+		} else if beforeContent && spaces > indent {
+			return "", &stringDecodeError{offsets[index] + indent, "A leading blank command string line exceeds the structural indentation"}
+		}
+		remove := min(spaces, indent)
+		lines[index] = line[remove:]
+	}
+	return strings.Join(lines, "\n"), nil
+}
+
 var simpleEscapes = map[byte]rune{
-	'\\': '\\', '\'': '\'', '"': '"', '/': '/', '0': 0, '?': '?',
+	'\\': '\\', '\'': '\'', '"': '"', '`': '`', '/': '/', '0': 0, '?': '?',
 	'a': '\a', 'b': '\b', 'f': '\f', 'n': '\n', 'r': '\r', 't': '\t', 'v': '\v',
 }

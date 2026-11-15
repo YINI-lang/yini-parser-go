@@ -17,6 +17,7 @@ func TestParseFilesAndValues(t *testing.T) {
 		name        string
 		file        string
 		mode        yini.Mode
+		wantError   bool
 		want        map[string]any
 		diagnostics []yini.Diagnostic
 	}{
@@ -47,8 +48,9 @@ func TestParseFilesAndValues(t *testing.T) {
 			},
 		},
 		{
-			name: "lenient dispatch",
-			file: filepath.Join("lenient", "dispatch.yini"),
+			name:      "lenient dispatch",
+			file:      filepath.Join("lenient", "dispatch.yini"),
+			wantError: true,
 			want: map[string]any{
 				"Dispatch": map[string]any{
 					"priority": "routine",
@@ -61,7 +63,7 @@ func TestParseFilesAndValues(t *testing.T) {
 			},
 			diagnostics: []yini.Diagnostic{
 				{Code: "duplicate-key", Severity: yini.SeverityWarning, Position: yini.Position{Line: 4, Column: 1}},
-				{Code: "duplicate-section", Severity: yini.SeverityWarning, Position: yini.Position{Line: 10, Column: 1}},
+				{Code: "duplicate-section", Severity: yini.SeverityError, Position: yini.Position{Line: 10, Column: 1}},
 			},
 		},
 		{
@@ -161,8 +163,8 @@ func TestParseFilesAndValues(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			result, err := yini.ParseFile(filepath.Join("testdata", test.file), yini.Options{Mode: test.mode})
-			if err != nil {
-				t.Fatalf("ParseFile: %v (diagnostics: %#v)", err, result.Diagnostics)
+			if (err != nil) != test.wantError {
+				t.Fatalf("ParseFile error = %v; want error %v (diagnostics: %#v)", err, test.wantError, result.Diagnostics)
 			}
 			if len(result.Diagnostics) != len(test.diagnostics) {
 				t.Fatalf("diagnostics = %#v, want %#v", result.Diagnostics, test.diagnostics)
@@ -275,8 +277,8 @@ func TestModesAndDiagnostics(t *testing.T) {
 func TestDuplicateRecoveryAndLocations(t *testing.T) {
 	text := "\uFEFF#!/usr/bin/env yini\n^ Fleet\nname = 'First'\nname = 'Second'\n^^ Vessel\nid = 1\n^^ Vessel\nid = 2\n"
 	result, err := yini.ParseString(text, yini.Options{})
-	if err != nil {
-		t.Fatalf("ParseString: %v (diagnostics: %#v)", err, result.Diagnostics)
+	if err == nil || !result.HasErrors() {
+		t.Fatalf("duplicate section must fail: %v (diagnostics: %#v)", err, result.Diagnostics)
 	}
 	want := map[string]any{"Fleet": map[string]any{"name": "First", "Vessel": map[string]any{"id": int64(1)}}}
 	if got := result.Document.Values(); !reflect.DeepEqual(got, want) {

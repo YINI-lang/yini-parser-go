@@ -76,11 +76,11 @@ func (b *documentBuilder) handleMeta(meta generated.IMeta_stmtContext) {
 				}
 			}
 		} else {
-			b.report(SeverityError, "reserved-directive", "This directive is reserved and is not supported by YINI RC.6", b.position(directive.GetStart()))
+			b.report(SeverityError, "reserved-directive", "This directive is reserved and is not supported", b.position(directive.GetStart()))
 		}
 		return
 	}
-	b.report(SeverityError, "reserved-directive", "This annotation or directive is not supported by YINI RC.6", b.position(meta.GetStart()))
+	b.report(SeverityError, "reserved-directive", "This annotation or directive is not supported", b.position(meta.GetStart()))
 }
 
 func (b *documentBuilder) addSection(token antlr.Token) {
@@ -133,11 +133,7 @@ func (b *documentBuilder) addSection(token antlr.Token) {
 	}
 	for _, sibling := range siblings {
 		if sibling.Name == name {
-			severity := SeverityWarning
-			if b.mode == ModeStrict {
-				severity = SeverityError
-			}
-			b.report(severity, "duplicate-section", fmt.Sprintf("Section %q is already defined; keeping the first section", name), position)
+			b.report(SeverityError, "duplicate-section", fmt.Sprintf("Section %q is already defined; keeping the first section for recovery", name), position)
 			b.ignoredLevel = level
 			return
 		}
@@ -153,14 +149,14 @@ func (b *documentBuilder) addSection(token antlr.Token) {
 }
 
 func (b *documentBuilder) addMember(member generated.IMemberContext) {
-	if member == nil || member.KEY() == nil {
+	if member == nil || member.Identifier() == nil {
 		return
 	}
 	if b.ignoredLevel > 0 {
 		return
 	}
 	b.seenContent = true
-	keyToken := member.KEY().GetSymbol()
+	keyToken := member.Identifier().GetStart()
 	position := b.position(keyToken)
 	name, err := parseIdentifier(keyToken.GetText())
 	if err != nil {
@@ -205,6 +201,10 @@ func (b *documentBuilder) addMember(member generated.IMemberContext) {
 		}
 		b.report(SeverityWarning, "empty-value", fmt.Sprintf("Member %q has an empty value; treating it as null", name), b.position(member.EQ().GetSymbol()))
 	} else {
+		if b.position(member.Value().GetStart()).Line != b.position(member.EQ().GetSymbol()).Line {
+			b.report(SeverityError, "value-line", "A member value must begin on the same logical line as '='", b.position(member.Value().GetStart()))
+			return
+		}
 		var valid bool
 		value, valid = b.parseValue(member.Value())
 		if !valid {
@@ -270,18 +270,40 @@ func parseSectionHeader(text string) (int, string, error) {
 		}
 		level = parsed
 	} else {
-		for index < len(characters) && (characters[index] == marker || characters[index] == '_') {
-			if characters[index] == marker {
-				level++
+		for index < len(characters) {
+			if characters[index] == '_' && index+1 < len(characters) && characters[index+1] == marker {
+				index++
 			}
+			if characters[index] != marker {
+				break
+			}
+			level++
 			index++
 		}
 		if level > 9 {
 			return 0, "", fmt.Errorf("repeated section markers support only levels 1 through 9; use numeric shorthand")
 		}
 	}
-	for index < len(characters) && (characters[index] == ' ' || characters[index] == '\t') {
-		index++
+	for index < len(characters) {
+		if characters[index] == ' ' || characters[index] == '\t' {
+			index++
+			continue
+		}
+		if characters[index] == '/' && index+1 < len(characters) && characters[index+1] == '*' {
+			index += 2
+			for index+1 < len(characters) && !(characters[index] == '*' && characters[index+1] == '/') {
+				if characters[index] == '\r' || characters[index] == '\n' {
+					return 0, "", fmt.Errorf("section name must begin on the same line as its marker")
+				}
+				index++
+			}
+			if index+1 >= len(characters) {
+				return 0, "", fmt.Errorf("section header contains an unclosed block comment")
+			}
+			index += 2
+			continue
+		}
+		break
 	}
 	if index >= len(characters) {
 		return 0, "", fmt.Errorf("section header needs a name")
@@ -290,6 +312,9 @@ func parseSectionHeader(text string) (int, string, error) {
 	if characters[index] == '`' {
 		index++
 		for index < len(characters) && characters[index] != '`' {
+			if characters[index] == '\\' && index+1 < len(characters) {
+				index++
+			}
 			index++
 		}
 		if index >= len(characters) {
@@ -297,8 +322,8 @@ func parseSectionHeader(text string) (int, string, error) {
 		}
 		index++
 	} else {
-		for index < len(characters) && characters[index] != ' ' && characters[index] != '\t' && characters[index] != '#' {
-			if characters[index] == '/' && index+1 < len(characters) && characters[index+1] == '/' {
+		for index < len(characters) && !strings.ContainsRune(" \t\r\n#", characters[index]) {
+			if characters[index] == '/' && index+1 < len(characters) && (characters[index+1] == '/' || characters[index+1] == '*') {
 				break
 			}
 			index++
@@ -316,7 +341,17 @@ func parseIdentifier(text string) (string, error) {
 				return "", fmt.Errorf("backticked identifier contains a control character")
 			}
 		}
-		return name, nil
+		var decoded strings.Builder
+		for index := 0; index < len(name); index++ {
+			if name[index] == '\\' {
+				index++
+				if index >= len(name) || (name[index] != '\\' && name[index] != '`') {
+					return "", fmt.Errorf("backticked identifiers allow only escaped backticks and backslashes")
+				}
+			}
+			decoded.WriteByte(name[index])
+		}
+		return decoded.String(), nil
 	}
 	for index, char := range text {
 		valid := char == '_' || char >= 'a' && char <= 'z' || char >= 'A' && char <= 'Z'

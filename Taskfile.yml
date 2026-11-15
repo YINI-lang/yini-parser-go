@@ -8,6 +8,11 @@ vars:
   DIR_OUTPUT: internal/grammar/generated
 
 tasks:
+  build:
+    desc: Compile all Go packages.
+    cmds:
+      - go build ./...
+
   generate:
     desc: Generate the Go lexer and parser from the checked-in grammar.
     cmds:
@@ -45,8 +50,9 @@ tasks:
       - go run ./cmd/release-tag
 
   check:
-    desc: Format, analyze, and test the module.
+    desc: Format, build, analyze, and test the module.
     cmds:
       - task: fmt
+      - task: build
       - task: vet
       - task: test

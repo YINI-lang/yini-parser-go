@@ -40,7 +40,11 @@ func parseNumber(text string) (any, string, error) {
 		if err != nil {
 			return nil, "", fmt.Errorf("integer %q is outside the signed 64-bit range or is invalid", text)
 		}
-		return value, strconv.FormatInt(value, 10), nil
+		canonical := strconv.FormatInt(value, 10)
+		if base == 10 {
+			canonical = strings.TrimPrefix(sign+digits, "+")
+		}
+		return value, canonical, nil
 	}
 	value, err := strconv.ParseFloat(sign+clean, 64)
 	if err != nil && !errors.Is(err, strconv.ErrRange) {
@@ -52,7 +56,9 @@ func parseNumber(text string) (any, string, error) {
 	if value == 0 && containsNonzeroDigit(clean) {
 		return nil, "", fmt.Errorf("floating-point number %q is too small to represent", text)
 	}
-	return value, strconv.FormatFloat(value, 'g', -1, 64), nil
+	canonical := strings.TrimPrefix(sign+strings.ToLower(clean), "+")
+	canonical = strings.ReplaceAll(canonical, "e+", "e")
+	return value, canonical, nil
 }
 
 func containsNonzeroDigit(text string) bool {

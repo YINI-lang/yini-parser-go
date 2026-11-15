@@ -34,13 +34,14 @@ func ParseString(content string, options Options) (Result, error) {
 	}
 	bom := strings.HasPrefix(content, "\uFEFF")
 	input := strings.TrimPrefix(content, "\uFEFF")
-	// The checked-in grammar expects an end-of-line token after assignments and
-	// headers. EOF is also a valid final line ending for YINI input.
+	originalInput := input
+	// Use a synthetic final newline so EOF diagnostics stay on the following line.
 	if !strings.HasSuffix(input, "\n") && !strings.HasSuffix(input, "\r") {
 		input += "\n"
 	}
 	input, misplacedShebang := normalizeShebang(input)
 	locator := newSourceLocator(input, bom)
+	validateLineEndings(originalInput, mode, locator, &result)
 	if misplacedShebang >= 0 {
 		severity := SeverityWarning
 		if mode == ModeStrict {
@@ -54,7 +55,7 @@ func ParseString(content string, options Options) (Result, error) {
 		})
 	}
 	listener := &syntaxListener{result: &result, locator: locator, mode: mode}
-	lexer := generated.NewYiniLexer(antlr.NewInputStream(input))
+	lexer := &objectKeyLexer{YiniLexer: generated.NewYiniLexer(antlr.NewInputStream(input))}
 	lexer.RemoveErrorListeners()
 	lexer.AddErrorListener(listener)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
@@ -62,6 +63,7 @@ func ParseString(content string, options Options) (Result, error) {
 	parser.RemoveErrorListeners()
 	parser.AddErrorListener(listener)
 	tree := parser.Yini()
+	validateCommentPlacement(stream.GetAllTokens(), locator, &result)
 	builder := documentBuilder{result: &result, mode: mode, locator: locator}
 	builder.build(tree)
 	sort.SliceStable(result.Diagnostics, func(i, j int) bool {
@@ -78,6 +80,72 @@ func ParseString(content string, options Options) (Result, error) {
 		}
 	}
 	return result, nil
+}
+
+func validateLineEndings(input string, mode Mode, locator *sourceLocator, result *Result) {
+	first := ""
+	for index, characters := 0, []rune(input); index < len(characters); index++ {
+		ending := ""
+		start := index
+		switch characters[index] {
+		case '\r':
+			ending = "CR"
+			if index+1 < len(characters) && characters[index+1] == '\n' {
+				ending = "CRLF"
+				index++
+			}
+		case '\n':
+			ending = "LF"
+		default:
+			continue
+		}
+		if first == "" {
+			first = ending
+		} else if ending != first {
+			severity := SeverityWarning
+			if mode == ModeStrict {
+				severity = SeverityError
+			}
+			result.Diagnostics = append(result.Diagnostics, Diagnostic{
+				Severity: severity,
+				Code:     "mixed-line-endings",
+				Message:  "Document uses mixed line endings",
+				Position: locator.index(start),
+			})
+			return
+		}
+	}
+}
+
+func tokenStartsLine(token antlr.Token) bool {
+	input := token.GetInputStream()
+	for index := token.GetStart() - 1; index >= 0; index-- {
+		switch input.GetText(index, index) {
+		case " ", "\t":
+			continue
+		case "\r", "\n":
+			return true
+		default:
+			return false
+		}
+	}
+	return true
+}
+
+func validateCommentPlacement(tokens []antlr.Token, locator *sourceLocator, result *Result) {
+	for _, token := range tokens {
+		if token.GetTokenType() != generated.YiniLexerFULL_LINE_COMMENT && token.GetTokenType() != generated.YiniLexerDISABLED_LINE {
+			continue
+		}
+		if !tokenStartsLine(token) {
+			result.Diagnostics = append(result.Diagnostics, Diagnostic{
+				Severity: SeverityError,
+				Code:     "syntax",
+				Message:  "Semicolon comments and disabled lines must start on their own line",
+				Position: locator.token(token),
+			})
+		}
+	}
 }
 
 // The grammar recognizes #! as a shebang at any position. Later occurrences
@@ -205,7 +273,7 @@ func (l *syntaxListener) syntaxMessage(recognizer antlr.Recognizer, token antlr.
 		return "Expected ] to close the list"
 	case tokenType == generated.YiniLexerCB && collection == generated.YiniParserRULE_object_literal:
 		return "Expected } to close the inline object"
-	case tokenType == generated.YiniLexerFULL_LINE_COMMENT && syntaxInRule(context, generated.YiniParserRULE_eol):
+	case tokenType == generated.YiniLexerFULL_LINE_COMMENT:
 		return "Semicolon comments must start on their own line"
 	case tokenType == generated.YiniLexerPLUS && syntaxInRule(context, generated.YiniParserRULE_eol):
 		return "Concatenation must start with a string and place + on the same line"

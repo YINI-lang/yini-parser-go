@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **Added:** Add `task build` and include compilation in `task check` and Go CI.
+- **Updated:** Pin external CI to `yini-test-suite` 0.4.0rc1 and enable the full conformance workflow; all 542 smoke and golden cases pass in both modes.
+- **Fixed:** Adapt the host parser to RC.7 grammar interfaces, including signed numbers, Boolean/null identifier names, compact inline-object keys named `hex`, escaped identifiers, and section-header comments.
+- **Changed:** Reject duplicate sibling sections in both modes, retaining the first section only for recovery.
+- **Fixed:** Support `E`/`e` escaped strings and command strings, normalize multiline source line endings to LF, preserve decimal spelling in lenient concatenation, and warn for deprecated `%` binary literals. Mixed source line endings warn in lenient mode and fail in strict mode.
 - **Fixed:** Reject pointer-only recursive destination types during schema validation to prevent unbounded recursion while decoding.
 - **Changed:** Warn when a lenient root-level or section-level member has an empty value, including when only whitespace or comments follow `=`. The value remains `null`; explicit `null` does not produce this warning.
 - **Added:** Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
