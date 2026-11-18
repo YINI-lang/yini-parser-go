@@ -39,7 +39,8 @@ Use `Taskfile.yml` as the command interface. Run these from the repository root:
 | Command | Purpose |
 | --- | --- |
 | `task generate` | Regenerate the ANTLR Go package with `libs/antlr4/antlr-4.13.2-complete.jar`. |
-| `task build` | Compile all Go packages. |
+| `task build` | Compile all Go packages and build the root-level test adapter. |
+| `task clean` | Remove local Go build artifacts and root-level test-adapter binaries. |
 | `task fmt` | Format Go code. |
 | `task vet` | Run Go analyzers, excluding generated unreachable-code warnings. |
 | `task test` | Run all Go tests. |

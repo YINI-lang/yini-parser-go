@@ -9,9 +9,18 @@ vars:
 
 tasks:
   build:
-    desc: Compile all Go packages.
+    desc: Compile all Go packages and build the test adapter.
+    dir: '{{.ROOT_DIR}}'
     cmds:
       - go build ./...
+      - go build -o . ./cmd/yini-test-adapter
+
+  clean:
+    desc: Remove local Go build artifacts and test-adapter binaries.
+    dir: '{{.ROOT_DIR}}'
+    cmds:
+      - go clean ./...
+      - rm -f -- ./yini-test-adapter ./yini-test-adapter.exe
 
   generate:
     desc: Generate the Go lexer and parser from the checked-in grammar.

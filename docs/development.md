@@ -7,7 +7,8 @@ Use [Task](https://taskfile.dev/) from the repository root:
 | Command         | Action |
 |-----------------|--------|
 | `task generate` | Generate ANTLR Go files from `GRAMMAR_BASE` (currently `grammar/v1.0.0-rc.7/`) into `internal/grammar/generated/`. |
-| `task build`    | Compile the library and command packages with `go build ./...`. |
+| `task build`    | Compile all Go packages and build the test adapter in the repository root. |
+| `task clean`    | Remove local Go build artifacts and root-level test-adapter binaries. |
 | `task fmt`      | Format Go packages. |
 | `task vet`      | Analyze Go packages. |
 | `task test`     | Run all tests. |
@@ -18,7 +19,9 @@ Use [Task](https://taskfile.dev/) from the repository root:
 
 `task generate` uses the included `libs/antlr4/antlr-4.13.2-complete.jar` and requires Java. Generated files are checked in, so consumers need only Go. `go.mod` pins the separate ANTLR Go runtime. Run `task generate` only when generation inputs or settings change, and run `task check` before submitting work. `task vet` disables the unreachable-code analyzer because ANTLR emits unreachable branches.
 
-`task build` verifies compilation. This repository publishes a Go library, so it does not need a distributable build directory; Go applications compile it when they build. Use an explicit `go build -o` command below to produce the standalone test adapter.
+`task build` compiles all packages and produces the standalone test adapter in the repository root: `yini-test-adapter.exe` on Windows or `yini-test-adapter` on Linux and macOS. The library is compiled by applications that import it.
+
+`task clean` runs `go clean ./...` and removes `yini-test-adapter` and `yini-test-adapter.exe` from the repository root. Missing files are harmless. It preserves source files, generated parser source, grammar references, fixtures, vendored tooling, and Go's shared caches. It runs from the repository root even when called from a subdirectory.
 
 `VERSION` is the parser release version. Commit it with the release changes before running `task release`. The task creates a local tag; push that tag to make the version available to Go users.
 
@@ -34,7 +37,7 @@ The Go adapter for `yini-test-suite` lives in `cmd/yini-test-adapter/`. Install 
 
 ```powershell
 python -m pip install yini-test-suite==0.4.0rc1
-go build -o yini-test-adapter.exe ./cmd/yini-test-adapter
+task build
 yini-test-suite smoke --all-modes --adapter ./yini-test-adapter.exe --input '{input}' --mode '{mode}'
 ```
 
