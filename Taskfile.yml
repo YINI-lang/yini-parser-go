@@ -38,6 +38,16 @@ tasks:
     cmds:
       - go test ./...
 
+  test:verbose:
+    desc: Run all Go tests without caching and show each test result.
+    cmds:
+      - go test -v -count=1 ./...
+
+  test:summary:
+    desc: Run all Go tests without caching and show result counts by package.
+    cmds:
+      - go run ./cmd/test-summary
+
   versions:
     desc: List published module versions.
     cmds:

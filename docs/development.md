@@ -11,6 +11,8 @@ Use [Task](https://taskfile.dev/) from the repository root:
 | `task fmt`      | Format Go packages. |
 | `task vet`      | Analyze Go packages. |
 | `task test`     | Run all tests. |
+| `task test:verbose` | Run all tests without caching and show each test and subtest result. |
+| `task test:summary` | Run all tests without caching and show passed, failed, and skipped counts by package. |
 | `task check`    | Run format, build, vet, and test. |
 | `task release`  | Run checks and create an annotated Git tag from `VERSION`. |
 
@@ -20,7 +22,11 @@ Use [Task](https://taskfile.dev/) from the repository root:
 
 `VERSION` is the parser release version. Commit it with the release changes before running `task release`. The task creates a local tag; push that tag to make the version available to Go users.
 
-Integration tests and original YINI fixtures live in `tests/integration/`. Add focused valid and invalid cases when changing semantic validation; assert line and column for source-location fixes. New fixtures must use original YINI content rather than copying content from sibling parser repositories.
+Focused unit tests use `package yini` and live beside the implementation files at the module root. They test private helpers for numeric and string conversion, identifiers, section headers, source positions, and deep copies. Integration tests and original YINI fixtures live in `tests/integration/` and cover public APIs and parse modes. Both are included in `task test` and `task check`.
+
+`task test:summary` counts test functions and named subtests, including parent groups. It reports their totals separately below the table; these are reported test results, not a count of independent cases. Package durations come from Go, and the total duration is the time spent running `go test`, including compilation. Failed packages also print their detailed output, and any test or build failure makes the task fail. Go reports results by test name rather than by source file.
+
+Add focused valid and invalid cases when changing semantic validation; assert line and column for source-location fixes. New fixtures must use original YINI content rather than copying content from sibling parser repositories. See [doc.go](../doc.go) for the package overview and source organization.
 
 ## Shared conformance suite
 

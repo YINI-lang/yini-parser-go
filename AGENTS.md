@@ -43,6 +43,8 @@ Use `Taskfile.yml` as the command interface. Run these from the repository root:
 | `task fmt` | Format Go code. |
 | `task vet` | Run Go analyzers, excluding generated unreachable-code warnings. |
 | `task test` | Run all Go tests. |
+| `task test:verbose` | Run all Go tests without caching and show individual results. |
+| `task test:summary` | Run all Go tests without caching and show counts by package. |
 | `task check` | Run formatting, build, vet, and tests. |
 | `task release` | Run checks and create the Git tag named by `VERSION`. |
 

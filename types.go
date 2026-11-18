@@ -1,8 +1,3 @@
-// Package yini parses YINI configuration documents.
-//
-// Parsing is lenient by default. Set Options.Mode to ModeStrict to enforce
-// strict document rules. Parse results include diagnostics even when an error
-// is returned.
 package yini
 
 import (

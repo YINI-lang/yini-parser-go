@@ -1,22 +1,24 @@
 # yini-parser-go
 
 [![Go 1.22+](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](go.mod)
-[![v1.0.0-alpha.3](https://img.shields.io/badge/release-v1.0.0--alpha.3-orange)](CHANGELOG.md)
+[![v1.0.0-beta.1](https://img.shields.io/badge/release-v1.0.0--beta.1-orange)](CHANGELOG.md)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
 
 [YINI](https://yini-lang.org/refs/specification/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme&utm_medium=referral) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
 
-`yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. The development version targets YINI 1.0.0 RC.7; the latest tagged alpha release is `v1.0.0-alpha.3`.
+`yini-parser-go` lets Go applications and tools parse YINI files or text and access a structured document, Go values, and diagnostics. It supports lenient and strict parsing. Version `v1.0.0-beta.1` targets YINI 1.0.0 RC.7.
 
 The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pinned ANTLR Go runtime; applications need only the Go module, not Java.
+
+Start with the [package overview](doc.go) for the library entry points and source organization.
 
 ---
 
 ## Install
 
 ```sh
-go get github.com/YINI-lang/yini-parser-go@v1.0.0-alpha.3
+go get github.com/YINI-lang/yini-parser-go@v1.0.0-beta.1
 ```
 
 ---

@@ -1,19 +1,24 @@
 # Changelog
 
-## Unreleased
+## v1.0.0-beta.1
 
-- **Added:** Add `task build` and include compilation in `task check` and Go CI.
-- **Updated:** Pin external CI to `yini-test-suite` 0.4.0rc1 and enable the full conformance workflow; all 542 smoke and golden cases pass in both modes.
-- **Fixed:** Adapt the host parser to RC.7 grammar interfaces, including signed numbers, Boolean/null identifier names, compact inline-object keys named `hex`, escaped identifiers, and section-header comments.
-- **Changed:** Reject duplicate sibling sections in both modes, retaining the first section only for recovery.
+First beta release targeting YINI 1.0.0 RC.7. All 542 tests in `yini-test-suite` 0.4.0rc1 pass: 10 smoke and 280 golden tests in lenient mode, and 10 smoke and 242 golden tests in strict mode.
+
 - **Fixed:** Support `E`/`e` escaped strings and command strings, normalize multiline source line endings to LF, preserve decimal spelling in lenient concatenation, and warn for deprecated `%` binary literals. Mixed source line endings warn in lenient mode and fail in strict mode.
 - **Fixed:** Reject pointer-only recursive destination types during schema validation to prevent unbounded recursion while decoding.
+- **Fixed:** Adapt the host parser to RC.7 grammar interfaces, including signed numbers, Boolean/null identifier names, compact inline-object keys named `hex`, escaped identifiers, and section-header comments.
+- **Updated:** Pin external CI to `yini-test-suite` 0.4.0rc1 and enable the full conformance workflow.
+- **Updated:** Expand integration test data from four to eight original YINI fixtures, covering duplicate recovery, root members and nulls, typed struct decoding, and numeric and string forms.
+- **Updated:** Organize integration test scenarios into explicit Assign, Act, and Assert phases, with named subtests for separate behaviors.
+- **Changed:** Reject duplicate sibling sections in both modes, retaining the first section only for recovery.
 - **Changed:** Warn when a lenient root-level or section-level member has an empty value, including when only whitespace or comments follow `=`. The value remains `null`; explicit `null` does not produce this warning.
+- **Added:** Add `task build` and include compilation in `task check` and Go CI.
 - **Added:** Add `Document.Decode` and `Section.Decode` to map parsed values into Go structs with explicit `yini` field tags and exact numeric conversions.
 - **Added:** Return `*DecodeError` with YINI paths and source positions; leave the destination unchanged if decoding fails.
 - **Added:** Add struct-decoding regression tests in both parse modes for numeric boundaries, type mismatches, recursive types, deep-copy isolation, source locations, and unchanged destinations on failure.
-- **Updated:** Expand integration test data from four to eight original YINI fixtures, covering duplicate recovery, root members and nulls, typed struct decoding, and numeric and string forms.
-
+- **Added:** Add `doc.go` with a package overview covering parsing entry points, results, diagnostics, struct decoding, and source organization.
+- **Added:** Add focused unit tests beside the implementation files for numeric and string conversion, identifiers, section headers, source positions, and deep-copy isolation.
+  
 ## v1.0.0-alpha.3
 
 - Include the file path in `ParseFile` parse errors while keeping `*yini.ParseError` available through `errors.As`.
