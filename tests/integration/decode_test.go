@@ -19,6 +19,7 @@ func parseDecodeDocument(t *testing.T, text string, mode yini.Mode) *yini.Docume
 }
 
 func TestDecodeDocumentAndSection(t *testing.T) {
+	// 1. Assign.
 	type label string
 	type cache struct {
 		Size int8 `yini:"size"`
@@ -41,31 +42,47 @@ func TestDecodeDocumentAndSection(t *testing.T) {
 	}
 	for _, mode := range []yini.Mode{yini.ModeLenient, yini.ModeStrict} {
 		t.Run(string(mode), func(t *testing.T) {
+			// 1. Assign.
 			doc := parseDecodeDocument(t, text, mode)
 			var whole config
-			if err := doc.Decode(&whole); err != nil {
-				t.Fatalf("Document.Decode: %v", err)
+			var part service
+
+			// 2. Act.
+			wholeErr := doc.Decode(&whole)
+			partErr := doc.Sections[0].Decode(&part)
+
+			// 3. Assert.
+			if wholeErr != nil {
+				t.Fatalf("Document.Decode: %v", wholeErr)
 			}
 			if !reflect.DeepEqual(whole.Service, want) {
 				t.Fatalf("whole.Service = %#v, want %#v", whole.Service, want)
 			}
-			var part service
-			if err := doc.Sections[0].Decode(&part); err != nil {
-				t.Fatalf("Section.Decode: %v", err)
+			if partErr != nil {
+				t.Fatalf("Section.Decode: %v", partErr)
 			}
 			if !reflect.DeepEqual(part, want) {
 				t.Fatalf("part = %#v, want %#v", part, want)
 			}
-			part.Details["owner"] = "changed"
-			original := doc.Values()["Service"].(map[string]any)["details"].(map[string]any)["owner"]
-			if original != "Mira" {
-				t.Fatalf("decoding modified document value: %#v", original)
-			}
+			t.Run("independent copy", func(t *testing.T) {
+				// 1. Assign.
+				details := part.Details
+
+				// 2. Act.
+				details["owner"] = "changed"
+
+				// 3. Assert.
+				original := doc.Values()["Service"].(map[string]any)["details"].(map[string]any)["owner"]
+				if original != "Mira" {
+					t.Fatalf("decoding modified document value: %#v", original)
+				}
+			})
 		})
 	}
 }
 
 func TestDecodeLenientRootAndNulls(t *testing.T) {
+	// 1. Assign.
 	type service struct {
 		Port int64 `yini:"port"`
 	}
@@ -81,16 +98,22 @@ func TestDecodeLenientRootAndNulls(t *testing.T) {
 	text := "label = 'North'\nptr = null\nitems = null\nmeta = null\nany = null\n^ Service\nport = 9"
 	doc := parseDecodeDocument(t, text, yini.ModeLenient)
 	dst := config{Label: "old", Ptr: new(int64), Items: []string{"old"}, Meta: map[string]any{"old": true}, Any: "old", Absent: "old"}
-	if err := doc.Decode(&dst); err != nil {
+	want := config{Label: "North", Service: service{Port: 9}}
+
+	// 2. Act.
+	err := doc.Decode(&dst)
+
+	// 3. Assert.
+	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
-	want := config{Label: "North", Service: service{Port: 9}}
 	if !reflect.DeepEqual(dst, want) {
 		t.Fatalf("decoded = %#v, want %#v", dst, want)
 	}
 }
 
 func TestDecodeTypedMapsAndCopiedInterface(t *testing.T) {
+	// 1. Assign.
 	type ratio float64
 	type config struct {
 		Counts map[string]int64 `yini:"counts"`
@@ -101,43 +124,71 @@ func TestDecodeTypedMapsAndCopiedInterface(t *testing.T) {
 	text := "^ Config\ncounts = { left: 1, right: 2 }\ndata = [{ tags: ['a', 'b'] }]\nratio = 0.25\n^^ Extra\ncount = 5\n/END"
 	doc := parseDecodeDocument(t, text, yini.ModeStrict)
 	var dst config
-	if err := doc.Sections[0].Decode(&dst); err != nil {
+
+	// 2. Act.
+	err := doc.Sections[0].Decode(&dst)
+
+	// 3. Assert.
+	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
 	if !reflect.DeepEqual(dst.Counts, map[string]int64{"left": 1, "right": 2}) ||
 		!reflect.DeepEqual(dst.Extra, map[string]int64{"count": 5}) || dst.Ratio != ratio(0.25) {
 		t.Fatalf("decoded map/float values = %#v", dst)
 	}
-	items := dst.Data.([]any)
-	items[0].(map[string]any)["tags"].([]any)[0] = "changed"
-	original := doc.Values()["Config"].(map[string]any)["data"].([]any)[0].(map[string]any)["tags"].([]any)[0]
-	if original != "a" {
-		t.Fatalf("interface value shares document storage: %#v", original)
-	}
+	t.Run("independent interface copy", func(t *testing.T) {
+		// 1. Assign.
+		items := dst.Data.([]any)
+
+		// 2. Act.
+		items[0].(map[string]any)["tags"].([]any)[0] = "changed"
+
+		// 3. Assert.
+		original := doc.Values()["Config"].(map[string]any)["data"].([]any)[0].(map[string]any)["tags"].([]any)[0]
+		if original != "a" {
+			t.Fatalf("interface value shares document storage: %#v", original)
+		}
+	})
 }
 
 func TestDecodeExactFieldNames(t *testing.T) {
+	// 1. Assign.
 	type config struct{ Name string }
 	for _, mode := range []yini.Mode{yini.ModeLenient, yini.ModeStrict} {
 		t.Run(string(mode), func(t *testing.T) {
+			// 1. Assign.
 			valid := parseDecodeDocument(t, "^ Config\nName = 'Ada'\n/END", mode)
 			var dst config
-			if err := valid.Sections[0].Decode(&dst); err != nil || dst.Name != "Ada" {
+
+			// 2. Act.
+			err := valid.Sections[0].Decode(&dst)
+
+			// 3. Assert.
+			if err != nil || dst.Name != "Ada" {
 				t.Fatalf("exact field name = %#v, %v", dst, err)
 			}
-			invalid := parseDecodeDocument(t, "^ Config\nname = 'Ada'\n/END", mode)
-			var detail *yini.DecodeError
-			if err := invalid.Sections[0].Decode(&dst); !errors.As(err, &detail) || detail.Path != "Config.name" || detail.Position != (yini.Position{Line: 2, Column: 1}) {
-				t.Fatalf("case mismatch = %v; want Config.name at 2:1", err)
-			}
-			if dst.Name != "Ada" {
-				t.Fatalf("failed decode changed destination: %#v", dst)
-			}
+			t.Run("case mismatch preserves destination", func(t *testing.T) {
+				// 1. Assign.
+				invalid := parseDecodeDocument(t, "^ Config\nname = 'Ada'\n/END", mode)
+				var detail *yini.DecodeError
+
+				// 2. Act.
+				err := invalid.Sections[0].Decode(&dst)
+
+				// 3. Assert.
+				if !errors.As(err, &detail) || detail.Path != "Config.name" || detail.Position != (yini.Position{Line: 2, Column: 1}) {
+					t.Fatalf("case mismatch = %v; want Config.name at 2:1", err)
+				}
+				if dst.Name != "Ada" {
+					t.Fatalf("failed decode changed destination: %#v", dst)
+				}
+			})
 		})
 	}
 }
 
 func TestDecodeValueErrors(t *testing.T) {
+	// 1. Assign.
 	tests := []struct {
 		name    string
 		body    string
@@ -194,10 +245,15 @@ func TestDecodeValueErrors(t *testing.T) {
 	for _, mode := range []yini.Mode{yini.ModeLenient, yini.ModeStrict} {
 		for _, test := range tests {
 			t.Run(string(mode)+"/"+test.name, func(t *testing.T) {
+				// 1. Assign.
 				doc := parseDecodeDocument(t, "^ Config\n"+test.body+"\n/END", mode)
 				dst := test.dst()
-				err := doc.Sections[0].Decode(dst)
 				var detail *yini.DecodeError
+
+				// 2. Act.
+				err := doc.Sections[0].Decode(dst)
+
+				// 3. Assert.
 				if !errors.As(err, &detail) {
 					t.Fatalf("Decode error = %v; want *DecodeError", err)
 				}
@@ -213,44 +269,60 @@ func TestDecodeValueErrors(t *testing.T) {
 }
 
 func TestDecodeDeterministicOrderAndAtomicity(t *testing.T) {
-	type child struct {
-		Value int64 `yini:"value"`
-	}
-	type config struct {
-		Child child `yini:"Child"`
-		Late  int64 `yini:"late"`
-	}
-	doc := &yini.Document{
-		Members: []*yini.Member{{Name: "late", Value: "bad", Position: yini.Position{Line: 4, Column: 1}}},
-		Sections: []*yini.Section{{Name: "Child", Position: yini.Position{Line: 2, Column: 1}, Members: []*yini.Member{
-			{Name: "value", Value: "bad", Position: yini.Position{Line: 3, Column: 1}},
-		}}},
-	}
-	dst := config{Child: child{Value: 12}, Late: 13}
-	before := dst
-	err := doc.Decode(&dst)
-	var detail *yini.DecodeError
-	if !errors.As(err, &detail) || detail.Path != "Child.value" || detail.Position != (yini.Position{Line: 3, Column: 1}) {
-		t.Fatalf("first error = %v; want Child.value at 3:1", err)
-	}
-	if dst != before {
-		t.Fatalf("destination changed on error: %#v", dst)
-	}
+	t.Run("document order and atomicity", func(t *testing.T) {
+		// 1. Assign.
+		type child struct {
+			Value int64 `yini:"value"`
+		}
+		type config struct {
+			Child child `yini:"Child"`
+			Late  int64 `yini:"late"`
+		}
+		doc := &yini.Document{
+			Members: []*yini.Member{{Name: "late", Value: "bad", Position: yini.Position{Line: 4, Column: 1}}},
+			Sections: []*yini.Section{{Name: "Child", Position: yini.Position{Line: 2, Column: 1}, Members: []*yini.Member{
+				{Name: "value", Value: "bad", Position: yini.Position{Line: 3, Column: 1}},
+			}}},
+		}
+		dst := config{Child: child{Value: 12}, Late: 13}
+		before := dst
+		var detail *yini.DecodeError
 
-	parsed := parseDecodeDocument(t, "^ Config\nitem = { z: true, a: 'bad' }\n/END", yini.ModeStrict)
-	var inline struct {
-		Item struct {
-			A int64 `yini:"a"`
-			Z int64 `yini:"z"`
-		} `yini:"item"`
-	}
-	err = parsed.Sections[0].Decode(&inline)
-	if !errors.As(err, &detail) || detail.Path != "Config.item.a" || detail.Position != (yini.Position{Line: 2, Column: 1}) {
-		t.Fatalf("inline object error = %v; want Config.item.a at 2:1", err)
-	}
+		// 2. Act.
+		err := doc.Decode(&dst)
+
+		// 3. Assert.
+		if !errors.As(err, &detail) || detail.Path != "Child.value" || detail.Position != (yini.Position{Line: 3, Column: 1}) {
+			t.Fatalf("first error = %v; want Child.value at 3:1", err)
+		}
+		if dst != before {
+			t.Fatalf("destination changed on error: %#v", dst)
+		}
+	})
+
+	t.Run("inline object order", func(t *testing.T) {
+		// 1. Assign.
+		parsed := parseDecodeDocument(t, "^ Config\nitem = { z: true, a: 'bad' }\n/END", yini.ModeStrict)
+		var inline struct {
+			Item struct {
+				A int64 `yini:"a"`
+				Z int64 `yini:"z"`
+			} `yini:"item"`
+		}
+		var detail *yini.DecodeError
+
+		// 2. Act.
+		err := parsed.Sections[0].Decode(&inline)
+
+		// 3. Assert.
+		if !errors.As(err, &detail) || detail.Path != "Config.item.a" || detail.Position != (yini.Position{Line: 2, Column: 1}) {
+			t.Fatalf("inline object error = %v; want Config.item.a at 2:1", err)
+		}
+	})
 }
 
 func TestDecodeDestinationValidationAndEmbedding(t *testing.T) {
+	// 1. Assign.
 	doc := &yini.Document{}
 	var nilDocument *yini.Document
 	var nilSection *yini.Section
@@ -283,42 +355,76 @@ func TestDecodeDestinationValidationAndEmbedding(t *testing.T) {
 		{"non-string map key", func() error { return doc.Decode(&struct{ A map[int]string }{}) }},
 	} {
 		t.Run(test.name, func(t *testing.T) {
+			// 1. Assign.
 			var detail *yini.DecodeError
-			if err := test.run(); !errors.As(err, &detail) || detail.Position != (yini.Position{}) {
+
+			// 2. Act.
+			err := test.run()
+
+			// 3. Assert.
+			if !errors.As(err, &detail) || detail.Position != (yini.Position{}) {
 				t.Fatalf("error = %v; want unpositioned *DecodeError", err)
 			}
 		})
 	}
 
-	type hidden struct{ Secret string }
-	type Public struct{ Value string }
-	type target struct {
-		hidden
-		Public
-		Name string
-	}
-	var value target
-	var detail *yini.DecodeError
-	if err := doc.Decode(&value); !errors.As(err, &detail) || !strings.Contains(err.Error(), "embedded") {
-		t.Fatalf("exported embedded field error = %v", err)
-	}
-	type ignored struct {
-		hidden
-		Public `yini:"-"`
-		Name   string
-	}
-	doc = parseDecodeDocument(t, "Name = 'Ada'", yini.ModeLenient)
-	var accepted ignored
-	if err := doc.Decode(&accepted); err != nil || accepted.Name != "Ada" {
-		t.Fatalf("ignored embedded fields = %#v, %v", accepted, err)
-	}
-	doc = parseDecodeDocument(t, "Secret = 'visible'", yini.ModeLenient)
-	if err := doc.Decode(&accepted); !errors.As(err, &detail) || detail.Path != "Secret" {
-		t.Fatalf("unexported embedded field was promoted: %v", err)
-	}
+	t.Run("exported embedded field", func(t *testing.T) {
+		// 1. Assign.
+		type hidden struct{ Secret string }
+		type Public struct{ Value string }
+		type target struct {
+			hidden
+			Public
+			Name string
+		}
+		var value target
+		var detail *yini.DecodeError
+
+		// 2. Act.
+		err := doc.Decode(&value)
+
+		// 3. Assert.
+		if !errors.As(err, &detail) || !strings.Contains(err.Error(), "embedded") {
+			t.Fatalf("exported embedded field error = %v", err)
+		}
+	})
+	t.Run("ignored embedded fields", func(t *testing.T) {
+		// 1. Assign.
+		type hidden struct{ Secret string }
+		type Public struct{ Value string }
+		type ignored struct {
+			hidden
+			Public `yini:"-"`
+			Name   string
+		}
+		doc := parseDecodeDocument(t, "Name = 'Ada'", yini.ModeLenient)
+		var accepted ignored
+
+		// 2. Act.
+		err := doc.Decode(&accepted)
+
+		// 3. Assert.
+		if err != nil || accepted.Name != "Ada" {
+			t.Fatalf("ignored embedded fields = %#v, %v", accepted, err)
+		}
+		t.Run("unexported field is not promoted", func(t *testing.T) {
+			// 1. Assign.
+			doc := parseDecodeDocument(t, "Secret = 'visible'", yini.ModeLenient)
+			var detail *yini.DecodeError
+
+			// 2. Act.
+			err := doc.Decode(&accepted)
+
+			// 3. Assert.
+			if !errors.As(err, &detail) || detail.Path != "Secret" {
+				t.Fatalf("unexported embedded field was promoted: %v", err)
+			}
+		})
+	})
 }
 
 func TestDecodeRecursiveTypeAndNumericBoundaries(t *testing.T) {
+	// 1. Assign.
 	type node struct {
 		Value string `yini:"value"`
 		Next  *node  `yini:"next"`
@@ -330,19 +436,32 @@ func TestDecodeRecursiveTypeAndNumericBoundaries(t *testing.T) {
 	}
 	doc := parseDecodeDocument(t, "^ Config\nnode = { value: 'root', next: { value: 'leaf', next: null } }\nmax = 9223372036854775807\nmin = -9223372036854775808\n/END", yini.ModeStrict)
 	var dst config
-	if err := doc.Sections[0].Decode(&dst); err != nil {
+
+	// 2. Act.
+	err := doc.Sections[0].Decode(&dst)
+
+	// 3. Assert.
+	if err != nil {
 		t.Fatalf("Decode: %v", err)
 	}
 	if dst.Max != uint64(9223372036854775807) || dst.Min != int64(-9223372036854775808) || dst.Node.Next == nil || dst.Node.Next.Value != "leaf" || dst.Node.Next.Next != nil {
 		t.Fatalf("decoded boundaries/recursive type = %#v", dst)
 	}
-	type badNode struct {
-		Next *badNode
-		Bad  chan int
-	}
-	var bad struct{ Node badNode }
-	var detail *yini.DecodeError
-	if err := doc.Decode(&bad); !errors.As(err, &detail) || detail.Position != (yini.Position{}) {
-		t.Fatalf("recursive schema with unsupported field = %v", err)
-	}
+	t.Run("unsupported recursive schema", func(t *testing.T) {
+		// 1. Assign.
+		type badNode struct {
+			Next *badNode
+			Bad  chan int
+		}
+		var bad struct{ Node badNode }
+		var detail *yini.DecodeError
+
+		// 2. Act.
+		err := doc.Decode(&bad)
+
+		// 3. Assert.
+		if !errors.As(err, &detail) || detail.Position != (yini.Position{}) {
+			t.Fatalf("recursive schema with unsupported field = %v", err)
+		}
+	})
 }

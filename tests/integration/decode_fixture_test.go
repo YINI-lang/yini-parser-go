@@ -9,6 +9,7 @@ import (
 )
 
 func TestDecodeJobRunnerFile(t *testing.T) {
+	// 1. Assign.
 	type job struct {
 		Name     string   `yini:"name"`
 		Attempts uint8    `yini:"attempts"`
@@ -56,32 +57,69 @@ func TestDecodeJobRunnerFile(t *testing.T) {
 			Retry:   retry{Delays: []uint16{1, 3, 8}, Jitter: 0.125},
 		},
 	}
-	var whole struct{ JobRunner config }
-	if err := result.Document.Decode(&whole); err != nil {
-		t.Fatalf("Document.Decode: %v", err)
-	}
-	if !reflect.DeepEqual(whole.JobRunner, want) {
-		t.Fatalf("Document.Decode = %#v, want %#v", whole.JobRunner, want)
-	}
-	fallback := "old fallback"
-	section := config{Fallback: &fallback}
-	if err := result.Document.Sections[0].Decode(&section); err != nil {
-		t.Fatalf("Section.Decode: %v", err)
-	}
-	if !reflect.DeepEqual(section, want) {
-		t.Fatalf("Section.Decode = %#v, want %#v", section, want)
-	}
+	t.Run("document", func(t *testing.T) {
+		// 1. Assign.
+		var whole struct{ JobRunner config }
 
-	section.Jobs[0].Labels[0] = "changed"
-	section.Pool.Limits["running"] = 99
-	if !reflect.DeepEqual(whole.JobRunner, want) {
-		t.Fatal("separate Decode calls share collection storage")
-	}
-	var fresh config
-	if err := result.Document.Sections[0].Decode(&fresh); err != nil {
-		t.Fatalf("Section.Decode after modifying destination: %v", err)
-	}
-	if !reflect.DeepEqual(fresh, want) {
-		t.Fatalf("decoding modified the source: got %#v, want %#v", fresh, want)
-	}
+		// 2. Act.
+		err := result.Document.Decode(&whole)
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("Document.Decode: %v", err)
+		}
+		if !reflect.DeepEqual(whole.JobRunner, want) {
+			t.Fatalf("Document.Decode = %#v, want %#v", whole.JobRunner, want)
+		}
+	})
+	t.Run("section", func(t *testing.T) {
+		// 1. Assign.
+		fallback := "old fallback"
+		section := config{Fallback: &fallback}
+
+		// 2. Act.
+		err := result.Document.Sections[0].Decode(&section)
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("Section.Decode: %v", err)
+		}
+		if !reflect.DeepEqual(section, want) {
+			t.Fatalf("Section.Decode = %#v, want %#v", section, want)
+		}
+	})
+	t.Run("independent copies", func(t *testing.T) {
+		// 1. Assign.
+		var whole struct{ JobRunner config }
+		if err := result.Document.Decode(&whole); err != nil {
+			t.Fatalf("Document.Decode: %v", err)
+		}
+		var section config
+		if err := result.Document.Sections[0].Decode(&section); err != nil {
+			t.Fatalf("Section.Decode: %v", err)
+		}
+		// 2. Act.
+		section.Jobs[0].Labels[0] = "changed"
+		section.Pool.Limits["running"] = 99
+
+		// 3. Assert.
+		if !reflect.DeepEqual(whole.JobRunner, want) {
+			t.Fatal("separate Decode calls share collection storage")
+		}
+		t.Run("source unchanged", func(t *testing.T) {
+			// 1. Assign.
+			var fresh config
+
+			// 2. Act.
+			err := result.Document.Sections[0].Decode(&fresh)
+
+			// 3. Assert.
+			if err != nil {
+				t.Fatalf("Section.Decode after modifying destination: %v", err)
+			}
+			if !reflect.DeepEqual(fresh, want) {
+				t.Fatalf("decoding modified the source: got %#v, want %#v", fresh, want)
+			}
+		})
+	})
 }

@@ -11,6 +11,7 @@ import (
 )
 
 func TestParseFileErrorIncludesPath(t *testing.T) {
+	// 1. Assign.
 	path := filepath.Join(t.TempDir(), "broken.yini")
 	if err := os.WriteFile(path, []byte("^ Settings\nport = 1 ; note\n/END"), 0600); err != nil {
 		t.Fatal(err)
@@ -18,7 +19,13 @@ func TestParseFileErrorIncludesPath(t *testing.T) {
 
 	for _, mode := range []yini.Mode{yini.ModeLenient, yini.ModeStrict} {
 		t.Run(string(mode), func(t *testing.T) {
-			result, err := yini.ParseFile(path, yini.Options{Mode: mode})
+			// 1. Assign.
+			options := yini.Options{Mode: mode}
+
+			// 2. Act.
+			result, err := yini.ParseFile(path, options)
+
+			// 3. Assert.
 			if err == nil || !strings.Contains(err.Error(), path) {
 				t.Fatalf("ParseFile error = %v; want file path", err)
 			}
@@ -35,16 +42,25 @@ func TestParseFileErrorIncludesPath(t *testing.T) {
 		})
 	}
 
-	validPath := filepath.Join(t.TempDir(), "valid.yini")
-	if err := os.WriteFile(validPath, []byte("^ Settings\nport = 1\n/END"), 0600); err != nil {
-		t.Fatal(err)
-	}
-	if _, err := yini.ParseFile(validPath, yini.Options{Mode: yini.ModeStrict}); err != nil {
-		t.Fatalf("valid file: %v", err)
-	}
+	t.Run("valid file", func(t *testing.T) {
+		// 1. Assign.
+		validPath := filepath.Join(t.TempDir(), "valid.yini")
+		if err := os.WriteFile(validPath, []byte("^ Settings\nport = 1\n/END"), 0600); err != nil {
+			t.Fatal(err)
+		}
+
+		// 2. Act.
+		_, err := yini.ParseFile(validPath, yini.Options{Mode: yini.ModeStrict})
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("valid file: %v", err)
+		}
+	})
 }
 
 func TestSyntaxDiagnosticsExplainCommonMistakes(t *testing.T) {
+	// 1. Assign.
 	tests := []struct {
 		name    string
 		input   string
@@ -64,7 +80,13 @@ func TestSyntaxDiagnosticsExplainCommonMistakes(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			result, err := yini.ParseString(test.input, yini.Options{Mode: test.mode})
+			// 1. Assign.
+			options := yini.Options{Mode: test.mode}
+
+			// 2. Act.
+			result, err := yini.ParseString(test.input, options)
+
+			// 3. Assert.
 			if err == nil {
 				t.Fatal("expected parse error")
 			}

@@ -13,6 +13,7 @@ import (
 )
 
 func TestParseFilesAndValues(t *testing.T) {
+	// 1. Assign.
 	tests := []struct {
 		name        string
 		file        string
@@ -162,7 +163,14 @@ func TestParseFilesAndValues(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			result, err := yini.ParseFile(filepath.Join("testdata", test.file), yini.Options{Mode: test.mode})
+			// 1. Assign.
+			path := filepath.Join("testdata", test.file)
+			options := yini.Options{Mode: test.mode}
+
+			// 2. Act.
+			result, err := yini.ParseFile(path, options)
+
+			// 3. Assert.
 			if (err != nil) != test.wantError {
 				t.Fatalf("ParseFile error = %v; want error %v (diagnostics: %#v)", err, test.wantError, result.Diagnostics)
 			}
@@ -178,24 +186,40 @@ func TestParseFilesAndValues(t *testing.T) {
 			if got := result.Document.Values(); !reflect.DeepEqual(got, test.want) {
 				t.Fatalf("Values() = %#v, want %#v", got, test.want)
 			}
-			values := result.Document.Values()
-			values["changed"] = true
-			if _, exists := result.Document.Values()["changed"]; exists {
-				t.Fatal("Values() returned document-owned map")
-			}
-			for _, section := range values {
-				if nested, ok := section.(map[string]any); ok {
-					nested["changed"] = true
+			t.Run("values copy", func(t *testing.T) {
+				// 1. Assign.
+				values := result.Document.Values()
+
+				// 2. Act.
+				values["changed"] = true
+
+				// 3. Assert.
+				if _, exists := result.Document.Values()["changed"]; exists {
+					t.Fatal("Values() returned document-owned map")
 				}
-			}
-			if !reflect.DeepEqual(result.Document.Values(), test.want) {
-				t.Fatal("Values() returned document-owned nested map")
-			}
+			})
+			t.Run("nested values copy", func(t *testing.T) {
+				// 1. Assign.
+				values := result.Document.Values()
+
+				// 2. Act.
+				for _, section := range values {
+					if nested, ok := section.(map[string]any); ok {
+						nested["changed"] = true
+					}
+				}
+
+				// 3. Assert.
+				if !reflect.DeepEqual(result.Document.Values(), test.want) {
+					t.Fatal("Values() returned document-owned nested map")
+				}
+			})
 		})
 	}
 }
 
 func TestLenientFixturesRejectStrictMode(t *testing.T) {
+	// 1. Assign.
 	tests := []struct {
 		file        string
 		diagnostics []yini.Diagnostic
@@ -220,8 +244,15 @@ func TestLenientFixturesRejectStrictMode(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.file, func(t *testing.T) {
-			result, err := yini.ParseFile(filepath.Join("testdata", "lenient", test.file), yini.Options{Mode: yini.ModeStrict})
+			// 1. Assign.
+			path := filepath.Join("testdata", "lenient", test.file)
+			options := yini.Options{Mode: yini.ModeStrict}
 			var parseError *yini.ParseError
+
+			// 2. Act.
+			result, err := yini.ParseFile(path, options)
+
+			// 3. Assert.
 			if !errors.As(err, &parseError) || !result.HasErrors() {
 				t.Fatalf("strict ParseFile = %v (%#v); want a ParseError", err, result.Diagnostics)
 			}
@@ -239,6 +270,7 @@ func TestLenientFixturesRejectStrictMode(t *testing.T) {
 }
 
 func TestModesAndDiagnostics(t *testing.T) {
+	// 1. Assign.
 	tests := []struct {
 		name     string
 		text     string
@@ -257,7 +289,13 @@ func TestModesAndDiagnostics(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			result, err := yini.ParseString(test.text, yini.Options{Mode: test.mode})
+			// 1. Assign.
+			options := yini.Options{Mode: test.mode}
+
+			// 2. Act.
+			result, err := yini.ParseString(test.text, options)
+
+			// 3. Assert.
 			if test.severity == yini.SeverityError && err == nil {
 				t.Fatalf("expected parse error, got diagnostics %#v", result.Diagnostics)
 			}
@@ -275,12 +313,17 @@ func TestModesAndDiagnostics(t *testing.T) {
 }
 
 func TestDuplicateRecoveryAndLocations(t *testing.T) {
+	// 1. Assign.
 	text := "\uFEFF#!/usr/bin/env yini\n^ Fleet\nname = 'First'\nname = 'Second'\n^^ Vessel\nid = 1\n^^ Vessel\nid = 2\n"
+	want := map[string]any{"Fleet": map[string]any{"name": "First", "Vessel": map[string]any{"id": int64(1)}}}
+
+	// 2. Act.
 	result, err := yini.ParseString(text, yini.Options{})
+
+	// 3. Assert.
 	if err == nil || !result.HasErrors() {
 		t.Fatalf("duplicate section must fail: %v (diagnostics: %#v)", err, result.Diagnostics)
 	}
-	want := map[string]any{"Fleet": map[string]any{"name": "First", "Vessel": map[string]any{"id": int64(1)}}}
 	if got := result.Document.Values(); !reflect.DeepEqual(got, want) {
 		t.Fatalf("Values() = %#v, want %#v", got, want)
 	}
@@ -303,80 +346,161 @@ func TestDuplicateRecoveryAndLocations(t *testing.T) {
 }
 
 func TestNumbersAndStringConcatenation(t *testing.T) {
-	text := "^ Bench\nmin = -9223372036854775808\nmax = 9223372036854775807\nhex = hex:FF\nduo = 0zX\nbin = %101\nexp = 3e4\nnegativeZero = -0.0\nlabel = 'count=' + 0x10\n"
-	result, err := yini.ParseString(text, yini.Options{})
-	if err != nil {
-		t.Fatalf("ParseString: %v (diagnostics: %#v)", err, result.Diagnostics)
-	}
-	values := result.Document.Values()["Bench"].(map[string]any)
-	for key, want := range map[string]any{
-		"min": int64(math.MinInt64), "max": int64(math.MaxInt64),
-		"hex": int64(255), "duo": int64(10), "bin": int64(5),
-		"exp": float64(30000), "label": "count=16",
-	} {
-		if values[key] != want {
-			t.Errorf("%s = %#v, want %#v", key, values[key], want)
+	t.Run("valid values", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Bench\nmin = -9223372036854775808\nmax = 9223372036854775807\nhex = hex:FF\nduo = 0zX\nbin = %101\nexp = 3e4\nnegativeZero = -0.0\nlabel = 'count=' + 0x10\n"
+
+		// 2. Act.
+		result, err := yini.ParseString(text, yini.Options{})
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("ParseString: %v (diagnostics: %#v)", err, result.Diagnostics)
 		}
-	}
-	if !math.Signbit(values["negativeZero"].(float64)) {
-		t.Error("negative floating-point zero lost its sign")
-	}
+		values := result.Document.Values()["Bench"].(map[string]any)
+		for key, want := range map[string]any{
+			"min": int64(math.MinInt64), "max": int64(math.MaxInt64),
+			"hex": int64(255), "duo": int64(10), "bin": int64(5),
+			"exp": float64(30000), "label": "count=16",
+		} {
+			if values[key] != want {
+				t.Errorf("%s = %#v, want %#v", key, values[key], want)
+			}
+		}
+		if !math.Signbit(values["negativeZero"].(float64)) {
+			t.Error("negative floating-point zero lost its sign")
+		}
+	})
 	for _, literal := range []string{"9223372036854775808", "-9223372036854775809", "1e400", "1e-400"} {
-		result, err := yini.ParseString("^ Bench\nvalue = "+literal+"\n", yini.Options{})
-		if err == nil || !result.HasErrors() {
-			t.Errorf("%s should fail: %#v", literal, result.Diagnostics)
-		}
+		t.Run(literal, func(t *testing.T) {
+			// 1. Assign.
+			text := "^ Bench\nvalue = " + literal + "\n"
+
+			// 2. Act.
+			result, err := yini.ParseString(text, yini.Options{})
+
+			// 3. Assert.
+			if err == nil || !result.HasErrors() {
+				t.Errorf("%s should fail: %#v", literal, result.Diagnostics)
+			}
+		})
 	}
 }
 
 func TestEOFAndTooling(t *testing.T) {
-	result, err := yini.ParseString("^ Last\nvalue = C'line\\nend'", yini.Options{})
-	if err != nil {
-		t.Fatalf("final assignment at EOF: %v", err)
-	}
-	if got := result.Document.Values()["Last"].(map[string]any)["value"]; got != "line\nend" {
-		t.Fatalf("decoded string = %#v", got)
-	}
-	_, err = yini.ParseString("^ Last\nvalue = 1\n/END", yini.Options{Mode: yini.ModeStrict})
-	if err != nil {
-		t.Fatalf("/END at EOF: %v", err)
-	}
-	result, err = yini.ParseForTooling("^ Last\nvalue = [1,,2]", yini.Options{})
-	if err != nil || !result.HasErrors() {
-		t.Fatalf("tooling parse = %#v, %v", result.Diagnostics, err)
-	}
-	_, err = yini.ParseString("^ Last\nvalue = [1,,2]", yini.Options{})
-	var parseErr *yini.ParseError
-	if !errors.As(err, &parseErr) || !strings.Contains(parseErr.Error(), "line") {
-		t.Fatalf("expected positioned ParseError, got %v", err)
-	}
+	t.Run("final assignment at EOF", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Last\nvalue = C'line\\nend'"
+
+		// 2. Act.
+		result, err := yini.ParseString(text, yini.Options{})
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("final assignment at EOF: %v", err)
+		}
+		if got := result.Document.Values()["Last"].(map[string]any)["value"]; got != "line\nend" {
+			t.Fatalf("decoded string = %#v", got)
+		}
+	})
+	t.Run("terminator at EOF", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Last\nvalue = 1\n/END"
+		options := yini.Options{Mode: yini.ModeStrict}
+
+		// 2. Act.
+		_, err := yini.ParseString(text, options)
+
+		// 3. Assert.
+		if err != nil {
+			t.Fatalf("/END at EOF: %v", err)
+		}
+	})
+	t.Run("tooling diagnostics", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Last\nvalue = [1,,2]"
+
+		// 2. Act.
+		result, err := yini.ParseForTooling(text, yini.Options{})
+
+		// 3. Assert.
+		if err != nil || !result.HasErrors() {
+			t.Fatalf("tooling parse = %#v, %v", result.Diagnostics, err)
+		}
+	})
+	t.Run("positioned parse error", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Last\nvalue = [1,,2]"
+		var parseErr *yini.ParseError
+
+		// 2. Act.
+		_, err := yini.ParseString(text, yini.Options{})
+
+		// 3. Assert.
+		if !errors.As(err, &parseErr) || !strings.Contains(parseErr.Error(), "line") {
+			t.Fatalf("expected positioned ParseError, got %v", err)
+		}
+	})
 }
 
 func TestStrictFilenameDoesNotSelectMode(t *testing.T) {
+	// 1. Assign.
 	path := filepath.Join(t.TempDir(), "schedule.strict.yini")
 	if err := os.WriteFile(path, []byte("orphan = 1"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	result, err := yini.ParseFile(path, yini.Options{})
-	if err != nil || !hasDiagnostic(result, "filename-mode") {
-		t.Fatalf("lenient file: %v (%#v)", err, result.Diagnostics)
-	}
-	if result.Document.Values()["orphan"] != int64(1) {
-		t.Fatalf("filename changed parsing mode: %#v", result.Document.Values())
-	}
-	strict, err := yini.ParseFile(path, yini.Options{Mode: yini.ModeStrict})
-	if err == nil || !hasDiagnostic(strict, "orphan-member") || hasDiagnostic(strict, "filename-mode") {
-		t.Fatalf("strict file: %v (%#v)", err, strict.Diagnostics)
-	}
+	t.Run("lenient", func(t *testing.T) {
+		// 1. Assign.
+		options := yini.Options{}
+
+		// 2. Act.
+		result, err := yini.ParseFile(path, options)
+
+		// 3. Assert.
+		if err != nil || !hasDiagnostic(result, "filename-mode") {
+			t.Fatalf("lenient file: %v (%#v)", err, result.Diagnostics)
+		}
+		if result.Document.Values()["orphan"] != int64(1) {
+			t.Fatalf("filename changed parsing mode: %#v", result.Document.Values())
+		}
+	})
+	t.Run("strict", func(t *testing.T) {
+		// 1. Assign.
+		options := yini.Options{Mode: yini.ModeStrict}
+
+		// 2. Act.
+		strict, err := yini.ParseFile(path, options)
+
+		// 3. Assert.
+		if err == nil || !hasDiagnostic(strict, "orphan-member") || hasDiagnostic(strict, "filename-mode") {
+			t.Fatalf("strict file: %v (%#v)", err, strict.Diagnostics)
+		}
+	})
 }
 
 func TestReaderAndInvalidUTF8(t *testing.T) {
-	result, err := yini.ParseReader(strings.NewReader("^ Passage\nopen = yes"), yini.Options{})
-	if err != nil || result.Document.Values()["Passage"].(map[string]any)["open"] != true {
-		t.Fatalf("ParseReader: %v (%#v)", err, result.Diagnostics)
-	}
-	result, err = yini.ParseString("^ Passage\rentry = \xff", yini.Options{})
-	if err == nil || len(result.Diagnostics) != 1 || result.Diagnostics[0].Code != "invalid-utf8" || result.Diagnostics[0].Position.Line != 2 {
-		t.Fatalf("invalid UTF-8: %v (%#v)", err, result.Diagnostics)
-	}
+	t.Run("reader", func(t *testing.T) {
+		// 1. Assign.
+		reader := strings.NewReader("^ Passage\nopen = yes")
+
+		// 2. Act.
+		result, err := yini.ParseReader(reader, yini.Options{})
+
+		// 3. Assert.
+		if err != nil || result.Document.Values()["Passage"].(map[string]any)["open"] != true {
+			t.Fatalf("ParseReader: %v (%#v)", err, result.Diagnostics)
+		}
+	})
+	t.Run("invalid UTF-8", func(t *testing.T) {
+		// 1. Assign.
+		text := "^ Passage\rentry = \xff"
+
+		// 2. Act.
+		result, err := yini.ParseString(text, yini.Options{})
+
+		// 3. Assert.
+		if err == nil || len(result.Diagnostics) != 1 || result.Diagnostics[0].Code != "invalid-utf8" || result.Diagnostics[0].Position.Line != 2 {
+			t.Fatalf("invalid UTF-8: %v (%#v)", err, result.Diagnostics)
+		}
+	})
 }
