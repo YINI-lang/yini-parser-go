@@ -3,7 +3,7 @@
 [![Go 1.22+](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](go.mod)
 [![v1.0.0-beta.1](https://img.shields.io/badge/release-v1.0.0--beta.1-orange)](CHANGELOG.md)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![YINI smoke tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite-smoke.yml)
+[![YINI tests](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite.yml/badge.svg?branch=main&event=push)](https://github.com/YINI-lang/yini-parser-go/actions/workflows/yini-test-suite.yml)
 
 [YINI](https://yini-lang.org/refs/specification/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme&utm_medium=referral) is a human-readable configuration format for application settings. Named section markers make its structure explicit, and values can be strings, numbers, booleans, lists, or objects. Indentation is for readability and does not affect parsing.
 
