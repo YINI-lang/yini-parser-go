@@ -13,6 +13,12 @@ The module supports Go 1.22 or newer. It uses ANTLR-generated Go code and the pi
 
 Start with the [package overview](doc.go) for the library entry points and source organization.
 
+Useful links:
+
+- [Try YINI in Playground](https://yini-lang.org/playground/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme_useful_links&utm_medium=referral)
+- [This yini-parser-go on GitHub](https://github.com/YINI-lang/yini-parser-go)
+- [Report an Issue or give Feedback](https://github.com/YINI-lang/yini-parser-go/issues)
+
 ---
 
 ## Install
@@ -91,6 +97,14 @@ The Go adapter in [`cmd/yini-test-adapter/`](cmd/yini-test-adapter/) runs this p
 ## Help and bug reports
 
 For questions, bug reports, or feature requests, [open an issue](https://github.com/YINI-lang/yini-parser-go/issues). For parser problems, include a small YINI example, the selected mode, the expected result, and the actual result or diagnostics.
+
+---
+
+## Links
+
+- [YINI Cheat Sheet](https://yini-lang.org/refs/yini-cheat-sheet/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme_links&utm_medium=referral)
+- [YINI Specification](https://yini-lang.org/refs/specification/?utm_source=github&utm_campaign=yini_parser_go&utm_content=readme_links&utm_medium=referral)
+- [YINI Demo Apps](https://github.com/YINI-lang/yini-demo-apps/tree/main)
 
 ---
 
