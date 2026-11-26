@@ -74,6 +74,11 @@ if err := result.Document.Sections[0].Decode(&service); err != nil {
 
 `Document.Decode` maps the whole document, including top-level section names. See [usage](docs/usage.md) for the mapping and error rules.
 
+**Editor support:** For syntax highlighting in `.yini` files, install the
+[YINI Syntax Highlighting extension for VS Code](https://marketplace.visualstudio.com/items?itemName=yini-lang.yini-syntax-highlighting).
+For Notepad++ or an editor that supports TextMate grammars, see the
+[manual installation instructions](https://github.com/YINI-lang/yini-syntax-highlighting#usage).
+
 ---
 
 ## Results and diagnostics
